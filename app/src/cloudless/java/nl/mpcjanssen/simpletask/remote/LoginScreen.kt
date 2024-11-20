@@ -31,7 +31,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
-import android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
 import androidx.core.app.ActivityCompat
 import nl.mpcjanssen.simpletask.Simpletask
 import nl.mpcjanssen.simpletask.ThemedNoActionBarActivity
@@ -64,7 +63,6 @@ class LoginScreen : ThemedNoActionBarActivity() {
     }
 
     private fun finishLogin() {
-
         if (FileStore.isAuthenticated) {
             switchToTodolist()
         } else {
@@ -73,21 +71,22 @@ class LoginScreen : ThemedNoActionBarActivity() {
     }
 
     internal fun continueLogin() {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !Environment.isExternalStorageManager()  )  {
-                val intent = Intent()
-                intent.action = Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
-                val uri: Uri = Uri.fromParts("package", this.packageName, null)
-                intent.setData(uri)
-                startActivityForResult(intent, REQUEST_FULL_PERMISSION)
-            } else {
-                finishLogin()
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !Environment.isExternalStorageManager()  )  {
+            val intent = Intent()
+            intent.action = Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
+            val uri: Uri = Uri.fromParts("package", this.packageName, null)
+            intent.setData(uri)
+            startActivityForResult(intent, REQUEST_FULL_PERMISSION)
+        } else {
+            finishLogin()
+        }
     }
 
     internal fun startLogin() {
         ActivityCompat.requestPermissions(this,
                 arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_WRITE_PERMISSION)
     }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {

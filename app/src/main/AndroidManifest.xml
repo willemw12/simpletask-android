@@ -22,9 +22,8 @@ You should have received a copy of the GNU General Public License along with Sim
 <!-- package name and version codes are overwritten by Gradle -->
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="nl.mpcjanssen.simpletask"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
@@ -118,7 +117,7 @@ You should have received a copy of the GNU General Public License along with Sim
                 android:label="@string/share_link"
                 android:theme="@android:style/Theme.Translucent"
                 android:exported="true"
-        >
+                >
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <action android:name="nl.mpcjanssen.simpletask.BACKGROUND_LINK" />

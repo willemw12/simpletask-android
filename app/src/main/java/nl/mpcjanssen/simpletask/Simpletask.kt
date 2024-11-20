@@ -13,6 +13,7 @@ package nl.mpcjanssen.simpletask
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.SearchManager
 import android.content.*
@@ -190,10 +191,9 @@ class Simpletask : ThemedNoActionBarActivity() {
                                     startActivity(actionIntent)
                                 }
                                Action.MAIL -> {
-                                    actionIntent = Intent(Intent.ACTION_SEND, Uri.parse(url))
-                                    actionIntent.putExtra(Intent.EXTRA_EMAIL,
-                                            arrayOf(url))
-                                    actionIntent.type = "text/plain"
+                                    actionIntent = Intent(Intent.ACTION_SEND)
+                                    actionIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(url))
+                                    actionIntent.setDataAndType(Uri.parse(url), "text/plain")
                                     startActivity(actionIntent)
                                 }
                             }
@@ -353,6 +353,7 @@ class Simpletask : ThemedNoActionBarActivity() {
         }
     }
 
+    @Suppress("DEPRECATION")
     override fun onBackPressed() {
         handleMode(mapOf(
                 Mode.SAVED_FILTER_DRAWER to {
@@ -543,7 +544,7 @@ class Simpletask : ThemedNoActionBarActivity() {
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.M)
+    // @RequiresApi(Build.VERSION_CODES.M)
     @SuppressLint("Recycle")
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         Log.i(TAG, "Recreating options menu")
@@ -565,9 +566,9 @@ class Simpletask : ThemedNoActionBarActivity() {
                     val actionColor = ContextCompat.getDrawable(this, R.color.gray74)
                     actionBar.setBackgroundDrawable(actionColor)
 
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         window.statusBarColor = ContextCompat.getColor(this, R.color.gray87)
-                    }
+                    // }
 
                     inflater.inflate(R.menu.task_context_actionbar, menu)
                     title = "${TodoApplication.todoList.numSelected()}"
@@ -600,14 +601,14 @@ class Simpletask : ThemedNoActionBarActivity() {
                     @StyleableRes
                     val primaryDarkIdx = 1
 
-                    val a: TypedArray = obtainStyledAttributes(intArrayOf(R.attr.colorPrimary, R.attr.colorPrimaryDark))
+                    val a: TypedArray = obtainStyledAttributes(intArrayOf(com.google.android.material.R.attr.colorPrimary, com.google.android.material.R.attr.colorPrimaryDark))
                     try {
                         val colorPrimary = ContextCompat.getDrawable(this, a.getResourceId(primaryIdx, 0))
 
                         actionBar.setBackgroundDrawable(colorPrimary)
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             window.statusBarColor = ContextCompat.getColor(this, a.getResourceId(primaryDarkIdx, 0))
-                        }
+                        // }
                     } finally {
                         a.recycle()
                     }
@@ -684,7 +685,7 @@ class Simpletask : ThemedNoActionBarActivity() {
 
             override fun onMenuItemActionExpand(item: MenuItem): Boolean {
                 //get focus
-                item.actionView.requestFocus()
+                item.actionView?.requestFocus()
                 //get input method
                 val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS)
@@ -853,7 +854,7 @@ class Simpletask : ThemedNoActionBarActivity() {
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
+    // @RequiresApi(Build.VERSION_CODES.M)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         Log.i(TAG, "onMenuItemSelected: " + item.itemId)
         val checkedTasks = TodoApplication.todoList.selectedTasks
@@ -972,6 +973,9 @@ class Simpletask : ThemedNoActionBarActivity() {
                 calDate.timeInMillis)
         intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
                 calDate.timeInMillis + 60 * 60 * 1000)
+
+        // val sanitizedIntent = IntentSanitizer.Builder().build().sanitizeByFiltering(intent)
+        // startActivity(sanitizedIntent)
         startActivity(intent)
     }
 
@@ -1120,6 +1124,11 @@ class Simpletask : ThemedNoActionBarActivity() {
     }
 
     private fun pinNotification(checkedTasks: List<Task>) {
+         if (! NotificationManagerCompat.from(this).areNotificationsEnabled()) {
+             showToastLong(this, "No notification permission")
+             return
+         }
+
         for (task in checkedTasks) {
             val taskIdHash = task.id.hashCode()
             val editTaskIntent = Intent(this, AddTask::class.java).let {

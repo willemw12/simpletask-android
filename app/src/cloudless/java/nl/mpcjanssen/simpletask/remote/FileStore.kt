@@ -42,11 +42,9 @@ object FileStore : IFileStore {
             } else {
                 true
             }
-            return (
-                    ContextCompat.checkSelfPermission(TodoApplication.app,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
-                            PackageManager.PERMISSION_GRANTED)
-                    && externManager
+
+            // The WRITE_EXTERNAL_STORAGE permission is implied by the MANAGE_EXTERNAL_STORAGE permission
+            return externManager
         }
 
     override fun loadTasksFromFile(file: File): List<String> {
@@ -166,7 +164,7 @@ object FileStore : IFileStore {
                 if (sel.isDirectory) {
                     result.add(FileEntry(File(filename), true))
                 } else {
-                    !txtOnly || filename.toLowerCase(Locale.getDefault()).endsWith(".txt")
+                    !txtOnly || filename.lowercase().endsWith(".txt")
                     result.add(FileEntry(File(filename), false))
                 }
             }
@@ -176,7 +174,7 @@ object FileStore : IFileStore {
         return result
     }
 
-    class TodoObserver(val file: File) : FileObserver(file.canonicalPath) {
+    class TodoObserver(val file: File) : FileObserver(file) {
         private val tag = "FileWatchService"
         val fileName : String = file.canonicalPath
         private var ignoreEvents: Boolean = false

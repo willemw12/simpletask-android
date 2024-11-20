@@ -54,7 +54,8 @@ class AddTaskBackground : Activity() {
             if (Intent.ACTION_SEND == action) {
                 Log.d(TAG, "Share")
                 var share_text = ""
-                if (TodoApplication.atLeastAPI(21) && intent.hasExtra(Intent.EXTRA_STREAM)) {
+                // if (TodoApplication.atLeastAPI(21) && intent.hasExtra(Intent.EXTRA_STREAM)) {
+                if (intent.hasExtra(Intent.EXTRA_STREAM)) {
                     val uri = intent.extras?.get(Intent.EXTRA_STREAM) as Uri?
                     uri?.let {
                         try {
@@ -88,7 +89,13 @@ class AddTaskBackground : Activity() {
 
             }
         } else {
-            val imageUri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
+            // val imageUri: Uri? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            //     intent.getParcelableExtra(Intent.EXTRA_STREAM, Uri::class.java)
+            // } else {
+            //     @Suppress("DEPRECATION")
+            //     intent.getParcelableExtra(Intent.EXTRA_STREAM)
+            // }
+            val imageUri: Uri? = intent.getParcelableExtra(Intent.EXTRA_STREAM)
             imageUri?.let {
                 Log.i(TAG, "Added link to content: $imageUri")
                 addBackgroundTask(imageUri.toString(), append_text)

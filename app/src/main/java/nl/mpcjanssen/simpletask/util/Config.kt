@@ -41,11 +41,13 @@ class Config(app: TodoApplication) : Preferences(app) {
 
     val _syncDues by BooleanPreference(R.string.calendar_sync_dues, false)
     val isSyncDues: Boolean
-        get() = TodoApplication.atLeastAPI(16) && _syncDues
+        // get() = TodoApplication.atLeastAPI(16) && _syncDues
+        get() = _syncDues
 
     val _syncThresholds by BooleanPreference(R.string.calendar_sync_thresholds, false)
     val isSyncThresholds: Boolean
-        get() = TodoApplication.atLeastAPI(16) && _syncThresholds
+        // get() = TodoApplication.atLeastAPI(16) && _syncThresholds
+        get() = _syncThresholds
 
     val reminderDays by IntPreference(R.string.calendar_reminder_days, 1)
 
@@ -192,7 +194,7 @@ class Config(app: TodoApplication) : Preferences(app) {
     }
 
     val doneFile: File
-        @RequiresApi(Build.VERSION_CODES.M)
+        // @RequiresApi(Build.VERSION_CODES.M)
         get() {
             val filename = if (FileStore.isEncrypted) "done.txt.jenc"  else "done.txt"
             return File(todoFile.parentFile, filename)

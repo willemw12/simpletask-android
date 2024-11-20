@@ -51,7 +51,7 @@ class ScriptConfigScreen : ThemedActionBarActivity() {
         return true
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
+    // // @RequiresApi(Build.VERSION_CODES.M)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {

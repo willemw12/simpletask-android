@@ -21,21 +21,23 @@ You should have received a copy of the GNU General Public License along with Sim
 <!-- suppress ALL -->
 <!-- package name and version codes are overwritten by Gradle -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools" package="nl.mpcjanssen.simpletask" >
+          xmlns:tools="http://schemas.android.com/tools" >
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
     <application
-            android:requestLegacyExternalStorage="true">
+        android:icon="@drawable/ic_launcher"
+        android:requestLegacyExternalStorage="true">
         <activity
                 android:exported="true"
                 android:name="nl.mpcjanssen.simpletask.remote.LoginScreen"
                 android:label="@string/app_label">
         </activity>
-        <provider 
+        <provider
             android:exported="true"
-            android:name="nl.mpcjanssen.simpletask.CachedFileProvider" 
-	    android:authorities="${applicationId}.provider.${providerFlavour}" tools:ignore="ExportedContentProvider">
+            android:name="nl.mpcjanssen.simpletask.CachedFileProvider"
+            android:authorities="${applicationId}.provider.${providerFlavour}"
+            tools:ignore="ExportedContentProvider">
             <grant-uri-permission android:pathPattern=".*" />
         </provider>
     </application>

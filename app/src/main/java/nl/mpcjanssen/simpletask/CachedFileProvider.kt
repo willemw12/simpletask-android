@@ -44,7 +44,7 @@ class CachedFileProvider : ContentProvider() {
                     // E.g.
                     // 'content://com.stephendnicholas.gmailattach.provider/Test.txt'
                     // Take this and build the path to the file
-                    val fileLocation = File(it.cacheDir, uri.lastPathSegment)
+                    val fileLocation = File(it.cacheDir, uri.lastPathSegment ?: "")
 
                     // Create & return a ParcelFileDescriptor pointing to the file
                     // Note: I don't care what mode they ask for - they're only getting

@@ -11,6 +11,7 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import nl.mpcjanssen.simpletask.R
+import java.util.Locale
 
 class SeekBarPreference : Preference, OnSeekBarChangeListener {
 
@@ -102,8 +103,10 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
         try {
             mStatusText = view.findViewById(R.id.seekBarPrefValue) as TextView
 
-            mStatusText!!.text = mCurrentValue.toString()
-            mStatusText!!.minimumWidth = 30
+            mStatusText?.let {
+                it.text = String.format(Locale.getDefault(), "%d", mCurrentValue)
+                it.minimumWidth = 30
+            }
 
             mSeekBar!!.progress = mCurrentValue - mMinValue
 
@@ -134,7 +137,9 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
 
         // change accepted, store it
         mCurrentValue = newValue
-        mStatusText!!.text = newValue.toString()
+        mStatusText?.let {
+            it.text = String.format(Locale.getDefault(), "%d", mCurrentValue)
+        }
         persistInt(newValue)
 
     }
@@ -171,7 +176,7 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
     }
 
     /**
-     * make sure that the seekbar is disabled if the preference is disabled
+     * Make sure that the seekbar is disabled if the preference is disabled
      */
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)

@@ -52,13 +52,14 @@ class AddLinkBackground : Activity() {
         val intentReader = ShareCompat.IntentReader.from(this)
         val uri = intentReader.stream
         val subject = intentReader.subject ?: ""
-        val mimeType = intentReader.type
+        val mimeType = intentReader.type ?: ""
         Log.i(tag, "Added link to content ($mimeType)")
         if (uri == null) {
             showToastLong(TodoApplication.app, R.string.share_link_failed)
-        } else {
-            addBackgroundTask("$subject $uri", append_text)
+            return
         }
+
+        addBackgroundTask("$subject $uri", append_text)
     }
 
     private fun addBackgroundTask(sharedText: String, appendText: String) {

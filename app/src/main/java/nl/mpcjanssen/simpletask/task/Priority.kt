@@ -40,7 +40,7 @@ enum class Priority {
     companion object {
 
         val codes: List<String>
-            get() = values().map { it.code }.sorted()
+            get() = Priority.entries.map { it.code }.sorted()
 
         fun inCode(priorities: List<Priority>): ArrayList<String> {
             return ArrayList<String>(priorities.map { it.code })
@@ -51,7 +51,7 @@ enum class Priority {
         }
 
         fun toPriority(s: String?): Priority {
-            val upper = s?.toUpperCase(Locale.US) ?: return NONE
+            val upper = s?.lowercase(Locale.US) ?: return NONE
             try {
                 return valueOf(upper)
             }

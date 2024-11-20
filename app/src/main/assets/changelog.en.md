@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## Simpletask (fork)
+
+For "Simpletask (fork)" app changes, see https://github.com/willemw12/simpletask-android.
+
 ## 11.0.1
 
 - Add setting to enable task dragging for #1186 (BETA)

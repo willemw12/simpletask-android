@@ -52,7 +52,7 @@ class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPrefer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        prefs = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this)
         app = application as TodoApplication
         localBroadcastManager = app.localBroadCastManager
         val intentFilter = IntentFilter()
@@ -70,7 +70,7 @@ class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPrefer
         localBroadcastManager.registerReceiver(m_broadcastReceiver, intentFilter)
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             getString(R.string.calendar_sync_thresholds),
             getString(R.string.calendar_sync_dues) -> requestCalendarPermission()
@@ -133,11 +133,11 @@ class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPrefer
         loadHeadersFromResource(R.xml.preference_headers, allHeaders)
 
         // Remove calendar preferences for older devices
-        if (!TodoApplication.atLeastAPI(16)) {
+        // if (!TodoApplication.atLeastAPI(16)) {
             target.addAll(allHeaders.filter { it.fragment != CalendarPrefFragment::class.java.name })
-        } else {
-            target.addAll(allHeaders)
-        }
+        // } else {
+        //     target.addAll(allHeaders)
+        // }
     }
 
     override fun isValidFragment(fragmentName: String): Boolean {
@@ -207,7 +207,7 @@ class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPrefer
     class ConfigurationPrefFragment : PrefFragment(R.xml.configuration_preferences)
 
     class OtherPrefFragment : PrefFragment(R.xml.other_preferences) {
-        @RequiresApi(Build.VERSION_CODES.M)
+        // @RequiresApi(Build.VERSION_CODES.M)
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
 

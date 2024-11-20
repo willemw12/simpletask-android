@@ -67,7 +67,7 @@ abstract class Preferences : SharedPreferences.OnSharedPreferenceChangeListener 
 
     private fun str(resId: Int): String = context.getString(resId)
 
-    inner abstract class Preference<T: Any?>(inline val key: String, inline val default: T) : ReadWriteProperty<Any?, T> {
+    inner abstract class Preference<T: Any?>(val key: String, val default: T) : ReadWriteProperty<Any?, T> {
         constructor(resId: Int, default: T) : this(str(resId), default)
         constructor(key: String, default: T, onChange: Callback<T>) : this(key, default) {
             registerCallback(key){ onChange(prefValue) }
@@ -123,7 +123,7 @@ abstract class Preferences : SharedPreferences.OnSharedPreferenceChangeListener 
         constructor(resId: Int, default: S, onChange: Callback<S>) : super(resId, default, onChange)
 
         override var prefValue: S
-            get() = prefs.getString(key, default)
+            get() = prefs.getString(key, default).toString()
             set(value) = prefs.edit().putString(key, value).apply()
     }
 
@@ -134,7 +134,7 @@ abstract class Preferences : SharedPreferences.OnSharedPreferenceChangeListener 
         constructor(resId: Int, default: SS, onChange: Callback<SS>) : super(resId, default, onChange)
 
         override var prefValue: SS
-            get() = prefs.getStringSet(key, default)
+            get() = prefs.getStringSet(key, default)?.filterNotNull()?.toSet()?: emptySet()
             set(value) = prefs.edit().putStringSet(key, value).apply()
     }
 

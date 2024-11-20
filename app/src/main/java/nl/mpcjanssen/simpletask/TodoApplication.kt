@@ -40,8 +40,8 @@ import androidx.core.app.NotificationCompat
 import android.appwidget.AppWidgetManager
 import android.content.*
 import android.os.Build
+import android.os.Environment
 import android.os.SystemClock
-import androidx.multidex.MultiDexApplication
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import android.util.Log
 import androidx.room.Room
@@ -61,7 +61,7 @@ import java.util.*
 
 class TodoApplication : Application() {
 
-    private lateinit var androidUncaughtExceptionHandler: Thread.UncaughtExceptionHandler
+    private var androidUncaughtExceptionHandler: Thread.UncaughtExceptionHandler? = null
     lateinit var localBroadCastManager: LocalBroadcastManager
     private lateinit var m_broadcastReceiver: BroadcastReceiver
 
@@ -122,13 +122,14 @@ class TodoApplication : Application() {
     }
 
     private fun setupUncaughtExceptionHandler() {
-        // save original Uncaught exception handler
+        // Save original Uncaught exception handler
         androidUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler()
+
         // Handle all uncaught exceptions for logging.
-        // After that call the default uncaught exception handler
+        // After that, call the default uncaught exception handler
         Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
             Log.e(TAG, "Uncaught exception", throwable)
-            androidUncaughtExceptionHandler.uncaughtException(thread, throwable)
+            androidUncaughtExceptionHandler?.uncaughtException(thread, throwable)
         }
     }
 
@@ -221,14 +222,14 @@ class TodoApplication : Application() {
     fun updatePinnedNotifications() {
         Log.i(TAG, "Updating pinned notifications")
         val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.getActiveNotifications().forEach { 
+        notificationManager.getActiveNotifications().forEach {
             val taskId = it.notification.extras.getString(Constants.EXTRA_TASK_ID)
             if (taskId != null) {
                 val taskText = TodoApplication.todoList.getTaskWithId(taskId)?.text
                 val notification = NotificationCompat.Builder(this, it.notification).setContentTitle(taskText).build()
                 notificationManager.notify(it.id, notification)
             }
-        }       
+        }
     }
 
     fun clearTodoFile() {
@@ -248,7 +249,8 @@ class TodoApplication : Application() {
         FileDialog.browseForNewFile(
                 act,
                 fileStore,
-                config.todoFile.parentFile,
+                // config.todoFile.parentFile ?: File("/"),
+                config.todoFile.parentFile ?: Environment.getExternalStorageDirectory(),
                 object : FileDialog.FileSelectedListener {
                     override fun fileSelected(file: File) {
                         switchTodoFile(file)
@@ -260,7 +262,7 @@ class TodoApplication : Application() {
     private fun createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = getString(R.string.channel_name)
             val descriptionText = getString(R.string.channel_description)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
@@ -271,13 +273,13 @@ class TodoApplication : Application() {
             val notificationManager: NotificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
-        }
+        // }
     }
 
 
     companion object {
         private val TAG = TodoApplication::class.java.simpleName
-        fun atLeastAPI(api: Int): Boolean = android.os.Build.VERSION.SDK_INT >= api
+        // fun atLeastAPI(api: Int): Boolean = android.os.Build.VERSION.SDK_INT >= api
         lateinit var app : TodoApplication
         lateinit var config : Config
         lateinit var todoList: TodoList

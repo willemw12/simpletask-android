@@ -51,10 +51,8 @@ class TimePreference @JvmOverloads constructor(ctx: Context, attrs: AttributeSet
         return picker
     }
 
-    /*
-        Picker handling changed in new versions of Android.
-        For now keep using the old version, will updated if it breaks.
-     */
+    // Picker handling changed in new versions of Android.
+    // For now keep using the old version, will updated if it breaks.
     @Suppress("DEPRECATION")
     override fun onBindDialogView(v: View) {
         super.onBindDialogView(v)
@@ -64,10 +62,8 @@ class TimePreference @JvmOverloads constructor(ctx: Context, attrs: AttributeSet
         }
     }
 
-    /*
-    Picker handling changed in new versions of Android.
-    For now keep using the old version, will updated if it breaks.
- */
+    // Picker handling changed in new versions of Android.
+    // For now keep using the old version, will updated if it breaks.
     @Suppress("DEPRECATION")
     override fun onDialogClosed(positiveResult: Boolean) {
         super.onDialogClosed(positiveResult)

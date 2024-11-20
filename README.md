@@ -1,3 +1,15 @@
+Simpletask (fork)
+=================
+
+This [app](https://github.com/willemw12/simpletask-android) is a fork of the deprecated [Simpletask](https://github.com/mpcjanssen/simpletask-android) Android app.
+
+An APK file is available from the [releases](https://github.com/willemw12/simpletask-android/releases) page.
+
+Only the Cloudless version is supported and mainly only core features are supported.
+
+The original text follows below.
+
+
 Simpletask
 ==========
 

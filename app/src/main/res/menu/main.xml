@@ -80,8 +80,8 @@ You should have received a copy of the GNU General Public License along with Tod
         app:showAsAction="never"
         />
     <item
-            android:id="@+id/show_filter_drawer"
-            android:title="@string/show_filter_drawer"
-            app:showAsAction="never"
-    />
+        android:id="@+id/show_filter_drawer"
+        android:title="@string/show_filter_drawer"
+        app:showAsAction="never"
+        />
 </menu>

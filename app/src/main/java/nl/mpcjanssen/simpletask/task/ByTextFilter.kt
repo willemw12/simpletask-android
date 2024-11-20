@@ -13,9 +13,7 @@ class ByTextFilter(val moduleName : String, searchText: String?, internal val is
         get() = cased(text).split("\\s".toRegex()).dropLastWhile { it.isEmpty() }
 
     override fun apply(task: Task): Boolean {
-        return scriptResult(task)?.let { luaval ->
-            luaval
-        } ?: cased(task.text).let { taskText ->
+        return scriptResult(task) ?: cased(task.text).let { taskText ->
             !parts.any { it.isNotEmpty() && !taskText.contains(it) }
         }
     }
@@ -26,6 +24,6 @@ class ByTextFilter(val moduleName : String, searchText: String?, internal val is
 
 
     private fun cased(t: String): String {
-        return if (isCaseSensitive) t else t.toUpperCase(Locale.getDefault())
+        return if (isCaseSensitive) t else t.lowercase()
     }
 }

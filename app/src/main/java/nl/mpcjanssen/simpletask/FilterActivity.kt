@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Environment
 import com.google.android.material.tabs.TabLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -167,7 +168,7 @@ class FilterActivity : ThemedNoActionBarActivity() {
             }
         })
         val activePage = prefs.getInt(getString(R.string.last_open_filter_tab), 0)
-        if (activePage < pagerAdapter?.count ?: 0) {
+        if (activePage < (pagerAdapter?.count ?: 0)) {
             pager?.setCurrentItem(activePage, false)
         }
     }
@@ -218,7 +219,9 @@ class FilterActivity : ThemedNoActionBarActivity() {
                     }).start()
                 }
             })
-            dialog.createFileDialog(this@FilterActivity, FileStore, TodoApplication.config.todoFile.parentFile, txtOnly = false)
+        // val startFolder = TodoApplication.config.todoFile.parentFile ?: File("/"
+        val startFolder = TodoApplication.config.todoFile.parentFile ?: Environment.getExternalStorageDirectory()
+        dialog.createFileDialog(this@FilterActivity, FileStore, startFolder, txtOnly = false)
     }
 
     private fun createFilterIntent(): Intent {

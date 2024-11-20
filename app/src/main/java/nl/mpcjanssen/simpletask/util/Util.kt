@@ -246,22 +246,23 @@ fun addBusinessDays(originalDate: DateTime, days: Int): DateTime {
 fun addInterval(date: DateTime?, interval: String): DateTime? {
     var newDate = date
     val p = Pattern.compile("(\\d*)([dDwWmMyYbB])")
-    val m = p.matcher(interval.toLowerCase(Locale.getDefault()))
+    val m = p.matcher(interval.lowercase())
     val amount: Int
     val type: String
     if (newDate == null) {
         newDate = DateTime.today(TimeZone.getDefault())
     }
     if (!m.find()) {
-        //If the interval is invalid, just return the original date
+        // If the interval is invalid, just return the original date
         return newDate
     }
-    if (m.groupCount() == 2) {
-        val amountStr = m.group(1)
-        amount = if (amountStr == "")  1 else  Integer.parseInt(m.group(1))
-        type = m.group(2).toLowerCase(Locale.getDefault())
-    } else {
-        return newDate
+    when (m.groupCount()) {
+        2 -> {
+            val amountStr = m.group(1)
+            amount = amountStr?.toIntOrNull() ?: 1
+            type = m.group(2)?.lowercase() ?: ""
+        }
+        else -> return newDate
     }
     when (type) {
         "d" -> newDate = newDate!!.plusDays(amount)
@@ -269,9 +270,8 @@ fun addInterval(date: DateTime?, interval: String): DateTime? {
         "m" -> newDate = newDate!!.plus(0, amount, 0, 0, 0, 0, 0, DateTime.DayOverflow.LastDay)
         "y" -> newDate = newDate!!.plus(amount, 0, 0, 0, 0, 0, 0, DateTime.DayOverflow.LastDay)
         "b" -> newDate = addBusinessDays(newDate!!, amount)
-        else -> {
-        }
-    } // Dont add anything
+        else -> { /* Don't add anything */ }
+    }
     return newDate
 }
 
@@ -334,13 +334,13 @@ fun Activity.updateItemsDialog(
             val updatedValues = itemAdapter.changedItems()
             updatedValues.forEach { (item, value) ->
                 when (value) {
-                    false -> tasks.forEach { 
+                    false -> tasks.forEach {
                         removeFromTask(it, item)
                     }
                     true -> tasks.forEach {
                         addToTask(it, item)
                     }
-                    // null ->  Nothing to do with indeterminite state
+                    null -> {} // Nothing to do with indeterminate state
                 }
             }
             val newText = editText.text.toString()
@@ -441,7 +441,7 @@ fun alfaSort(
         prefix: String? = null
 ): ArrayList<String> {
     val sorted = items.sortedWith ( compareBy<String> {
-        if (caseSensitive) it else it.toLowerCase(Locale.getDefault())
+        if (caseSensitive) it else it.lowercase()
     })
     if (prefix != null) {
         val result = ArrayList<String>(sorted.size+1)
@@ -698,6 +698,11 @@ fun broadcastUpdateStateIndicator(broadcastManager: LocalBroadcastManager) {
 }
 
 fun createShortcut(ctxt: Context, id: String, name: String, icon: Int, target: Intent) {
+    if (! ShortcutManagerCompat.isRequestPinShortcutSupported(ctxt)) {
+        showToastLong(ctxt, "No pinned shortcut support")
+        return
+    }
+
     val iconRes = IconCompat.createWithResource(ctxt, icon)
     val pinShortcutInfo = ShortcutInfoCompat.Builder(ctxt, "$id.$name")
             .setIcon(iconRes)
