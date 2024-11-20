@@ -148,7 +148,7 @@ class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPrefer
         when (item.itemId) {
         // Respond to the action bar's Up/Home button
             android.R.id.home -> {
-                finish()
+                super.onBackPressed()
                 return true
             }
             else -> {
