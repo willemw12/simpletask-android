@@ -360,7 +360,7 @@ class AddTask : ThemedActionBarActivity() {
 
     private fun showPriorityMenu() {
         val builder = AlertDialog.Builder(this)
-        val priorities = Priority.values()
+        val priorities = Priority.entries.toTypedArray()
         val priorityCodes = priorities.mapTo(ArrayList()) { it.code }
 
         builder.setItems(priorityCodes.toArray<String>(arrayOfNulls<String>(priorityCodes.size))
