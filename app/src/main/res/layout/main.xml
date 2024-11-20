@@ -102,6 +102,7 @@
                     android:layout_gravity="bottom|end"
                     android:layout_margin="16dp"
                     android:src="@drawable/ic_add_white_24dp"
+                    android:tooltipText="@string/add"
                     />
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/selection_fab"

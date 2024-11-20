@@ -23,7 +23,9 @@ You should have received a copy of the GNU General Public License along with Tod
 @copyright © 2009-2012 Todo.txt contributors (http://todotxt.com)
 @copyright © 2013 Mark Janssen
 @copyright © 2015 Vojtech Kral
---><!--suppress ALL --><resources>
+-->
+<!--suppress ALL -->
+<resources>
     <string name="invalid_context">Invalid list name</string>
     <string name="invalid_project">Invalid tag name</string>
     <string name="added_task">Added task</string>
@@ -56,6 +58,7 @@ You should have received a copy of the GNU General Public License along with Tod
     <string name="cleartask">Clear Task</string>
     <string name="clear_database">Empty database</string>
     <string name="done">Complete</string>
+    <string name="toggle_completed">Toggle completed</string>
     <string name="priority">Prioritize</string>
     <string name="select_priority">Select priority</string>
     <string name="select_all">Select all</string>

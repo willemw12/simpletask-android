@@ -110,17 +110,19 @@
     >
         <ImageButton
                 android:id="@+id/btnNext"
+                android:tooltipText="@string/next"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:maxLines="1"
-                android:contentDescription="next"
+                android:contentDescription="@string/next"
                 android:src="@drawable/ic_add_white_24dp"
                 android:textColor="#FFFFFF"
         />
         <ImageButton
                 android:id="@+id/btnSave"
+                android:tooltipText="@string/save_task"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
