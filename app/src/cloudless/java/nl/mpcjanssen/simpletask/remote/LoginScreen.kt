@@ -83,20 +83,25 @@ class LoginScreen : ThemedNoActionBarActivity() {
     }
 
     internal fun startLogin() {
-        ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_WRITE_PERMISSION)
+        val permissions = buildList {
+            add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            if (Build.VERSION.SDK_INT >= 33) {
+                add(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }.toTypedArray()
+        ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSIONS)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
-            REQUEST_WRITE_PERMISSION -> continueLogin()
+            REQUEST_PERMISSIONS -> continueLogin()
             REQUEST_FULL_PERMISSION -> finishLogin()
         }
     }
 
     companion object {
-        private val REQUEST_WRITE_PERMISSION = 1
+        private val REQUEST_PERMISSIONS = 1
         private val REQUEST_FULL_PERMISSION = 2
         internal val TAG = LoginScreen::class.java.simpleName
     }
