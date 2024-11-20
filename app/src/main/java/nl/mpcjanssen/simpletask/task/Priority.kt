@@ -51,7 +51,7 @@ enum class Priority {
         }
 
         fun toPriority(s: String?): Priority {
-            val upper = s?.lowercase(Locale.US) ?: return NONE
+            val upper = s?.uppercase(Locale.US) ?: return NONE
             try {
                 return valueOf(upper)
             }
