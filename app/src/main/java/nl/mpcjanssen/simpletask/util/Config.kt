@@ -145,10 +145,6 @@ class Config(app: TodoApplication) : Preferences(app) {
     private val activeThemeString: String
         get() = Interpreter.configTheme() ?: _activeTheme
 
-    // Only used in Dropbox build
-    @Suppress("unused")
-    var fullDropBoxAccess by BooleanPreference(R.string.dropbox_full_access, true)
-
     private val dateBarSize by IntPreference(R.string.datebar_relative_size, 80)
     val dateBarRelativeSize: Float
         get() = dateBarSize / 100.0f

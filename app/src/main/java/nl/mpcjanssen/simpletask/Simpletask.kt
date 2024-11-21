@@ -221,18 +221,7 @@ class Simpletask : ThemedNoActionBarActivity() {
 
         val broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, receivedIntent: Intent) {
-                if (receivedIntent.action == Constants.BROADCAST_ACTION_LOGOUT) {
-                    Log.i(TAG, "Logging out from Dropbox")
-                    finish()
-                    FileStoreActionQueue.add("Logout") {
-                        try {
-                            FileStore.logout()
-                        } catch (e: Exception) {
-                            Log.e(TAG, "Error logging out.", e)
-                        }
-                        startLogin()
-                    }
-                } else if (receivedIntent.action == Constants.BROADCAST_TASKLIST_CHANGED) {
+                if (receivedIntent.action == Constants.BROADCAST_TASKLIST_CHANGED) {
                     Log.i(TAG, "Tasklist changed, refiltering adapter")
                     taskAdapter.setFilteredTasks(this@Simpletask, TodoApplication.config.mainQuery)
                     runOnUiThread {
