@@ -101,8 +101,8 @@ class LoginScreen : ThemedNoActionBarActivity() {
     }
 
     companion object {
-        private val REQUEST_PERMISSIONS = 1
-        private val REQUEST_FULL_PERMISSION = 2
+        private const val REQUEST_PERMISSIONS = 1
+        private const val REQUEST_FULL_PERMISSION = 2
         internal val TAG = LoginScreen::class.java.simpleName
     }
 }

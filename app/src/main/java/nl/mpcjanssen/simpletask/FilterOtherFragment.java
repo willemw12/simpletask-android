@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 public class FilterOtherFragment extends Fragment {
 
     final static String TAG = FilterOtherFragment.class.getSimpleName();
+
     private CheckBox cbHideCompleted;
     private CheckBox cbHideFuture;
     private CheckBox cbHideLists;
@@ -39,6 +40,7 @@ public class FilterOtherFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+
         Log.d(TAG, "onSaveInstanceState() this:" + this);
         outState.putBoolean(Query.INTENT_HIDE_COMPLETED_FILTER, getHideCompleted());
         outState.putBoolean(Query.INTENT_HIDE_FUTURE_FILTER, getHideFuture());

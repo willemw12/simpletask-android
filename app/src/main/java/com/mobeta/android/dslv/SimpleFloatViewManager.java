@@ -42,8 +42,8 @@ public class SimpleFloatViewManager implements DragSortListView.FloatViewManager
     @Nullable
     @Override
     public View onCreateFloatView(int position) {
-        // Guaranteed that this will not be null? I think so. Nope, got
-        // a NullPointerException once...
+        // Guaranteed that this will not be null?
+        // I think so. Nope, got a NullPointerException once...
         View v = mListView.getChildAt(position + mListView.getHeaderViewsCount() - mListView.getFirstVisiblePosition());
 
         if (v == null) {
@@ -75,7 +75,7 @@ public class SimpleFloatViewManager implements DragSortListView.FloatViewManager
      */
     @Override
     public void onDragFloatView(View floatView, Point position, Point touch) {
-        // do nothing
+        // Do nothing
     }
 
     /**

@@ -27,7 +27,7 @@ class FileDialog {
                     loadingOverlay = showLoadingOverlay(act, null, true)
                 }
                 fileStore.loadFileList(startFolder, txtOnly)
-            } catch (e: Throwable) {
+            } catch (_: Throwable) {
                 Log.w(TAG, "Can't load fileList from ${startFolder.path}")
                 if (startFolder.canonicalPath != ROOT_DIR) {
                     Log.w(TAG, "Trying root")

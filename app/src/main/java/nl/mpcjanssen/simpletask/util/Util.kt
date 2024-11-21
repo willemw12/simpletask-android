@@ -44,7 +44,7 @@ import java.nio.channels.FileChannel
 import java.util.*
 import java.util.regex.Pattern
 
-val TAG = "Util"
+const val TAG = "Util"
 val todayAsString: String
     get() = DateTime.today(TimeZone.getDefault()).format(Constants.DATE_FORMAT)
 
@@ -58,15 +58,6 @@ fun runOnMainThread(r: Runnable) {
 
 fun getString (resId : Int) : String {
     return TodoApplication.app.getString(resId)
-}
-
-fun showConfirmationDialog(cxt: Context,
-                           msgid: Int,
-                           okListener: DialogInterface.OnClickListener,
-                           titleid: Int) {
-    val builder = AlertDialog.Builder(cxt)
-    builder.setTitle(titleid)
-    showConfirmationDialog(msgid, okListener, builder)
 }
 
 fun showConfirmationDialog(cxt: Context,
@@ -458,20 +449,17 @@ fun appVersion(ctx: Context): String {
     return "Simpletask " + BuildConfig.FLAVOR + " v" + packageInfo.versionName + " (" + BuildConfig.VERSION_CODE + ")" + " Git: " + BuildConfig.GIT_VERSION
 }
 
-fun shortAppVersion(): String {
-    return "${BuildConfig.FLAVOR.first()}${BuildConfig.VERSION_CODE}"
-}
-
 fun shareText(act: Activity, subject: String, text: String) {
 
-    val shareIntent = Intent(android.content.Intent.ACTION_SEND)
+    val shareIntent = Intent(Intent.ACTION_SEND)
     shareIntent.type = "text/plain"
-    shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
+    shareIntent.putExtra(
+        Intent.EXTRA_SUBJECT,
             subject)
 
     // If text is small enough SEND it directly
     if (text.length < 50000) {
-        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, text)
+        shareIntent.putExtra(Intent.EXTRA_TEXT, text)
     } else {
 
         // Create a cache file to pass in EXTRA_STREAM
@@ -479,8 +467,8 @@ fun shareText(act: Activity, subject: String, text: String) {
             createCachedFile(act,
                     Constants.SHARE_FILE_NAME, text)
             val fileUri = Uri.parse("content://" + CachedFileProvider.AUTHORITY + "/" + Constants.SHARE_FILE_NAME)
-            shareIntent.putExtra(android.content.Intent.EXTRA_STREAM, fileUri)
-        } catch (e: Exception) {
+            shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri)
+        } catch (_: Exception) {
             Log.w(TAG, "Failed to create file for sharing")
         }
 
@@ -523,13 +511,13 @@ fun markdownAssetAsHtml(ctxt: Context, name: String): String {
     var markdown: String
     try {
         markdown = readAsset(ctxt.assets, name)
-    } catch (e: IOException) {
+    } catch (_: IOException) {
         val fallbackAsset = name.replace("\\.[a-z]{2}\\.md$".toRegex(), ".en.md")
         Log.w(TAG, "Failed to load markdown asset: $name falling back to $fallbackAsset")
-        try {
-            markdown = readAsset(ctxt.assets, fallbackAsset)
-        } catch (e: IOException) {
-            markdown = "$name and fallback $fallbackAsset not found."
+        markdown = try {
+            readAsset(ctxt.assets, fallbackAsset)
+        } catch (_: IOException) {
+            "$name and fallback $fallbackAsset not found."
         }
     }
     // Change issue numbers to links
@@ -639,22 +627,11 @@ fun getRelativeAge(task: Task, app: TodoApplication): String? {
     return getRelativeDate(app, "", date).toString()
 }
 
-fun initTaskWithFilter(task: Task, mFilter: Query) {
-    if (!mFilter.contextsNot && mFilter.contexts.size == 1) {
-        task.addList(mFilter.contexts[0])
-    }
-
-    if (!mFilter.projectsNot && mFilter.projects.size == 1) {
-        task.addTag(mFilter.projects[0])
-    }
-}
-
 fun String.toDateTime(): DateTime? {
-    val date: DateTime?
-    if (DateTime.isParseable(this)) {
-        date = DateTime(this)
+    val date: DateTime? = if (DateTime.isParseable(this)) {
+        DateTime(this)
     } else {
-        date = null
+        null
     }
     return date
 }

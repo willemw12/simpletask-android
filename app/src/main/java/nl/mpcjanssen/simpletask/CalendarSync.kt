@@ -26,7 +26,6 @@ package nl.mpcjanssen.simpletask
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.content.ContentProviderOperation
 import android.content.ContentResolver
 import android.content.ContentValues
@@ -102,7 +101,7 @@ private class Evt(
                     description == other.description &&
                     remMinutes == other.remMinutes }
 
-    @TargetApi(16)
+    // @TargetApi(16)
     fun addOp(list: ArrayList<ContentProviderOperation>, calID: Long) {
         if (status == EvtStatus.DELETE) {
             val args = arrayOf(id.toString())
@@ -254,10 +253,10 @@ private class EvtMap private constructor() : HashMap<EvtKey, LinkedList<Evt>>() 
 
         for (list in values) {
             for (evt in list) {
-                when {
-                    evt.status == EvtStatus.INSERT -> ins++
-                    evt.status == EvtStatus.KEEP -> kps++
-                    evt.status == EvtStatus.DELETE -> dels++
+                when (evt.status) {
+                    EvtStatus.INSERT -> ins++
+                    EvtStatus.KEEP -> kps++
+                    EvtStatus.DELETE -> dels++
                 }
 
                 evt.addOp(ops, calID)
@@ -271,18 +270,18 @@ private class EvtMap private constructor() : HashMap<EvtKey, LinkedList<Evt>>() 
 
 object CalendarSync {
 
-    private val ACCOUNT_NAME = "Simpletask Calendar"
-    private val ACCOUNT_TYPE = ACCOUNT_TYPE_LOCAL
+    private const val ACCOUNT_NAME = "Simpletask Calendar"
+    private const val ACCOUNT_TYPE = ACCOUNT_TYPE_LOCAL
     private val CAL_URI = Calendars.CONTENT_URI.buildUpon()
             .appendQueryParameter(CALLER_IS_SYNCADAPTER, "true")
             .appendQueryParameter(Calendars.ACCOUNT_NAME, ACCOUNT_NAME)
             .appendQueryParameter(Calendars.ACCOUNT_TYPE, ACCOUNT_TYPE)
             .build()
-    private val CAL_NAME = "simpletask_reminders_v34SsjC7mwK9WSVI"
-    private val CAL_COLOR = Color.BLUE // Chosen arbitrarily...
+    private const val CAL_NAME = "simpletask_reminders_v34SsjC7mwK9WSVI"
+    private const val CAL_COLOR = Color.BLUE // Chosen arbitrarily...
 
-    private val SYNC_DELAY_MS = 20 * 1000
-    private val TAG = "CalendarSync"
+    private const val SYNC_DELAY_MS = 20 * 1000
+    private const val TAG = "CalendarSync"
 
     val UTC: TimeZone = TimeZone.getTimeZone("UTC")
     val TASK_TOKENS: (TToken) -> Boolean = {
@@ -304,16 +303,16 @@ object CalendarSync {
         }
     }
 
-    private val m_sync_runnable: SyncRunnable
-    private val m_cr: ContentResolver
-    private val m_stpe: ScheduledThreadPoolExecutor
+    private val m_sync_runnable: SyncRunnable = SyncRunnable()
+    private val m_cr: ContentResolver = TodoApplication.app.contentResolver
+    private val m_stpe: ScheduledThreadPoolExecutor = ScheduledThreadPoolExecutor(1)
 
     @SuppressLint("Recycle")
     private fun findCalendar(): Long {
         val projection = arrayOf(Calendars._ID, Calendars.NAME)
         val selection = Calendars.NAME + " = ?"
         val args = arrayOf(CAL_NAME)
-        /* Check for calendar permission */
+        // Check for calendar permission
         val permissionCheck = ContextCompat.checkSelfPermission(TodoApplication.app,
                 Manifest.permission.WRITE_CALENDAR)
 
@@ -363,7 +362,7 @@ object CalendarSync {
             when (ret) {
                 0 -> Log.d(TAG, "No calendar to remove")
                 1 -> Log.d(TAG, "Calendar removed")
-                else -> Log.e(TAG, "Unexpected return value while removing calendar: " + ret)
+                else -> Log.e(TAG, "Unexpected return value while removing calendar: $ret")
             }
         } catch (e: Exception) {
             Log.e(TAG, "Error while removing calendar", e)
@@ -414,12 +413,6 @@ object CalendarSync {
 
     fun updatedSyncTypes() {
         syncLater()
-    }
-
-    init {
-        m_sync_runnable = SyncRunnable()
-        m_cr = TodoApplication.app.contentResolver
-        m_stpe = ScheduledThreadPoolExecutor(1)
     }
 
     fun syncLater() {

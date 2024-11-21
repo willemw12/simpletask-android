@@ -1,3 +1,4 @@
+@file:Suppress("unused")
 package com.robobunny
 
 import android.content.Context
@@ -12,6 +13,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import nl.mpcjanssen.simpletask.R
 import java.util.Locale
+import kotlin.math.roundToInt
 
 class SeekBarPreference : Preference, OnSeekBarChangeListener {
 
@@ -70,7 +72,7 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
         try {
             // move our seekbar to the new view we've been given
             val oldContainer = mSeekBar!!.parent
-            val newContainer = view.findViewById(R.id.seekBarPrefBarContainer) as ViewGroup
+            val newContainer: ViewGroup = view.findViewById(R.id.seekBarPrefBarContainer)
 
             if (oldContainer !== newContainer) {
                 // remove the seekbar from the old view
@@ -83,7 +85,7 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
                         ViewGroup.LayoutParams.WRAP_CONTENT)
             }
         } catch (ex: Exception) {
-            Log.e(TAG, "Error binding view: " + ex.toString())
+            Log.e(TAG, "Error binding view: $ex")
         }
 
         //if dependency is false from the beginning, disable the seek bar
@@ -101,7 +103,7 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
     protected fun updateView(view: View) {
 
         try {
-            mStatusText = view.findViewById(R.id.seekBarPrefValue) as TextView
+            mStatusText = view.findViewById<TextView>(R.id.seekBarPrefValue)!!
 
             mStatusText?.let {
                 it.text = String.format(Locale.getDefault(), "%d", mCurrentValue)
@@ -110,7 +112,7 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
 
             mSeekBar!!.progress = mCurrentValue - mMinValue
 
-            val unitsRight = view.findViewById(R.id.seekBarPrefUnitsRight) as TextView
+            val unitsRight: TextView = view.findViewById(R.id.seekBarPrefUnitsRight)
             unitsRight.text = mUnitsRight
 
         } catch (e: Exception) {
@@ -127,7 +129,7 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
         else if (newValue < mMinValue)
             newValue = mMinValue
         else if (mInterval != 1 && newValue % mInterval != 0)
-            newValue = Math.round(newValue.toFloat() / mInterval) * mInterval
+            newValue = (newValue.toFloat() / mInterval).roundToInt() * mInterval
 
         // change rejected, revert to the previous value
         if (!callChangeListener(newValue)) {
@@ -166,7 +168,7 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
             try {
                 temp = defaultValue as Int
             } catch (ex: Exception) {
-                Log.e(TAG, "Invalid default value: " + defaultValue.toString())
+                Log.e(TAG, "Invalid default value: $defaultValue")
             }
 
             persistInt(temp)
@@ -194,8 +196,8 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
 
     companion object {
 
-        private val ANDROIDNS = "http://schemas.android.com/apk/res/android"
-        private val APPLICATIONNS = "http://robobunny.com"
-        private val DEFAULT_VALUE = 50
+        private const val ANDROIDNS = "http://schemas.android.com/apk/res/android"
+        private const val APPLICATIONNS = "http://robobunny.com"
+        private const val DEFAULT_VALUE = 50
     }
 }

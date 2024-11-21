@@ -50,7 +50,7 @@ class FilterActivity : ThemedNoActionBarActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Log.i(TAG, "Called with intent: " + intent.toString())
+        Log.i(TAG, "Called with intent: $intent")
         m_app = application as TodoApplication
 
         setContentView(R.layout.filter)
@@ -63,7 +63,7 @@ class FilterActivity : ThemedNoActionBarActivity() {
         val environment: String = intent.action?.let {
             asWidgetConfigure = it == AppWidgetManager.ACTION_APPWIDGET_CONFIGURE
             val id = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 0)
-            "widget" + id.toString()
+            "widget$id"
         } ?: "mainui"
 
 
@@ -290,7 +290,7 @@ class FilterActivity : ThemedNoActionBarActivity() {
         updateFilterFromFragments()
         val widgetId = intent.getIntExtra(Constants.EXTRA_WIDGET_ID, 0)
         Log.i(TAG, "Saving settings for widget $widgetId")
-        val preferences = applicationContext.getSharedPreferences("" + widgetId, Context.MODE_PRIVATE)
+        val preferences = applicationContext.getSharedPreferences("" + widgetId, MODE_PRIVATE)
         mFilter.saveInPrefs(preferences)
         broadcastRefreshWidgets(m_app.localBroadCastManager)
     }
@@ -309,7 +309,7 @@ class FilterActivity : ThemedNoActionBarActivity() {
             val context = applicationContext
 
             // Store widget applyFilter
-            val preferences = context.getSharedPreferences("" + mAppWidgetId, Context.MODE_PRIVATE)
+            val preferences = context.getSharedPreferences("" + mAppWidgetId, MODE_PRIVATE)
             val namedFilter = NamedQuery(name, mFilter)
             namedFilter.saveInPrefs(preferences)
 
@@ -331,13 +331,12 @@ class FilterActivity : ThemedNoActionBarActivity() {
     }
 
     private fun askWidgetName() {
-        val name: String
         val alert = AlertDialog.Builder(this)
 
         alert.setTitle("Create widget")
         alert.setMessage("Widget title")
         updateFilterFromFragments()
-        name = mFilter.proposedName
+        val name: String = mFilter.proposedName
 
         // Set an EditText view to get user input
         val input = EditText(this)
@@ -370,11 +369,7 @@ class FilterActivity : ThemedNoActionBarActivity() {
      * sequence.
      */
     private inner class ScreenSlidePagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
-        val fragments: ArrayList<Fragment>
-
-        init {
-            fragments = ArrayList<Fragment>()
-        }
+        val fragments: ArrayList<Fragment> = ArrayList<Fragment>()
 
         fun add(frag: Fragment) {
             fragments.add(frag)
@@ -383,10 +378,10 @@ class FilterActivity : ThemedNoActionBarActivity() {
         override fun getPageTitle(position: Int): CharSequence {
             val f = fragments[position]
             val type = f.arguments?.getString(TAB_TYPE, "unknown") ?:"unknown"
-            when (type) {
-                PROJECT_TAB -> return TodoApplication.config.tagTerm
-                CONTEXT_TAB -> return TodoApplication.config.listTerm
-                else -> return type
+            return when (type) {
+                PROJECT_TAB -> TodoApplication.config.tagTerm
+                CONTEXT_TAB -> TodoApplication.config.listTerm
+                else -> type
             }
         }
 
@@ -402,19 +397,19 @@ class FilterActivity : ThemedNoActionBarActivity() {
 
     companion object {
 
-        val TAG = "FilterActivity"
-        val TAB_TYPE = "type"
-        val CONTEXT_TAB = "context"
-        val PROJECT_TAB = "project"
+        const val TAG = "FilterActivity"
+        const val TAB_TYPE = "type"
+        const val CONTEXT_TAB = "context"
+        const val PROJECT_TAB = "project"
         val PRIO_TAB = getString(R.string.filter_tab_header_prio)
         val OTHER_TAB = getString(R.string.filter_tab_header_other)
         val SORT_TAB = getString(R.string.filter_tab_header_sort)
         val SCRIPT_TAB = getString(R.string.filter_tab_header_script)
 
         // Constants for saving state
-        val FILTER_ITEMS = "items"
-        val INITIAL_SELECTED_ITEMS = "initialSelectedItems"
-        val INITIAL_NOT = "initialNot"
+        const val FILTER_ITEMS = "items"
+        const val INITIAL_SELECTED_ITEMS = "initialSelectedItems"
+        const val INITIAL_NOT = "initialNot"
     }
 }
 

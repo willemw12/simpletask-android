@@ -14,7 +14,7 @@ import java.util.*
 
 class DebugInfoScreen : ThemedActionBarActivity() {
 
-    private var m_app: TodoApplication? = null
+    private var app: TodoApplication? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +25,7 @@ class DebugInfoScreen : ThemedActionBarActivity() {
         mVersionInfo.text = "Version: ${appVersion(this)}"
 
         val myDataset = ArrayList<String>()
-        m_app = application as TodoApplication
+        app = application as TodoApplication
         for (line in LogCat.getLog()) {
             myDataset.add(line)
         }
@@ -51,8 +51,7 @@ class DebugInfoScreen : ThemedActionBarActivity() {
         inflater.inflate(R.menu.log_menu, toolbarMenu)
         toolbar.setOnMenuItemClickListener(Toolbar.OnMenuItemClickListener { item ->
             when (item.itemId) {
-            // Respond to the action bar's Up/Home button
-
+                // Respond to the action bar's Up/Home button
                 R.id.menu_share -> {
                     sendLog()
                     return@OnMenuItemClickListener true

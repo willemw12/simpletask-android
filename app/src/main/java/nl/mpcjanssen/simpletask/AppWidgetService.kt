@@ -16,7 +16,7 @@ import nl.mpcjanssen.simpletask.util.*
 
 class AppWidgetService : RemoteViewsService() {
 
-    override fun onGetViewFactory(intent: Intent): RemoteViewsService.RemoteViewsFactory {
+    override fun onGetViewFactory(intent: Intent): RemoteViewsFactory {
         return AppWidgetRemoteViewsFactory(intent)
     }
 }
@@ -38,7 +38,7 @@ data class AppWidgetRemoteViewsFactory(val intent: Intent) : RemoteViewsService.
         }
 
     init {
-        Log.d(TAG, "Creating view for widget: " + widgetId)
+        Log.d(TAG, "Creating view for widget: $widgetId")
     }
 
     fun moduleName () : String {
@@ -116,22 +116,20 @@ data class AppWidgetRemoteViewsFactory(val intent: Intent) : RemoteViewsService.
         }
         val colorizeStrings = ArrayList<String>()
         task.lists?.forEach {
-            colorizeStrings.add("@" + it)
+            colorizeStrings.add("@$it")
         }
         setColor(ss, Color.GRAY, colorizeStrings)
         colorizeStrings.clear()
         task.tags?.forEach {
-            colorizeStrings.add("+" + it)
+            colorizeStrings.add("+$it")
         }
         setColor(ss, Color.GRAY, colorizeStrings)
-
-        val prioColor: Int
-        when (task.priority) {
-            Priority.A -> prioColor = ContextCompat.getColor(TodoApplication.app, R.color.simple_red_dark)
-            Priority.B -> prioColor = ContextCompat.getColor(TodoApplication.app, R.color.simple_orange_dark)
-            Priority.C -> prioColor = ContextCompat.getColor(TodoApplication.app, R.color.simple_green_dark)
-            Priority.D -> prioColor = ContextCompat.getColor(TodoApplication.app, R.color.simple_blue_dark)
-            else -> prioColor = ContextCompat.getColor(TodoApplication.app, R.color.gray67)
+        val prioColor: Int = when (task.priority) {
+            Priority.A -> ContextCompat.getColor(TodoApplication.app, R.color.simple_red_dark)
+            Priority.B -> ContextCompat.getColor(TodoApplication.app, R.color.simple_orange_dark)
+            Priority.C -> ContextCompat.getColor(TodoApplication.app, R.color.simple_green_dark)
+            Priority.D -> ContextCompat.getColor(TodoApplication.app, R.color.simple_blue_dark)
+            else -> ContextCompat.getColor(TodoApplication.app, R.color.gray67)
         }
         if (prioColor != 0) {
             setColor(ss, prioColor, task.priority.fileFormat)
@@ -224,7 +222,7 @@ data class AppWidgetRemoteViewsFactory(val intent: Intent) : RemoteViewsService.
     }
 
     companion object {
-        val TAG = "WidgetService"
+        const val TAG = "WidgetService"
     }
 }
 

@@ -128,7 +128,7 @@ class Task(text: String, defaultPrependedDate: String? = null) {
     val tags: SortedSet<String>?
         get() {
             tokens.filterIsInstance<TagToken>().run {
-                return if (size > 0) {
+                return if (isNotEmpty()) {
                     map { it.value }.toSortedSet()
                 } else {
                     null
@@ -139,7 +139,7 @@ class Task(text: String, defaultPrependedDate: String? = null) {
     val lists: SortedSet<String>?
         get() {
             tokens.filterIsInstance<ListToken>().run {
-                return if (size > 0) {
+                return if (isNotEmpty()) {
                     map { it.value }.toSortedSet()
                 } else {
                     null
@@ -274,7 +274,7 @@ class Task(text: String, defaultPrependedDate: String? = null) {
         when {
             sort.contains("by_context") -> {
                 lists?.run {
-                    if (size > 0) {
+                    if (isNotEmpty()) {
                         return first()
                     }
                 }
@@ -283,7 +283,7 @@ class Task(text: String, defaultPrependedDate: String? = null) {
             }
             sort.contains("by_project") -> {
                 tags?.run {
-                    if (size > 0) {
+                    if (isNotEmpty()) {
                         return first()
                     }
                 }

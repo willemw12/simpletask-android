@@ -27,7 +27,7 @@ class BugsTest : TestCase() {
 
     fun testBug50() {
         val t = Task("2012-01-01 @list test")
-        Assert.assertEquals("test", t.showParts({ (it !is ListToken) && (it !is CreateDateToken) }).trim { it <= ' ' })
+        Assert.assertEquals("test", t.showParts { (it !is ListToken) && (it !is CreateDateToken) }.trim { it <= ' ' })
 
     }
 

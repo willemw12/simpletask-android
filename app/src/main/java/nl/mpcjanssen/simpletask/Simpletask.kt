@@ -54,14 +54,14 @@ import android.R.id as androidId
 
 class Simpletask : ThemedNoActionBarActivity() {
     companion object {
-        private val REQUEST_PREFERENCES = 1
+        private const val REQUEST_PREFERENCES = 1
 
         val URI_BASE = Uri.fromParts("Simpletask", "", null)!!
         val URI_SEARCH = Uri.withAppendedPath(URI_BASE, "search")!!
-        private val TAG = "Simpletask"
+        private const val TAG = "Simpletask"
         // Drawer side
-        private val SAVED_FILTER_DRAWER = GravityCompat.END
-        private val QUICK_FILTER_DRAWER = GravityCompat.START
+        private const val SAVED_FILTER_DRAWER = GravityCompat.END
+        private const val QUICK_FILTER_DRAWER = GravityCompat.START
     }
     private var options_menu: Menu? = null
 
@@ -135,8 +135,7 @@ class Simpletask : ThemedNoActionBarActivity() {
                         actions.add(Action.MAIL)
                         links.add(mail)
                     }
-                    if (actions.size != 0) {
-
+                    if (actions.isNotEmpty()) {
                         val titles = ArrayList<String>()
                         for (i in links.indices) {
                             when (actions[i]) {
@@ -173,7 +172,7 @@ class Simpletask : ThemedNoActionBarActivity() {
                                     else -> try {
                                         actionIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                                         startActivity(actionIntent)
-                                    } catch (e: ActivityNotFoundException) {
+                                    } catch (_: ActivityNotFoundException) {
                                         Log.i(TAG, "No handler for task action $url")
                                         showToastLong(TodoApplication.app, "No handler for $url")
                                     }
@@ -324,7 +323,7 @@ class Simpletask : ThemedNoActionBarActivity() {
 
 
     override fun onPause() {
-        listView.let{updateScrollPosition(it)}
+        updateScrollPosition(listView)
         super.onPause()
     }
 
@@ -481,7 +480,7 @@ class Simpletask : ThemedNoActionBarActivity() {
 
         taskAdapter.setFilteredTasks(this, query)
         val listener = ViewTreeObserver.OnScrollChangedListener {
-            listView.let { updateScrollPosition(it) }
+            updateScrollPosition(listView)
         }
         listView.viewTreeObserver?.addOnScrollChangedListener(listener)
 
@@ -669,10 +668,10 @@ class Simpletask : ThemedNoActionBarActivity() {
             }
 
             override fun onMenuItemActionExpand(item: MenuItem): Boolean {
-                //get focus
+                // Get focus
                 item.actionView?.requestFocus()
                 //get input method
-                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS)
                 return true // Return true to expand action view
             }
@@ -717,12 +716,12 @@ class Simpletask : ThemedNoActionBarActivity() {
 
         val builder = AlertDialog.Builder(this)
         builder.setTitle(R.string.select_priority)
-        builder.setSingleChoiceItems(priorityArr, priorityIdx, { dialog, which ->
+        builder.setSingleChoiceItems(priorityArr, priorityIdx) { dialog, which ->
             dialog.dismiss()
             val priority = Priority.toPriority(priorityArr[which])
             TodoApplication.todoList.prioritize(tasks, priority)
             TodoApplication.todoList.notifyTasklistChanged(TodoApplication.config.todoFile, true)
-        })
+        }
         builder.show()
 
     }
@@ -911,8 +910,8 @@ class Simpletask : ThemedNoActionBarActivity() {
 
                     } catch (e: Exception) {
                         // Need to catch generic exception because Dropbox errors don't inherit from IOException
-                        Log.e(TAG, "Import filters, cant read file ${importFile}", e)
-                        showToastLong(this, "Error reading file ${importFile}")
+                        Log.e(TAG, "Import filters, cant read file $importFile", e)
+                        showToastLong(this, "Error reading file $importFile")
                     }
                 }
             }

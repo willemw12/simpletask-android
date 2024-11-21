@@ -48,7 +48,7 @@ class AddTaskBackground : Activity() {
         val action = intent.action
 
         val append_text = TodoApplication.config.shareAppendText
-        if (intent.type?.startsWith("text/") ?: false) {
+        if (intent.type?.startsWith("text/") == true) {
             if (Intent.ACTION_SEND == action) {
                 Log.d(TAG, "Share")
                 var share_text = ""

@@ -6,11 +6,11 @@ import nl.mpcjanssen.simpletask.util.alfaSort
 import java.util.*
 
 class MultiComparator(sorts: ArrayList<String>, today: String, caseSensitve: Boolean, createIsThreshold: Boolean, moduleName: String? = null) {
-    var comparator : Comparator<Task> = compareBy({ null })
+    var comparator : Comparator<Task> = compareBy { null }
 
     var fileOrder = true
 
-    val luaCache: MutableMap<Task, String> = HashMap<Task, String>();
+    // val luaCache: MutableMap<Task, String> = HashMap<Task, String>();
 
     init {
         label@ for (sort in sorts) {
@@ -18,7 +18,7 @@ class MultiComparator(sorts: ArrayList<String>, today: String, caseSensitve: Boo
             var reverse = false
             val sortType: String
             if (parts.size == 1) {
-                // support older shortcuts and widgets
+                // Support older shortcuts and widgets
                 reverse = false
                 sortType = parts[0]
             } else {
@@ -71,9 +71,9 @@ class MultiComparator(sorts: ArrayList<String>, today: String, caseSensitve: Boo
                     }
                     comp = {
                         Interpreter.onSortCallback(moduleName, it)
-//                            luaCache[it] ?: Interpreter.onSortCallback(moduleName, it).also { str ->
-//                            luaCache[it] = str
-//                        }
+                        // luaCache[it] ?: Interpreter.onSortCallback(moduleName, it).also { str ->
+                        //     luaCache[it] = str
+                        // }
                     }
                 }
                 else -> {

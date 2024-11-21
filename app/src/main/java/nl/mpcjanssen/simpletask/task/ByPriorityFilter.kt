@@ -33,7 +33,8 @@ class ByPriorityFilter(
         private val priorities: List<Priority>,
         private val not: Boolean
 ) : TaskFilter {
-    /* FOR TESTING ONLY, DO NOT USE IN APPLICATION */
+
+    // FOR TESTING ONLY, DO NOT USE IN APPLICATION
 
     override fun apply(task: Task): Boolean {
         return if (not) !filter(task) else filter(task)

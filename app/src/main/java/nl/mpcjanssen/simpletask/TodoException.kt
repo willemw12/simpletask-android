@@ -28,11 +28,5 @@ class TodoException : RuntimeException {
 
     constructor(msg: String) : super(msg)
 
-    constructor(msg: String, t: Throwable) : super(msg, t)
-
-    companion object {
-
-        private val serialVersionUID = 2160630991596963352L
-    }
-
+    companion object
 }

@@ -14,6 +14,8 @@ import androidx.annotation.DrawableRes;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
+import java.util.Objects;
+
 import nl.mpcjanssen.simpletask.R;
 
 class Utils {
@@ -31,7 +33,7 @@ class Utils {
 
         final ColorStateList colorStateList = createIndetermColorStateList(view.getContext());
 
-        final Drawable d = DrawableCompat.wrap(ContextCompat.getDrawable(view.getContext(), drawable));
+        final Drawable d = DrawableCompat.wrap(Objects.requireNonNull(ContextCompat.getDrawable(view.getContext(), drawable)));
         DrawableCompat.setTintList(d, colorStateList);
 
         return d;

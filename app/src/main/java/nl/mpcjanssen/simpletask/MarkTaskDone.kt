@@ -11,7 +11,7 @@ import nl.mpcjanssen.simpletask.util.todayAsString
 class MarkTaskDone : Service() {
     val TAG = "MarkTaskDone"
 
-    public override fun onStartCommand (intent: Intent, flags: Int, startId: Int): Int {
+    override fun onStartCommand (intent: Intent, flags: Int, startId: Int): Int {
         Log.d(TAG, "onStartCommand()")
         val taskId = intent.getStringExtra(Constants.EXTRA_TASK_ID)
         if (taskId == null) {

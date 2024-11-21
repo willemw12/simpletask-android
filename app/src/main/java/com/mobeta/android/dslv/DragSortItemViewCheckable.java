@@ -14,8 +14,7 @@ import android.widget.Checkable;
  * to the child, and the ItemView measured width is set to the
  * child's measured width). The height of ItemView can be anything;
  * the 
- * 
- *
+ * <p>
  * The purpose of this class is to optimize slide
  * shuffle animations.
  */

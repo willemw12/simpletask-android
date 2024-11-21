@@ -27,7 +27,6 @@
  */
 package nl.mpcjanssen.simpletask
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -53,7 +52,7 @@ class AddTaskShortcut : ThemedNoActionBarActivity() {
                 R.drawable.ic_launcher)
         intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, iconResource)
 
-        setResult(Activity.RESULT_OK, intent)
+        setResult(RESULT_OK, intent)
     }
 
     companion object {

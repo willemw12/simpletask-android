@@ -203,7 +203,7 @@ object FileStore : IFileStore {
                         Log.i(tag, "Observer: ignored event on: $fileName")
                     } else {
                         Log.i(tag, "File changed {}$fileName")
-                        FileStore.remoteTodoFileChanged()
+                        remoteTodoFileChanged()
                     }
                 }
             }

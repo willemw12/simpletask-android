@@ -146,19 +146,19 @@ class TodoApplication : Application() {
         intent.putExtra(Constants.ALARM_REASON_EXTRA, Constants.ALARM_NEW_DAY)
         val pi = PendingIntent.getBroadcast(this, 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT  or PendingIntent.FLAG_IMMUTABLE)
-        val am = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val am = this.getSystemService(ALARM_SERVICE) as AlarmManager
         am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
                 AlarmManager.INTERVAL_DAY, pi)
     }
 
-    fun restart() {
-        val mStartActivity = Intent(this, Simpletask::class.java)
-        val mPendingIntentId = 123456
-        val mPendingIntent = PendingIntent.getActivity(this, mPendingIntentId, mStartActivity,
-                PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE)
-        val am = this.getSystemService(ALARM_SERVICE) as AlarmManager
-        am.set(AlarmManager.RTC, System.currentTimeMillis() + 100,mPendingIntent)
-    }
+    // fun restart() {
+    //     val mStartActivity = Intent(this, Simpletask::class.java)
+    //     val mPendingIntentId = 123456
+    //     val mPendingIntent = PendingIntent.getActivity(this, mPendingIntentId, mStartActivity,
+    //             PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+    //     val am = this.getSystemService(ALARM_SERVICE) as AlarmManager
+    //     am.set(AlarmManager.RTC, System.currentTimeMillis() + 100,mPendingIntent)
+    // }
 
     private fun scheduleRepeating() {
         // Schedules background reload
@@ -169,7 +169,7 @@ class TodoApplication : Application() {
         val pi = PendingIntent.getBroadcast(this, 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 
-        val am = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val am = this.getSystemService(ALARM_SERVICE) as AlarmManager
         am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 15 * 60 * 1000,
                 15 * 60 * 1000, pi)
     }
@@ -216,11 +216,11 @@ class TodoApplication : Application() {
 
     fun updatePinnedNotifications() {
         Log.i(TAG, "Updating pinned notifications")
-        val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager: NotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.getActiveNotifications().forEach {
             val taskId = it.notification.extras.getString(Constants.EXTRA_TASK_ID)
             if (taskId != null) {
-                val taskText = TodoApplication.todoList.getTaskWithId(taskId)?.text
+                val taskText = todoList.getTaskWithId(taskId)?.text
                 val notification = NotificationCompat.Builder(this, it.notification).setContentTitle(taskText).build()
                 notificationManager.notify(it.id, notification)
             }
@@ -266,7 +266,7 @@ class TodoApplication : Application() {
             }
             // Register the channel with the system
             val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         // }
     }

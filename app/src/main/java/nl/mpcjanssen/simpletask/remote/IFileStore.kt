@@ -14,9 +14,8 @@ import kotlin.reflect.KClass
  * errors should be implemented in the users of the FileStore
  * Because some FileStores might be accessing the network to do their job,
  * all file related actions should never be performed on the main thread.
- * TODO: Make archiving atomic
-
  */
+ // TODO: Make archiving atomic
 interface IFileStore {
     val isEncrypted: Boolean
 
@@ -58,18 +57,16 @@ interface IFileStore {
 
     // Generic special folder names for use in File dialogs
     companion object {
-        val ROOT_DIR = "/"
-        val PARENT_DIR = ".."
+        const val ROOT_DIR = "/"
+        const val PARENT_DIR = ".."
 
     }
 }
 
-// Data class to return the lines and verion of a remote file.
+// Data class to return the lines and version of a remote file.
 
 // Generic file entry class for use in File dialogs
-data class FileEntry(val file: File, val isFolder: Boolean) {
-    constructor(fileName: String, isFolder: Boolean) : this (File(fileName), isFolder)
-}
+data class FileEntry(val file: File, val isFolder: Boolean)
 
 
 

@@ -16,8 +16,7 @@ import android.widget.AbsListView;
  * to the child, and the ItemView measured width is set to the
  * child's measured width). The height of ItemView can be anything;
  * the 
- * 
- *
+ * <p>
  * The purpose of this class is to optimize slide
  * shuffle animations.
  */
@@ -28,7 +27,7 @@ public class DragSortItemView extends ViewGroup {
     public DragSortItemView(Context context) {
         super(context);
 
-        // always init with standard ListView layout params
+        // Always init with standard ListView layout params
         setLayoutParams(new AbsListView.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));

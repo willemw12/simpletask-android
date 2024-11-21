@@ -20,40 +20,40 @@ class FilterScriptFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(TAG, "onCreate() this:" + this)
+        Log.d(TAG, "onCreate() this:$this")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(TAG, "onDestroy() this:" + this)
+        Log.d(TAG, "onDestroy() this:$this")
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        Log.d(TAG, "onSaveInstanceState() this:" + this)
+        Log.d(TAG, "onSaveInstanceState() this:$this")
         outState.putString(Query.INTENT_SCRIPT_FILTER, script)
         outState.putString(Query.INTENT_SCRIPT_TEST_TASK_FILTER, testTask)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        Log.d(TAG, "onCreateView() this:" + this)
+        Log.d(TAG, "onCreateView() this:$this")
 
         val arguments = arguments
-        Log.d(TAG, "Fragment bundle:" + this)
+        Log.d(TAG, "Fragment bundle:$this")
         val layout = inflater.inflate(R.layout.script_filter,
                 container, false) as LinearLayout
 
-        cbUseScript = layout.findViewById(R.id.cb_use_script) as CheckBox
-        txtScript = layout.findViewById(R.id.txt_script) as EditText
-        txtTestTask = layout.findViewById(R.id.txt_testtask) as EditText
-        spnCallback = layout.findViewById(R.id.spnCallback) as Spinner
+        cbUseScript = layout.findViewById<CheckBox>(R.id.cb_use_script)!!
+        txtScript = layout.findViewById<EditText>(R.id.txt_script)!!
+        txtTestTask = layout.findViewById<EditText>(R.id.txt_testtask)!!
+        spnCallback = layout.findViewById<Spinner>(R.id.spnCallback)!!
 
         val callbacks = arrayOf<String>(Interpreter.ON_DISPLAY_NAME, Interpreter.ON_FILTER_NAME, Interpreter.ON_GROUP_NAME, Interpreter.ON_SORT_NAME)
         val spnAdapter = activity?.let { ArrayAdapter(it, R.layout.spinner_item, callbacks) }
         spnCallback?.adapter = spnAdapter
         activity?.let { act ->
-            val btnTest = layout.findViewById(R.id.btnTest) as Button
+            val btnTest: Button = layout.findViewById(R.id.btnTest)
             btnTest.setOnClickListener {
                 val callbackToTest = selectedCallback
                 val t = Task(testTask)
@@ -82,7 +82,7 @@ class FilterScriptFragment : Fragment() {
             txtScript!!.setText(savedInstanceState.getString(Query.INTENT_SCRIPT_FILTER, ""))
             txtTestTask!!.setText(savedInstanceState.getString(Query.INTENT_SCRIPT_TEST_TASK_FILTER, ""))
         } else {
-            cbUseScript!!.isChecked = arguments?.getBoolean(Query.INTENT_USE_SCRIPT_FILTER, false) ?: false
+            cbUseScript!!.isChecked = arguments?.getBoolean(Query.INTENT_USE_SCRIPT_FILTER, false) == true
             txtScript!!.setText(arguments?.getString(Query.INTENT_SCRIPT_FILTER, "") ?:"")
             txtTestTask!!.setText(arguments?.getString(Query.INTENT_SCRIPT_TEST_TASK_FILTER, "")?:"")
         }
@@ -143,10 +143,10 @@ class FilterScriptFragment : Fragment() {
     val useScript: Boolean
         get() {
             val arguments = arguments
-            if (cbUseScript == null) {
-                return arguments?.getBoolean(Query.INTENT_USE_SCRIPT_FILTER, false) ?: false
+            return if (cbUseScript == null) {
+                arguments?.getBoolean(Query.INTENT_USE_SCRIPT_FILTER, false) == true
             } else {
-                return cbUseScript?.isChecked ?: false
+                cbUseScript?.isChecked == true
             }
         }
 
@@ -159,10 +159,10 @@ class FilterScriptFragment : Fragment() {
     var script: String
         get() {
             val arguments = arguments
-            if (txtScript == null) {
-                return arguments?.getString(Query.INTENT_SCRIPT_FILTER, "") ?: ""
+            return if (txtScript == null) {
+                arguments?.getString(Query.INTENT_SCRIPT_FILTER, "") ?: ""
             } else {
-                return txtScript!!.text.toString()
+                txtScript!!.text.toString()
             }
         }
         set(script) {
@@ -172,10 +172,10 @@ class FilterScriptFragment : Fragment() {
     val testTask: String
         get() {
             val arguments = arguments
-            if (txtTestTask == null) {
-                return arguments?.getString(Query.INTENT_SCRIPT_TEST_TASK_FILTER, "") ?: ""
+            return if (txtTestTask == null) {
+                arguments?.getString(Query.INTENT_SCRIPT_TEST_TASK_FILTER, "") ?: ""
             } else {
-                return txtTestTask!!.text.toString()
+                txtTestTask!!.text.toString()
             }
         }
 

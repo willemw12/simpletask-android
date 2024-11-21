@@ -162,29 +162,29 @@ class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPrefer
 
     }
 
-    class AppearancePrefFragment : PrefFragment(R.xml.appearance_preferences)/*, SharedPreferences.OnSharedPreferenceChangeListener {
-        val fonts = FontManager.enumerateFonts()
-        override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-            if (activity.getString(R.string.font_key).equals(key)) {
-                updateFontSummary()
-            }
-        }
-        fun updateFontSummary() {
-            val fontPref = findPreference(getString(R.string.font_key)) ?: return
-            fontPref.valueInSummary(fonts[fontPref.sharedPreferences.getString(fontPref.key, "")])
-            fontPref.setOnPreferenceChangeListener { preference, any ->
-                preference.summary = "%s"
-                preference.valueInSummary(fonts[any])
-                true
-            }
-
-        }
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            updateFontSummary()
-        }
-    }
-    */
+    class AppearancePrefFragment : PrefFragment(R.xml.appearance_preferences)
+    // , SharedPreferences.OnSharedPreferenceChangeListener {
+    //     val fonts = FontManager.enumerateFonts()
+    //     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+    //         if (activity.getString(R.string.font_key).equals(key)) {
+    //             updateFontSummary()
+    //         }
+    //     }
+    //     fun updateFontSummary() {
+    //         val fontPref = findPreference(getString(R.string.font_key)) ?: return
+    //         fontPref.valueInSummary(fonts[fontPref.sharedPreferences.getString(fontPref.key, "")])
+    //         fontPref.setOnPreferenceChangeListener { preference, any ->
+    //             preference.summary = "%s"
+    //             preference.valueInSummary(fonts[any])
+    //             true
+    //         }
+    //
+    //     }
+    //     override fun onCreate(savedInstanceState: Bundle?) {
+    //         super.onCreate(savedInstanceState)
+    //         updateFontSummary()
+    //     }
+    // }
 
     class InterfacePrefFragment : PrefFragment(R.xml.interface_preferences) {
         override fun onCreate(savedInstanceState: Bundle?) {

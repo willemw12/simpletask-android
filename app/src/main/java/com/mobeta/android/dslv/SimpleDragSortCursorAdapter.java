@@ -27,14 +27,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 
-// taken from sdk/sources/android-16/android/widget/SimpleCursorAdapter.java
+// Taken from sdk/sources/android-16/android/widget/SimpleCursorAdapter.java
 
 /**
  * An easy adapter to map columns from a cursor to TextViews or ImageViews
  * defined in an XML file. You can specify which columns you want, which
  * views you want to display the columns, and the XML file that defines
  * the appearance of these views.
- *
+ * <p>
  * Binding occurs in two phases. First, if a
  * {@link android.widget.SimpleCursorAdapter.ViewBinder} is available,
  * {@link ViewBinder#setViewValue(android.view.View, android.database.Cursor, int)}
@@ -44,7 +44,7 @@ import androidx.annotation.Nullable;
  * is false and the view to bind is an ImageView,
  * {@link #setViewImage(ImageView, String)} is invoked. If no appropriate
  * binding can be found, an {@link IllegalStateException} is thrown.
- *
+ * <p>
  * If this adapter is used with filtering, for instance in an
  * {@link android.widget.AutoCompleteTextView}, you can use the
  * {@link android.widget.SimpleCursorAdapter.CursorToStringConverter} and the

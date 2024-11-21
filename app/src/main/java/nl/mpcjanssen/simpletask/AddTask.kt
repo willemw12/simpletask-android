@@ -34,10 +34,8 @@ class AddTask : ThemedActionBarActivity() {
     private var mBroadcastReceiver: BroadcastReceiver? = null
     private var localBroadcastManager: LocalBroadcastManager? = null
     private lateinit var binding: AddTaskBinding
-    /*
-        Deprecated functions still work fine.
-        For now keep using the old version, will updated if it breaks.
-     */
+    // Deprecated functions still work fine.
+    // For now keep using the old version, will updated if it breaks.
     @Suppress("DEPRECATION")
     public override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "onCreate()")
@@ -127,8 +125,7 @@ class AddTask : ThemedActionBarActivity() {
         val position = binding.taskText.selectionStart
         val remainingText = binding.taskText.text.toString().substring(position)
         val endOfLineDistance = remainingText.indexOf('\n')
-        var endOfLine: Int
-        endOfLine = if (endOfLineDistance == -1) {
+        var endOfLine: Int = if (endOfLineDistance == -1) {
             binding.taskText.length()
         } else {
             position + endOfLineDistance
@@ -138,8 +135,7 @@ class AddTask : ThemedActionBarActivity() {
 
         val precedingText = binding.taskText.text.toString().substring(0, endOfLine)
         val lineStart = precedingText.lastIndexOf('\n')
-        val line: String
-        line = if (lineStart != -1) {
+        val line: String = if (lineStart != -1) {
             precedingText.substring(lineStart, endOfLine)
         } else {
             precedingText
@@ -330,7 +326,7 @@ class AddTask : ThemedActionBarActivity() {
         items.addAll(TodoApplication.todoList.projects)
         // Also display projects in tasks being added
         val tasks = getTasks()
-        if (tasks.size == 0) {
+        if (tasks.isEmpty()) {
             tasks.add(Task(""))
         }
         tasks.forEach {task ->
@@ -381,7 +377,7 @@ class AddTask : ThemedActionBarActivity() {
         items.addAll(TodoApplication.todoList.contexts)
         // Also display contexts in tasks being added
         val tasks = getTasks()
-        if (tasks.size == 0) {
+        if (tasks.isEmpty()) {
             tasks.add(Task(""))
         }
         tasks.forEach {task ->
@@ -473,13 +469,13 @@ class AddTask : ThemedActionBarActivity() {
         }
 
         // Don't go out of bounds
-        newLocation = Math.min(newLocation, newLength)
-        newLocation = Math.max(0, newLocation)
+        newLocation = newLocation.coerceAtMost(newLength)
+        newLocation = 0.coerceAtLeast(newLocation)
         binding.taskText.setSelection(newLocation, newLocation)
     }
 
     private fun replacePriority(newPriority: CharSequence) {
-        // save current selection and length
+        // Save current selection and length
         val start = binding.taskText.selectionStart
         val end = binding.taskText.selectionEnd
         Log.d(TAG, "Current selection: $start-$end")
@@ -513,7 +509,8 @@ class AddTask : ThemedActionBarActivity() {
                 text = " $text"
             }
         }
-        binding.taskText.text.replace(Math.min(start, end), Math.max(start, end),
+        binding.taskText.text.replace(
+            start.coerceAtMost(end), start.coerceAtLeast(end),
                 text, 0, text.length)
     }
 

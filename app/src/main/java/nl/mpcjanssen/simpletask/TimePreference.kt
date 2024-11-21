@@ -22,6 +22,7 @@
  * @copyright 2015 Vojtech Kral
  */
 
+@file:Suppress("unused")
 package nl.mpcjanssen.simpletask
 
 import android.content.Context
@@ -86,10 +87,10 @@ class TimePreference @JvmOverloads constructor(ctx: Context, attrs: AttributeSet
         if (restoreValue) {
             m_minutes = getPersistedInt(0)
         } else {
-            if (defaultValue == null) {
-                m_minutes = 0
+            m_minutes = if (defaultValue == null) {
+                0
             } else {
-                m_minutes = defaultValue as Int
+                defaultValue as Int
             }
         }
     }

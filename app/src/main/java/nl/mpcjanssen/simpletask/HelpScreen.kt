@@ -65,7 +65,7 @@ class HelpScreen : ThemedActionBarActivity() {
             // Replacement is API >= 21 only
             @Suppress("OverridingDeprecatedMember")
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                Log.d(TAG, "Loading url: " + url)
+                Log.d(TAG, "Loading url: $url")
                 if (url.startsWith("https://www.paypal.com")) {
                     // Paypal links don't work in the mobile browser so this hack is needed
                     loadDesktop(view, url)
@@ -153,7 +153,7 @@ class HelpScreen : ThemedActionBarActivity() {
     companion object {
 
         internal val TAG = HelpScreen::class.java.simpleName
-        internal val BASE_URL = "file:///android_asset/"
+        internal const val BASE_URL = "file:///android_asset/"
     }
 
 }

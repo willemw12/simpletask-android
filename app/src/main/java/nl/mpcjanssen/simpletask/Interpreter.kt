@@ -1,6 +1,5 @@
 package nl.mpcjanssen.simpletask
 
-
 import android.util.Log
 import nl.mpcjanssen.simpletask.task.Task
 import nl.mpcjanssen.simpletask.util.*

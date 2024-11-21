@@ -109,15 +109,6 @@ class Config(app: TodoApplication) : Preferences(app) {
             }
         }
 
-    val activePopupTheme: Int
-        get() {
-            return if (isDarkTheme || isBlackTheme) {
-                R.style.AppTheme_ActionBar
-            } else {
-                R.style.AppTheme_Black_ActionBar
-            }
-        }
-
     val isDarkTheme: Boolean
         get() {
             return when (activeThemeString) {

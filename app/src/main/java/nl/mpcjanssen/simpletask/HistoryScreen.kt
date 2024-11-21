@@ -27,7 +27,6 @@ import java.util.*
 
 class HistoryScreen : ThemedActionBarActivity() {
 
-
     private var toolbar_menu: Menu? = null
     private var mScroll = 0
     val db = TodoApplication.db
@@ -38,6 +37,7 @@ class HistoryScreen : ThemedActionBarActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         m_app = application as TodoApplication
         dbFile = getDatabasePath(DB_FILE)
         if (dbFile.exists()) {
@@ -46,6 +46,7 @@ class HistoryScreen : ThemedActionBarActivity() {
             setTitle(title)
         }
         setContentView(R.layout.history)
+
         val coroutineScope = CoroutineScope(Dispatchers.Main + Job())
         coroutineScope.launch {
             history = withContext(Dispatchers.IO) {
@@ -58,11 +59,11 @@ class HistoryScreen : ThemedActionBarActivity() {
         }
     }
 
-
     private fun shareHistory() {
-        val shareIntent = Intent(android.content.Intent.ACTION_SEND)
+        val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.type = "application/x-sqlite3"
-        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
+        shareIntent.putExtra(
+            Intent.EXTRA_SUBJECT,
                 "Simpletask History Database")
         try {
             createCachedDatabase(this, dbFile)
@@ -102,7 +103,7 @@ class HistoryScreen : ThemedActionBarActivity() {
                     return@OnMenuItemClickListener true
                 }
                 R.id.menu_share -> {
-                    if (history.size == 0) {
+                    if (history.isEmpty()) {
                         showToastShort(this@HistoryScreen, "Nothing to share")
                     } else {
                         shareText(this@HistoryScreen, "Old todo version", history.getOrNull(cursorIdx)?.contents
@@ -190,6 +191,6 @@ class HistoryScreen : ThemedActionBarActivity() {
     }
 
     companion object {
-        private val TAG = "HistoryScreen"
+        private const val TAG = "HistoryScreen"
     }
 }

@@ -115,8 +115,8 @@ class ScriptConfigScreen : ThemedActionBarActivity() {
                 }
 
             } catch (e: IOException) {
-                Log.e(TAG, "Import lua config, cant read file ${importFile}", e)
-                showToastLong(this, "Error reading file ${importFile}")
+                Log.e(TAG, "Import lua config, cant read file $importFile", e)
+                showToastLong(this, "Error reading file $importFile")
             }
         }
     }

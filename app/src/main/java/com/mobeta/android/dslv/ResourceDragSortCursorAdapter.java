@@ -24,7 +24,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-// taken from v4 rev. 10 ResourceCursorAdapter.java
+// Taken from v4 rev. 10 ResourceCursorAdapter.java
 
 /**
  * Static library support version of the framework's {@link android.widget.ResourceCursorAdapter}.

@@ -16,7 +16,7 @@ import androidx.annotation.Nullable;
  * based on touch gestures. This class also inherits from
  * {@link SimpleFloatViewManager}, which provides basic float View
  * creation.
- *
+ * <p>
  * An instance of this class is meant to be passed to the methods
  * {@link DragSortListView#setTouchListener()} and
  * {@link DragSortListView#setFloatViewManager()} of your

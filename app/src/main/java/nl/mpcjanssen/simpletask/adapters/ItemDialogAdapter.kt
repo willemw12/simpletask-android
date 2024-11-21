@@ -66,18 +66,14 @@ class ItemDialogAdapter(
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        // each data item is just a string in this case
-        var mCheckBox: IndeterminateCheckBox
-
-        init {
-            mCheckBox = v.findViewById<IndeterminateCheckBox>(R.id.indeterm_checkbox)
-        }
+        // Each data item is just a string in this case
+        var mCheckBox: IndeterminateCheckBox = v.findViewById<IndeterminateCheckBox>(R.id.indeterm_checkbox)
     }
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): ItemDialogAdapter.ViewHolder {
-        // create a new view
+        // Create a new view
         val v = LayoutInflater.from(parent.context).inflate(R.layout.keep_dialog_item, parent, false)
         // set the view's size, margins, paddings and layout parameters
 
@@ -87,11 +83,11 @@ class ItemDialogAdapter(
 
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        // - get element from your dataset at this position
+        // Get element from your dataset at this position
         val item = mItems[position]
         Log.i("ItemAdapter", "onBindViewHolder $position : $item, was:${item.initialState}")
 
-        // - replace the contents of the view with that element
+        // Replace the contents of the view with that element
         holder.mCheckBox.setOnStateChangedListener(null)
         holder.mCheckBox.text = item.item
         holder.mCheckBox.setIndeterminateUsed(item.initialState==null)
