@@ -44,31 +44,6 @@ android {
             applicationId = "willemw12.simpletask"
             manifestPlaceholders["providerFlavour"] = "cloudless"
         }
-        // dropbox {
-        //     dimension = "main"
-        //     applicationId = "willemw12.simpletask.dropbox"
-        //     manifestPlaceholders["providerFlavour"] = "dropbox"
-        // }
-        // encrypted {
-        //     dimension = "main"
-        //     applicationId = "willemw12.simpletask.encrypted"
-        //     manifestPlaceholders["providerFlavour"] = "encrypted"
-        // }
-        // nextcloud {
-        //     dimension = "main"
-        //     applicationId = "willemw12.simpletask.nextcloud"
-        //     manifestPlaceholders["providerFlavour"] = "nextcloud"
-        // }
-        // dokuwiki {
-        //     dimension = "main"
-        //     applicationId = "willemw12.simpletask.dokuwiki"
-        //     manifestPlaceholders["providerFlavour"] = "dokuwiki"
-        // }
-        // webdav {
-        //     dimension = "main"
-        //     applicationId = "willemw12.simpletask.webdav"
-        //     manifestPlaceholders["providerFlavour"] = "webdav"
-        // }
     }
 
     buildTypes {
