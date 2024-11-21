@@ -10,7 +10,6 @@ import android.widget.TextView
 import nl.mpcjanssen.simpletask.R
 import nl.mpcjanssen.simpletask.util.alfaSort
 import nl.mpcjanssen.simpletask.util.getString
-import java.util.*
 
 class DrawerAdapter(private val m_inflater: LayoutInflater,
                     contextHeader: String,

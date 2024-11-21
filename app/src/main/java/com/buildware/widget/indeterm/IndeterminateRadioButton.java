@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatRadioButton;
 import android.util.AttributeSet;
 import android.view.ViewDebug;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatRadioButton;
+
 import nl.mpcjanssen.simpletask.R;
 
 /**

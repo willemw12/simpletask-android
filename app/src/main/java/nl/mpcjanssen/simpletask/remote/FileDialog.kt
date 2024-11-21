@@ -3,8 +3,8 @@ package nl.mpcjanssen.simpletask.remote
 import android.app.Activity
 import android.app.Dialog
 import android.content.DialogInterface
-import androidx.appcompat.app.AlertDialog
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import nl.mpcjanssen.simpletask.remote.IFileStore.Companion.PARENT_DIR
 import nl.mpcjanssen.simpletask.remote.IFileStore.Companion.ROOT_DIR
 import nl.mpcjanssen.simpletask.util.ListenerList

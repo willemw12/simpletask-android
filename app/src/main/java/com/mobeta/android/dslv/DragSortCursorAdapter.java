@@ -2,11 +2,12 @@ package com.mobeta.android.dslv;
 
 import android.content.Context;
 import android.database.Cursor;
-import androidx.annotation.NonNull;
 import android.util.SparseIntArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 

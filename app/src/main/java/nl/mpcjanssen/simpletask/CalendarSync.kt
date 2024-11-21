@@ -24,25 +24,25 @@
 
 package nl.mpcjanssen.simpletask
 
-import java.util.*
-import java.util.concurrent.ScheduledThreadPoolExecutor
-import java.util.concurrent.TimeUnit
 import android.Manifest
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
+import android.content.ContentProviderOperation
 import android.content.ContentResolver
 import android.content.ContentValues
-import android.content.ContentProviderOperation
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Color
 import android.net.Uri
 import android.provider.CalendarContract.*
-import androidx.core.content.ContextCompat
 import android.util.Log
+import androidx.core.content.ContextCompat
 import hirondelle.date4j.DateTime
 import nl.mpcjanssen.simpletask.task.*
 import nl.mpcjanssen.simpletask.util.toDateTime
+import java.util.*
+import java.util.concurrent.ScheduledThreadPoolExecutor
+import java.util.concurrent.TimeUnit
 
 private enum class EvtStatus {
     KEEP,

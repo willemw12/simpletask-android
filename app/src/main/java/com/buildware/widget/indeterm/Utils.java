@@ -5,13 +5,15 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.util.StateSet;
+import android.util.TypedValue;
+import android.view.View;
+
 import androidx.annotation.AttrRes;
 import androidx.annotation.DrawableRes;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
-import android.util.StateSet;
-import android.util.TypedValue;
-import android.view.View;
+
 import nl.mpcjanssen.simpletask.R;
 
 class Utils {

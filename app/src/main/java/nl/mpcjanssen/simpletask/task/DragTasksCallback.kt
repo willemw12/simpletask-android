@@ -1,7 +1,5 @@
 package nl.mpcjanssen.simpletask.task
 
-import android.util.Log;
-
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 

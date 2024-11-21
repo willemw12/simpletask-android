@@ -8,8 +8,6 @@ package nl.mpcjanssen.simpletask
 import android.app.DatePickerDialog
 import android.content.*
 import android.os.Bundle
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.appcompat.app.AlertDialog
 import android.text.InputType
 import android.text.Selection
 import android.util.Log
@@ -17,12 +15,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.Window
 import android.view.WindowManager
+import androidx.appcompat.app.AlertDialog
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import hirondelle.date4j.DateTime
 import nl.mpcjanssen.simpletask.databinding.AddTaskBinding
-import nl.mpcjanssen.simpletask.databinding.LoginBinding
 import nl.mpcjanssen.simpletask.task.Priority
 import nl.mpcjanssen.simpletask.task.Task
-import nl.mpcjanssen.simpletask.task.TodoList
 import nl.mpcjanssen.simpletask.util.*
 import java.util.*
 

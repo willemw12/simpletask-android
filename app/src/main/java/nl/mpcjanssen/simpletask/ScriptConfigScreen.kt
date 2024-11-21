@@ -4,14 +4,12 @@
 package nl.mpcjanssen.simpletask
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
-import androidx.annotation.RequiresApi
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import nl.mpcjanssen.simpletask.remote.FileStore
 import nl.mpcjanssen.simpletask.util.*
 import java.io.File

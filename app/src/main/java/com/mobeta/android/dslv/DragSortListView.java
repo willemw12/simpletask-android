@@ -31,8 +31,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Environment;
 import android.os.SystemClock;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -41,13 +39,21 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
-import nl.mpcjanssen.simpletask.R;
+import android.widget.AbsListView;
+import android.widget.BaseAdapter;
+import android.widget.Checkable;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import nl.mpcjanssen.simpletask.R;
 
 /**
  * ListView subclass that mediates drag and drop resorting of items.

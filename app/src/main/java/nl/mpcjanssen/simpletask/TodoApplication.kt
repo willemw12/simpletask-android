@@ -32,30 +32,25 @@ package nl.mpcjanssen.simpletask
 import android.app.Activity
 import android.app.AlarmManager
 import android.app.Application
-import android.app.PendingIntent
-import android.app.NotificationManager
 import android.app.NotificationChannel
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.app.NotificationCompat
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.*
-import android.os.Build
 import android.os.Environment
 import android.os.SystemClock
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import android.util.Log
+import androidx.core.app.NotificationCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.room.Room
 import nl.mpcjanssen.simpletask.dao.AppDatabase
 import nl.mpcjanssen.simpletask.dao.DB_FILE
 import nl.mpcjanssen.simpletask.dao.TodoFile
-
 import nl.mpcjanssen.simpletask.remote.BackupInterface
 import nl.mpcjanssen.simpletask.remote.FileDialog
 import nl.mpcjanssen.simpletask.remote.FileStore
-import nl.mpcjanssen.simpletask.task.Task
 import nl.mpcjanssen.simpletask.task.TodoList
 import nl.mpcjanssen.simpletask.util.*
-import nl.mpcjanssen.simpletask.Constants
 import java.io.File
 import java.util.*
 

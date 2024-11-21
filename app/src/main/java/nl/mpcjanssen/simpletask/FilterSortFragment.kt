@@ -2,14 +2,13 @@ package nl.mpcjanssen.simpletask
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.Fragment
 import com.mobeta.android.dslv.DragSortListView
-import nl.mpcjanssen.simpletask.util.Config
 import java.util.*
 import kotlin.collections.ArrayList
 

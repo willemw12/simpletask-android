@@ -1,20 +1,12 @@
 package nl.mpcjanssen.simpletask
 
-import android.app.Activity
-import android.content.Intent
-import android.net.Uri
-import android.os.Bundle
-import android.util.Log
-import nl.mpcjanssen.simpletask.task.Task
-import nl.mpcjanssen.simpletask.task.TodoList
-import nl.mpcjanssen.simpletask.util.Config
-import nl.mpcjanssen.simpletask.util.showToastShort
-import nl.mpcjanssen.simpletask.util.todayAsString
-import nl.mpcjanssen.simpletask.util.broadcastTasklistChanged
-import java.io.IOException
 import android.app.Service
+import android.content.Intent
 import android.os.IBinder
+import android.util.Log
 import androidx.core.app.NotificationManagerCompat
+import nl.mpcjanssen.simpletask.util.broadcastTasklistChanged
+import nl.mpcjanssen.simpletask.util.todayAsString
 
 class MarkTaskDone : Service() {
     val TAG = "MarkTaskDone"

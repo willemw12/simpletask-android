@@ -28,18 +28,13 @@
 package nl.mpcjanssen.simpletask
 
 import android.app.Activity
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.core.app.ShareCompat
 import nl.mpcjanssen.simpletask.task.Task
-import nl.mpcjanssen.simpletask.task.TodoList
-import nl.mpcjanssen.simpletask.util.Config
 import nl.mpcjanssen.simpletask.util.showToastLong
 import nl.mpcjanssen.simpletask.util.showToastShort
 import nl.mpcjanssen.simpletask.util.todayAsString
-import java.io.IOException
 
 class AddLinkBackground : Activity() {
     val tag = "AddLinkBackground"

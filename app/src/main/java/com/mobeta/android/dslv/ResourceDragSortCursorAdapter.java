@@ -18,10 +18,11 @@ package com.mobeta.android.dslv;
 
 import android.content.Context;
 import android.database.Cursor;
-import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
 
 // taken from v4 rev. 10 ResourceCursorAdapter.java
 

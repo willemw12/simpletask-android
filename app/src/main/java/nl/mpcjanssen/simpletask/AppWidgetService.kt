@@ -3,7 +3,6 @@ package nl.mpcjanssen.simpletask
 import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.graphics.Color
-import androidx.core.content.ContextCompat
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.StrikethroughSpan
@@ -11,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
+import androidx.core.content.ContextCompat
 import nl.mpcjanssen.simpletask.task.*
 import nl.mpcjanssen.simpletask.util.*
 

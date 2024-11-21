@@ -4,27 +4,24 @@
 package nl.mpcjanssen.simpletask
 
 import android.content.Intent
-import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.widget.ScrollView
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import nl.mpcjanssen.simpletask.dao.AppDatabase
 import nl.mpcjanssen.simpletask.dao.DB_FILE
 import nl.mpcjanssen.simpletask.dao.TodoFile
 import nl.mpcjanssen.simpletask.util.createCachedDatabase
 import nl.mpcjanssen.simpletask.util.shareText
 import nl.mpcjanssen.simpletask.util.showToastShort
 import java.io.File
-import java.lang.Integer.max
 import java.text.SimpleDateFormat
 import java.util.*
 

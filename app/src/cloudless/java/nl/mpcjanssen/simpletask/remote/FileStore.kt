@@ -1,16 +1,11 @@
 package nl.mpcjanssen.simpletask.remote
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.*
-import androidx.core.content.ContextCompat
 import android.util.Log
 import nl.mpcjanssen.simpletask.R
 import nl.mpcjanssen.simpletask.TodoApplication
-import nl.mpcjanssen.simpletask.util.Config
 import nl.mpcjanssen.simpletask.util.broadcastAuthFailed
 import nl.mpcjanssen.simpletask.util.join
-import nl.mpcjanssen.simpletask.util.writeToFile
 import java.io.File
 import java.io.FilenameFilter
 import java.util.*

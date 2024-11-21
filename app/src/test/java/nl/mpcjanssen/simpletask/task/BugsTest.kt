@@ -1,8 +1,8 @@
 package nl.mpcjanssen.simpletask.task
 
 import junit.framework.TestCase
-import nl.mpcjanssen.simpletask.Query
 import nl.mpcjanssen.simpletask.MultiComparator
+import nl.mpcjanssen.simpletask.Query
 import nl.mpcjanssen.simpletask.util.todayAsString
 import org.junit.Assert
 

@@ -7,12 +7,10 @@ import android.os.SystemClock
 import android.util.Log
 import nl.mpcjanssen.simpletask.*
 import nl.mpcjanssen.simpletask.remote.FileStore
-
 import nl.mpcjanssen.simpletask.remote.IFileStore
 import nl.mpcjanssen.simpletask.util.*
 import java.io.File
 import java.util.*
-import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.collections.ArrayList
 
 /**

@@ -30,16 +30,13 @@ package nl.mpcjanssen.simpletask
 import android.Manifest
 import android.content.*
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.preference.*
-import android.text.TextUtils
+import android.util.Log
+import android.view.MenuItem
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import android.util.Log
-import android.view.MenuItem
-import androidx.annotation.RequiresApi
 import java.util.*
 
 class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPreferenceChangeListener {

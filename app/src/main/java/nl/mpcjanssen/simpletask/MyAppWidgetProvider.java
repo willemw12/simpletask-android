@@ -9,10 +9,11 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import java.io.File;
 

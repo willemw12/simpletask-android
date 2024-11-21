@@ -1,9 +1,6 @@
 package nl.mpcjanssen.simpletask.util
 
-import android.os.Build
-import android.os.Environment
 import android.util.Log
-import androidx.annotation.RequiresApi
 import me.smichel.android.KPreferences.Preferences
 import nl.mpcjanssen.simpletask.*
 import nl.mpcjanssen.simpletask.remote.FileStore

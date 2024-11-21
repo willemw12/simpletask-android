@@ -33,8 +33,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import nl.mpcjanssen.simpletask.task.Task
-import nl.mpcjanssen.simpletask.task.TodoList
-import nl.mpcjanssen.simpletask.util.Config
 import nl.mpcjanssen.simpletask.util.showToastShort
 import nl.mpcjanssen.simpletask.util.todayAsString
 import java.io.IOException

@@ -4,10 +4,10 @@
 package nl.mpcjanssen.simpletask
 
 import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import nl.mpcjanssen.simpletask.util.appVersion
 import nl.mpcjanssen.simpletask.util.shareText
 import java.util.*

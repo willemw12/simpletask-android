@@ -19,14 +19,16 @@ package nl.mpcjanssen.simpletask;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
-import android.view.MenuInflater;
-import android.view.View;
-import android.view.ViewGroup;
+
 import org.jetbrains.annotations.NotNull;
 
 /**
