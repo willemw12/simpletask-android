@@ -20,14 +20,14 @@ You should have received a copy of the GNU General Public License along with Sim
 @copyright 2012-2013  Mark Janssen
 @copyright 2015 Vojtech Kral
 -->
-<!-- package name and version codes are overwritten by Gradle -->
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
 
     <supports-screens
         android:anyDensity="true"
@@ -76,22 +76,16 @@ You should have received a copy of the GNU General Public License along with Sim
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize"
             tools:ignore="UnusedAttribute">
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="nl.mpcjanssen.simpletask.Simpletask" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
-        <!-- Implemented in Kotlin, so fix lint complaining about it -->
         <activity
             android:name=".AddTaskBackground"
             android:enabled="true"
             android:exported="true"
-            android:theme="@android:style/Theme.Translucent"
-            tools:ignore="MissingRegistered">
+            android:theme="@android:style/Theme.Translucent">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <action android:name="nl.mpcjanssen.simpletask.BACKGROUND_TASK" />
@@ -102,14 +96,12 @@ You should have received a copy of the GNU General Public License along with Sim
             </intent-filter>
         </activity>
 
-        <!-- Implemented in Kotlin, so fix lint complaining about it -->
         <activity
             android:name=".AddLinkBackground"
             android:enabled="true"
             android:exported="true"
             android:label="@string/share_link"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            tools:ignore="MissingRegistered">
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <action android:name="nl.mpcjanssen.simpletask.BACKGROUND_LINK" />
