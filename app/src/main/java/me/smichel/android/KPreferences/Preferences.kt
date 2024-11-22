@@ -4,6 +4,7 @@
  */
 
 @file:Suppress("unused")
+
 package me.smichel.android.KPreferences
 
 import android.content.Context
@@ -67,12 +68,18 @@ abstract class Preferences : SharedPreferences.OnSharedPreferenceChangeListener 
 
     private fun str(resId: Int): String = context.getString(resId)
 
-    abstract inner class Preference<T: Any?>(val key: String, val default: T) : ReadWriteProperty<Any?, T> {
+    abstract inner class Preference<T : Any?>(val key: String, val default: T) :
+        ReadWriteProperty<Any?, T> {
         constructor(resId: Int, default: T) : this(str(resId), default)
         constructor(key: String, default: T, onChange: Callback<T>) : this(key, default) {
-            registerCallback(key){ onChange(prefValue) }
+            registerCallback(key) { onChange(prefValue) }
         }
-        constructor(resId: Int, default: T, onChange: Callback<T>) : this(str(resId), default, onChange)
+
+        constructor(resId: Int, default: T, onChange: Callback<T>) : this(
+            str(resId),
+            default,
+            onChange
+        )
 
         protected abstract var prefValue: T
 
@@ -130,19 +137,37 @@ abstract class Preferences : SharedPreferences.OnSharedPreferenceChangeListener 
     inner class StringSetPreference : Preference<SS> {
         constructor(key: String, default: SS) : super(key, default)
         constructor(resId: Int, default: SS) : super(resId, default)
-        constructor(key: String, default: SS, onChange: Callback<SS>) : super(key, default, onChange)
-        constructor(resId: Int, default: SS, onChange: Callback<SS>) : super(resId, default, onChange)
+        constructor(key: String, default: SS, onChange: Callback<SS>) : super(
+            key,
+            default,
+            onChange
+        )
+
+        constructor(resId: Int, default: SS, onChange: Callback<SS>) : super(
+            resId,
+            default,
+            onChange
+        )
 
         override var prefValue: SS
-            get() = prefs.getStringSet(key, default)?.filterNotNull()?.toSet()?: emptySet()
+            get() = prefs.getStringSet(key, default)?.filterNotNull()?.toSet() ?: emptySet()
             set(value) = prefs.edit().putStringSet(key, value).apply()
     }
 
     inner class StringOrNullPreference : Preference<S?> {
         constructor(key: String, default: S? = null) : super(key, default)
         constructor(resId: Int, default: S? = null) : super(resId, default)
-        constructor(key: String, default: S? = null, onChange: Callback<S?>) : super(key, default, onChange)
-        constructor(resId: Int, default: S? = null, onChange: Callback<S?>) : super(resId, default, onChange)
+        constructor(key: String, default: S? = null, onChange: Callback<S?>) : super(
+            key,
+            default,
+            onChange
+        )
+
+        constructor(resId: Int, default: S? = null, onChange: Callback<S?>) : super(
+            resId,
+            default,
+            onChange
+        )
 
         override var prefValue: S?
             get() = prefs.getString(key, default)
@@ -152,8 +177,17 @@ abstract class Preferences : SharedPreferences.OnSharedPreferenceChangeListener 
     inner class StringSetOrNullPreference : Preference<SS?> {
         constructor(key: String, default: SS? = null) : super(key, default)
         constructor(resId: Int, default: SS? = null) : super(resId, default)
-        constructor(key: String, default: SS? = null, onChange: Callback<SS?>) : super(key, default, onChange)
-        constructor(resId: Int, default: SS? = null, onChange: Callback<SS?>) : super(resId, default, onChange)
+        constructor(key: String, default: SS? = null, onChange: Callback<SS?>) : super(
+            key,
+            default,
+            onChange
+        )
+
+        constructor(resId: Int, default: SS? = null, onChange: Callback<SS?>) : super(
+            resId,
+            default,
+            onChange
+        )
 
         override var prefValue: SS?
             get() = prefs.getStringSet(key, default)

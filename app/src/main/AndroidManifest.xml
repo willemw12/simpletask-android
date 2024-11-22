@@ -117,6 +117,7 @@ You should have received a copy of the GNU General Public License along with Sim
             android:label="@string/shortcut_addtask_name">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -131,18 +132,17 @@ You should have received a copy of the GNU General Public License along with Sim
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
                 <action android:name="nl.mpcjanssen.simpletask.START_WITH_FILTER" />
-            </intent-filter>
 
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.provider.calendar.action.HANDLE_CUSTOM_EVENT" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="vnd.android.cursor.item/event" />
             </intent-filter>
@@ -167,7 +167,6 @@ You should have received a copy of the GNU General Public License along with Sim
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="nl.mpcjanssen.simpletask.ADD_TASK_FROM_WIDGET" />
             </intent-filter>
@@ -184,6 +183,7 @@ You should have received a copy of the GNU General Public License along with Sim
         <service android:name=".MarkTaskDone" />
 
         <receiver android:name="nl.mpcjanssen.simpletask.AlarmReceiver" />
+
         <uses-library
             android:name="com.sec.android.app.multiwindow"
             android:required="false" />

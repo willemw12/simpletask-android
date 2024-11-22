@@ -18,32 +18,13 @@ import nl.mpcjanssen.simpletask.R;
  *
  * @author Svetlozar Kostadinov (sevarbg@gmail.com)
  */
-public class IndeterminateRadioButton extends AppCompatRadioButton
-        implements IndeterminateCheckable {
+public class IndeterminateRadioButton extends AppCompatRadioButton implements IndeterminateCheckable {
 
-    private static final int[] INDETERMINATE_STATE_SET = {
-            R.attr.state_indeterminate
-    };
+    private static final int[] INDETERMINATE_STATE_SET = {R.attr.state_indeterminate};
 
     private boolean mIndeterminate;
     private boolean mBroadcasting;
     private OnStateChangedListener mOnStateChangedListener;
-
-    /**
-     * Interface definition for a callback to be invoked when the checked state changed.
-     */
-    public interface OnStateChangedListener {
-        /**
-         * Called when the indeterminate state has changed.
-         *
-         * @param radioButton The RadioButton whose state has changed.
-         * @param state       The state of buttonView. Value meanings:
-         *                    null = indeterminate state
-         *                    true = checked state
-         *                    false = unchecked state
-         */
-        void onStateChanged(IndeterminateRadioButton radioButton, @Nullable Boolean state);
-    }
 
     public IndeterminateRadioButton(Context context) {
         this(context, null);
@@ -56,14 +37,13 @@ public class IndeterminateRadioButton extends AppCompatRadioButton
     public IndeterminateRadioButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        //setSupportButtonTintList(ContextCompat.getColorStateList(context, R.color.control_checkable_material));
+        // setSupportButtonTintList(ContextCompat.getColorStateList(context, R.color.control_checkable_material));
         setButtonDrawable(Utils.tintDrawable(this, R.drawable.btn_radio));
 
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.IndeterminateCheckable);
 
         // Read the XML attributes
-        final boolean indeterminate = a.getBoolean(
-                R.styleable.IndeterminateCheckable_indeterminate, false);
+        final boolean indeterminate = a.getBoolean(R.styleable.IndeterminateCheckable_indeterminate, false);
         if (indeterminate) {
             setState(null);
         }
@@ -81,12 +61,27 @@ public class IndeterminateRadioButton extends AppCompatRadioButton
 
     public void setChecked(boolean checked) {
         final boolean checkedChanged = isChecked() != checked;
+
         super.setChecked(checked);
+
         final boolean wasIndeterminate = isIndeterminate();
         setIndeterminateImpl(false);
         if (wasIndeterminate || checkedChanged) {
             notifyStateListener();
         }
+    }
+
+    private void setIndeterminateImpl(boolean indeterminate) {
+        if (mIndeterminate != indeterminate) {
+            mIndeterminate = indeterminate;
+            refreshDrawableState();
+            // notifyViewAccessibilityStateChangedIfNeeded(AccessibilityEvent.CONTENT_CHANGE_TYPE_UNDEFINED);
+        }
+    }
+
+    @ViewDebug.ExportedProperty
+    public boolean isIndeterminate() {
+        return mIndeterminate;
     }
 
     public void setIndeterminate(boolean indeterminate) {
@@ -97,28 +92,9 @@ public class IndeterminateRadioButton extends AppCompatRadioButton
         }
     }
 
-    private void setIndeterminateImpl(boolean indeterminate) {
-        if (mIndeterminate != indeterminate) {
-            mIndeterminate = indeterminate;
-            refreshDrawableState();
-            /*notifyViewAccessibilityStateChangedIfNeeded(
-                    AccessibilityEvent.CONTENT_CHANGE_TYPE_UNDEFINED); */
-        }
-    }
-
-    @ViewDebug.ExportedProperty
-    public boolean isIndeterminate() {
-        return mIndeterminate;
-    }
-
     @ViewDebug.ExportedProperty
     public Boolean getState() {
         return mIndeterminate ? null : isChecked();
-    }
-
-    @Override
-    public void setIndeterminateUsed(Boolean bool) {
-
     }
 
     @Override
@@ -128,6 +104,10 @@ public class IndeterminateRadioButton extends AppCompatRadioButton
         } else {
             setIndeterminate(true);
         }
+    }
+
+    @Override
+    public void setIndeterminateUsed(Boolean bool) {
     }
 
     /**
@@ -168,7 +148,52 @@ public class IndeterminateRadioButton extends AppCompatRadioButton
         return drawableState;
     }
 
+    @Override
+    public Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+
+        SavedState ss = new SavedState(superState);
+        ss.indeterminate = getState();
+        return ss;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        SavedState ss = (SavedState) state;
+
+        super.onRestoreInstanceState(ss.getSuperState());
+
+        setState(ss.indeterminate);
+        requestLayout();
+    }
+
+    /**
+     * Interface definition for a callback to be invoked when the checked state changed.
+     */
+    public interface OnStateChangedListener {
+        /**
+         * Called when the indeterminate state has changed.
+         *
+         * @param radioButton The RadioButton whose state has changed.
+         * @param state       The state of buttonView. Value meanings:
+         *                    null = indeterminate state
+         *                    true = checked state
+         *                    false = unchecked state
+         */
+        void onStateChanged(IndeterminateRadioButton radioButton, @Nullable Boolean state);
+    }
+
     static class SavedState extends BaseSavedState {
+        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
+
         Boolean indeterminate;
 
         /**
@@ -183,50 +208,20 @@ public class IndeterminateRadioButton extends AppCompatRadioButton
          */
         private SavedState(Parcel in) {
             super(in);
+
             indeterminate = (Boolean) in.readValue(getClass().getClassLoader());
         }
 
         @Override
         public void writeToParcel(Parcel out, int flags) {
             super.writeToParcel(out, flags);
+
             out.writeValue(indeterminate);
         }
 
         @Override
         public String toString() {
-            return "IndeterminateRadioButton.SavedState{"
-                    + Integer.toHexString(System.identityHashCode(this))
-                    + " indeterminate=" + indeterminate + "}";
+            return "IndeterminateRadioButton.SavedState{" + Integer.toHexString(System.identityHashCode(this)) + " indeterminate=" + indeterminate + "}";
         }
-
-        public static final Creator<SavedState> CREATOR
-                = new Creator<SavedState>() {
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
-            }
-
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
-    }
-
-    @Override
-    public Parcelable onSaveInstanceState() {
-        Parcelable superState = super.onSaveInstanceState();
-
-        SavedState ss = new SavedState(superState);
-
-        ss.indeterminate = getState();
-        return ss;
-    }
-
-    @Override
-    public void onRestoreInstanceState(Parcelable state) {
-        SavedState ss = (SavedState) state;
-
-        super.onRestoreInstanceState(ss.getSuperState());
-        setState(ss.indeterminate);
-        requestLayout();
     }
 }

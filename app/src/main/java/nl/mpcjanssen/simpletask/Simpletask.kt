@@ -221,7 +221,6 @@ class Simpletask : ThemedNoActionBarActivity() {
             // The itemTouchHelper is created very soon,
             // it just needs a reference to the taskAdapter and listView
             var theItemTouchHelper = itemTouchHelper ?: throw IllegalStateException()
-
             theItemTouchHelper.startDrag(viewHolder)
         })
 
@@ -576,6 +575,7 @@ class Simpletask : ThemedNoActionBarActivity() {
                 binding.toolbar.visibility = View.VISIBLE
                 binding.toolbar.menu.clear()
                 inflater.inflate(R.menu.task_context, binding.toolbar.menu)
+
                 if (!TodoApplication.config.useListAndTagIcons) {
                     binding.toolbar.menu?.apply {
                         findItem(R.id.update_lists)?.setIcon(R.drawable.ic_action_todotxt_lists)
@@ -584,6 +584,7 @@ class Simpletask : ThemedNoActionBarActivity() {
                 }
 
                 updateCompletionCheckboxState()
+
                 binding.selectionFab.visibility = View.VISIBLE
                 binding.selectionFab.setOnClickListener {
                     createCalendarAppointment(TodoApplication.todoList.selectedTasks)

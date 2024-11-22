@@ -43,9 +43,9 @@ class DragTasksCallback(val taskAdapter: TaskAdapter) : ItemTouchHelper.Callback
         val to = target.bindingAdapterPosition
 
         if (taskAdapter.canMoveVisibleLine(from, to)) {
-            // We don't really save the move to the todo.txt file here.  Instead
-            // we update the current state of what the move is that the user is
-            // doing in total.
+            // We don't really save the move to the todo.txt file here.
+            // Instead we update the current state of what the move is,
+            // which the user is doing in total.
             updateCurrentMove(from, to)
             taskAdapter.visuallyMoveLine(from, to)
             return true
@@ -54,15 +54,13 @@ class DragTasksCallback(val taskAdapter: TaskAdapter) : ItemTouchHelper.Callback
         }
     }
 
-    // Called when the dragging is done (We should now clear any decoractions we
-    // added to the view that was being dragged, hence the name.  We mainly use
-    // this callback to persist the move to the todo.txt file now that it's
-    // done.)
+    // Called when the dragging is done
+    // (We should now clear any decoractions we added to the view that was being dragged, hence the name.
+    // We mainly use this callback to persist the move to the todo.txt file now that it's done.)
     override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
         super.clearView(recyclerView, viewHolder)
 
         var finalMove = currentMove
-
         if (finalMove != null && finalMove.fromLineIndex != finalMove.toLineIndex) {
             taskAdapter.persistLineMove(finalMove.fromTask, finalMove.toTask, finalMove.isMoveBelow)
         }
@@ -79,9 +77,9 @@ class DragTasksCallback(val taskAdapter: TaskAdapter) : ItemTouchHelper.Callback
     }
 
     private fun updateCurrentMove(nowFrom: Int, nowTo: Int) {
-        // Lower indices are higher up in the list.  We look at the current
-        // swapping of two items:  If we come from higher up in the list, we
-        // want the dragging item to be placed below the other item.  If we
+        // Lower indices are higher up in the list. We look at the current
+        // swapping of two items. If we come from higher up in the list, we
+        // want the dragging item to be placed below the other item. If we
         // come from lower down, then above.
         val isMoveBelow = nowFrom < nowTo
 
@@ -91,8 +89,8 @@ class DragTasksCallback(val taskAdapter: TaskAdapter) : ItemTouchHelper.Callback
         val oldCurrentMove = currentMove
         if (oldCurrentMove == null) {
             // If `currentMove` wasn't set before, the "from" task is the task
-            // we're currently dragging.  We need to save the fromLineIndex to
-            // check if anything was moved at all in the end.  We may actually
+            // We're currently dragging.We need to save the fromLineIndex to
+            // check if anything was moved at all in the end. We may actually
             // not need to save `fromTask`.
             val fromLineIndex = nowFrom
             val fromTask = taskAdapter.getMovableTaskAt(nowFrom)

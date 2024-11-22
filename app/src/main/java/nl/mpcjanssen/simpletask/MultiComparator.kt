@@ -12,11 +12,9 @@ class MultiComparator(
     createIsThreshold: Boolean,
     moduleName: String? = null
 ) {
-    var comparator: Comparator<Task> = compareBy { null }
-
-    var fileOrder = true
-
     // val luaCache: MutableMap<Task, String> = HashMap<Task, String>();
+    var comparator: Comparator<Task> = compareBy { null }
+    var fileOrder = true
 
     init {
         label@ for (sort in sorts) {

@@ -37,6 +37,7 @@ You should have received a copy of the GNU General Public License along with Sim
             android:name="nl.mpcjanssen.simpletask.remote.LoginScreen"
             android:exported="true"
             android:label="@string/app_label" />
+
         <provider
             android:name="nl.mpcjanssen.simpletask.CachedFileProvider"
             android:authorities="${applicationId}.provider.${providerFlavour}"

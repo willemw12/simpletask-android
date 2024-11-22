@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 
-
 /**
  * A subclass of {@link android.widget.CursorAdapter} that provides
  * reordering of the elements in the Cursor based on completed
@@ -28,18 +27,17 @@ import java.util.ArrayList;
  * the DragSortListView instance.
  */
 public abstract class DragSortCursorAdapter extends CursorAdapter implements DragSortListView.DragSortListener {
-
     public static final int REMOVED = -1;
 
     /**
      * Key is ListView position, value is Cursor position
      */
     @NonNull
-    private SparseIntArray mListMapping = new SparseIntArray();
+    private final SparseIntArray mListMapping = new SparseIntArray();
 
     @NonNull
-    private ArrayList<Integer> mRemovedCursorPositions = new ArrayList<>();
-    
+    private final ArrayList<Integer> mRemovedCursorPositions = new ArrayList<>();
+
     public DragSortCursorAdapter(Context context, Cursor c) {
         super(context, c, 0);
     }
@@ -131,7 +129,7 @@ public abstract class DragSortCursorAdapter extends CursorAdapter implements Dra
             }
             mListMapping.put(to, cursorFrom);
 
-            cleanMapping();        
+            cleanMapping();
             notifyDataSetChanged();
         }
     }
@@ -166,7 +164,7 @@ public abstract class DragSortCursorAdapter extends CursorAdapter implements Dra
      */
     @Override
     public void drag(int from, int to) {
-        // do nothing
+        // Do nothing
     }
 
     /**
@@ -199,7 +197,6 @@ public abstract class DragSortCursorAdapter extends CursorAdapter implements Dra
      * operations).
      *
      * @param position List position
-     *
      * @return The mapped-to Cursor position
      */
     public int getCursorPosition(int position) {
@@ -241,6 +238,4 @@ public abstract class DragSortCursorAdapter extends CursorAdapter implements Dra
             return mListMapping.keyAt(index);
         }
     }
-
-
 }

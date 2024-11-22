@@ -1,4 +1,5 @@
 @file:Suppress("unused")
+
 package com.robobunny
 
 import android.content.Context
@@ -16,7 +17,6 @@ import java.util.Locale
 import kotlin.math.roundToInt
 
 class SeekBarPreference : Preference, OnSeekBarChangeListener {
-
     private val TAG = javaClass.name
 
     private var mMaxValue = 100
@@ -32,7 +32,9 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
         initPreference(context, attrs)
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
+        context, attrs, defStyle
+    ) {
         initPreference(context, attrs)
     }
 
@@ -54,15 +56,15 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
 
         try {
             val newInterval = attrs.getAttributeValue(APPLICATIONNS, "interval")
-            if (newInterval != null)
-                mInterval = Integer.parseInt(newInterval)
+            if (newInterval != null) mInterval = Integer.parseInt(newInterval)
         } catch (e: Exception) {
             Log.e(TAG, "Invalid interval value", e)
         }
-
     }
 
-    private fun getAttributeStringValue(attrs: AttributeSet, namespace: String, name: String, defaultValue: String): String {
+    private fun getAttributeStringValue(
+        attrs: AttributeSet, namespace: String, name: String, defaultValue: String
+    ): String {
         return attrs.getAttributeValue(namespace, name) ?: defaultValue
     }
 
@@ -70,25 +72,29 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
         super.onBindView(view)
 
         try {
-            // move our seekbar to the new view we've been given
+            // Move our seekbar to the new view we've been given
             val oldContainer = mSeekBar!!.parent
             val newContainer: ViewGroup = view.findViewById(R.id.seekBarPrefBarContainer)
 
             if (oldContainer !== newContainer) {
-                // remove the seekbar from the old view
+                // Remove the seekbar from the old view
                 if (oldContainer != null) {
                     (oldContainer as ViewGroup).removeView(mSeekBar)
                 }
-                // remove the existing seekbar (there may not be one) and add ours
+
+                // Remove the existing seekbar (there may not be one) and add ours
                 newContainer.removeAllViews()
-                newContainer.addView(mSeekBar, ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT)
+                newContainer.addView(
+                    mSeekBar,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
             }
         } catch (ex: Exception) {
             Log.e(TAG, "Error binding view: $ex")
         }
 
-        //if dependency is false from the beginning, disable the seek bar
+        // If dependency is false from the beginning, disable the seek bar
         if (!view.isEnabled) {
             mSeekBar!!.isEnabled = false
         }
@@ -101,10 +107,8 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
      * @param view
      */
     protected fun updateView(view: View) {
-
         try {
             mStatusText = view.findViewById<TextView>(R.id.seekBarPrefValue)!!
-
             mStatusText?.let {
                 it.text = String.format(Locale.getDefault(), "%d", mCurrentValue)
                 it.minimumWidth = 30
@@ -118,26 +122,23 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
         } catch (e: Exception) {
             Log.e(TAG, "Error updating seek bar preference", e)
         }
-
     }
 
     override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
         var newValue = progress + mMinValue
 
-        if (newValue > mMaxValue)
-            newValue = mMaxValue
-        else if (newValue < mMinValue)
-            newValue = mMinValue
-        else if (mInterval != 1 && newValue % mInterval != 0)
-            newValue = (newValue.toFloat() / mInterval).roundToInt() * mInterval
+        if (newValue > mMaxValue) newValue = mMaxValue
+        else if (newValue < mMinValue) newValue = mMinValue
+        else if (mInterval != 1 && newValue % mInterval != 0) newValue =
+            (newValue.toFloat() / mInterval).roundToInt() * mInterval
 
-        // change rejected, revert to the previous value
+        // Change rejected, revert to the previous value
         if (!callChangeListener(newValue)) {
             seekBar.progress = mCurrentValue - mMinValue
             return
         }
 
-        // change accepted, store it
+        // Change accepted, store it
         mCurrentValue = newValue
         mStatusText?.let {
             it.text = String.format(Locale.getDefault(), "%d", mCurrentValue)
@@ -154,13 +155,10 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
     }
 
     override fun onGetDefaultValue(ta: TypedArray, index: Int): Any {
-
         return ta.getInt(index, DEFAULT_VALUE)
-
     }
 
     override fun onSetInitialValue(restoreValue: Boolean, defaultValue: Any?) {
-
         if (restoreValue) {
             mCurrentValue = getPersistedInt(mCurrentValue)
         } else {
@@ -174,7 +172,6 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
             persistInt(temp)
             mCurrentValue = temp
         }
-
     }
 
     /**
@@ -182,20 +179,20 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
      */
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
+
         mSeekBar!!.isEnabled = enabled
     }
 
     override fun onDependencyChanged(dependency: Preference, disableDependent: Boolean) {
         super.onDependencyChanged(dependency, disableDependent)
 
-        //Disable movement of seek bar when dependency is false
+        // Disable movement of seek bar when dependency is false
         if (mSeekBar != null) {
             mSeekBar!!.isEnabled = !disableDependent
         }
     }
 
     companion object {
-
         private const val ANDROIDNS = "http://schemas.android.com/apk/res/android"
         private const val APPLICATIONNS = "http://robobunny.com"
         private const val DEFAULT_VALUE = 50

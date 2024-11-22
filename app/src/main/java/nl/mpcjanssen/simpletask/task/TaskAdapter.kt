@@ -48,10 +48,12 @@ class TaskAdapter(
                 }
                 LayoutInflater.from(parent.context).inflate(layout, parent, false)
             }
+
             1 -> {
                 // Task
                 LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
             }
+
             else -> {
                 // Empty at end
                 LayoutInflater.from(parent.context).inflate(R.layout.empty_list_item, parent, false)
@@ -208,8 +210,7 @@ class TaskAdapter(
         }
         Log.i(tag, "setFilteredTasks called: ${TodoApplication.todoList}")
         val (visibleTasks, total) = TodoApplication.todoList.getSortedTasks(
-            newQuery,
-            TodoApplication.config.sortCaseSensitive
+            newQuery, TodoApplication.config.sortCaseSensitive
         )
         countTotalTasks = total
         countVisibleTasks = visibleTasks.size
@@ -218,9 +219,7 @@ class TaskAdapter(
 
         newVisibleLines.addAll(
             addHeaderLines(
-                visibleTasks,
-                newQuery,
-                getString(R.string.no_header)
+                visibleTasks, newQuery, getString(R.string.no_header)
             )
         )
 
@@ -292,9 +291,10 @@ class TaskAdapter(
         if (!TodoApplication.config.hasTaskDrag) {
             return View.GONE
         }
+
         val line = visibleLines[visibleLineIndex]
         if (line.header) {
-          return View.GONE
+            return View.GONE
         }
 
         val task =
@@ -308,33 +308,32 @@ class TaskAdapter(
 
     fun canMoveLineUpOrDown(fromIndex: Int): Boolean {
         return canMoveVisibleLine(fromIndex, fromIndex - 1) || canMoveVisibleLine(
-            fromIndex,
-            fromIndex + 1
+            fromIndex, fromIndex + 1
         )
     }
 
     fun canMoveVisibleLine(fromIndex: Int, toIndex: Int): Boolean {
         if (fromIndex < 0 || fromIndex >= visibleLines.size) {
-          return false
+            return false
         }
         if (toIndex < 0 || toIndex >= visibleLines.size) {
-          return false
+            return false
         }
 
         val from = visibleLines[fromIndex]
         val to = visibleLines[toIndex]
 
         if (from.header) {
-          return false
+            return false
         }
         if (to.header) {
-          return false
+            return false
         }
 
         val comp = TodoApplication.todoList.getMultiComparator(
             query, TodoApplication.config.sortCaseSensitive
         )
-        val comparison = comp.comparator.compare(from.task, to.task)
+        comp.comparator.compare(from.task, to.task)
 
         return comparison == 0
     }
@@ -353,7 +352,7 @@ class TaskAdapter(
     }
 
     fun persistLineMove(fromTask: Task, toTask: Task, isMoveBelow: Boolean) {
-        // -- What is the meaning of isMoveBelow, moveBelow, moveAbove etc? --
+        // Description of isMoveBelow, moveBelow, moveAbove, etc.
         //
         // Example todo.txt file:
         //
@@ -367,23 +366,21 @@ class TaskAdapter(
         //
         // * If you move "Middle" below "Last" (fromTask=2, toTask=3), moving it
         //   to the position of task 3 means it should be placed directly
-        //   *below* that task in the todo.txt file.  In this case, we're given
+        //   *below* that task in the todo.txt file. In this case, we're given
         //   moveBelow=true and we call `moveBelow`.
         //
         // * If instead you move "Middle" above "First" (fromTask=2, toTask=0),
         //   it is also moved to the position of that task, but now that means
-        //   it should be placed *above* that task.  We're given moveBelow=false
+        //   it should be placed *above* that task. We're given moveBelow=false
         //   and we call `moveAbove`.
         //
         // * If instead you drag "First" to the very bottom, then move it up to
         //   between "Above-Middle" and "Middle", the last task it will move
-        //   past is "Middle".  This means the `DragTasksCallback` will call
-        //   persistLineMove with fromTask=0, toTask=2.  However, it doesn't
-        //   want us to move "First" just below "Middle"!  It wants us to move
-        //   "First" just *above* "Middle".  To communicate this difference, it
-        //   passes isMoveBelow=false.  We call `moveAbove`.
-        //
-        // -------------------------------------------------------------------
+        //   past is "Middle". This means the `DragTasksCallback` will call
+        //   persistLineMove with fromTask=0, toTask=2. However, it doesn't
+        //   want us to move "First" just below "Middle". It wants us to move
+        //   "First" just *above* "Middle". To communicate this difference,
+        //   it passes isMoveBelow=false. We call `moveAbove`.
 
         val comp = TodoApplication.todoList.getMultiComparator(
             query, TodoApplication.config.sortCaseSensitive

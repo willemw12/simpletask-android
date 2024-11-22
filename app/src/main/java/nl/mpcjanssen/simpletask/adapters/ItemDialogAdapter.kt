@@ -26,7 +26,7 @@ class ItemDialogAdapter(
 
         val sortedItems = alfaSort(onAll) + alfaSort(onSome) + alfaSort(onNone)
 
-        /* val itemAdapter = ItemDialogAdapter(sortedAllItems, onAll, onSome) */
+        // val itemAdapter = ItemDialogAdapter(sortedAllItems, onAll, onSome)
 
         mItems = sortedItems.map { item ->
             val state = when (item) {
@@ -59,8 +59,8 @@ class ItemDialogAdapter(
         val initialState: Boolean? = state
     }
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
+    // Provide a reference to the views for each data item.
+    // Complex data items may need more than one view per item and
     // you provide access to all the views for a data item in a view holder
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         // Each data item is just a string in this case
@@ -75,9 +75,10 @@ class ItemDialogAdapter(
         // Create a new view
         val v =
             LayoutInflater.from(parent.context).inflate(R.layout.keep_dialog_item, parent, false)
-        // set the view's size, margins, paddings and layout parameters
 
+        // Set the view's size, margins, paddings and layout parameters
         val vh = ViewHolder(v)
+
         return vh
     }
 
@@ -93,7 +94,7 @@ class ItemDialogAdapter(
         holder.mCheckBox.setIndeterminateUsed(item.initialState == null)
         holder.mCheckBox.state = item.state
         holder.mCheckBox.setOnStateChangedListener { _, b ->
-            Log.i("ItemAdapter", "state chaged $position:$item, new state: $b")
+            Log.i("ItemAdapter", "state changed $position:$item, new state: $b")
             item.state = b
         }
     }

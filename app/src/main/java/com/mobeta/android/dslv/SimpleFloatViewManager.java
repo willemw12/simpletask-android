@@ -17,15 +17,11 @@ import org.jetbrains.annotations.Nullable;
  * items as they appear in the ListView to create the floating View.
  */
 public class SimpleFloatViewManager implements DragSortListView.FloatViewManager {
-
+    private final ListView mListView;
     @Nullable
     private Bitmap mFloatBitmap;
-
     private ImageView mImageView;
-
     private int mFloatBGColor = Color.BLACK;
-
-    private ListView mListView;
 
     public SimpleFloatViewManager(ListView lv) {
         mListView = lv;
@@ -85,11 +81,9 @@ public class SimpleFloatViewManager implements DragSortListView.FloatViewManager
     @Override
     public void onDestroyFloatView(@NonNull View floatView) {
         ((ImageView) floatView).setImageDrawable(null);
-        if (mFloatBitmap!=null) {
+        if (mFloatBitmap != null) {
             mFloatBitmap.recycle();
         }
         mFloatBitmap = null;
     }
-
 }
-
