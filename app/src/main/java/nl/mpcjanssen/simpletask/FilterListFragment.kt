@@ -33,15 +33,16 @@ class FilterListFragment : Fragment() {
         Log.d(TAG, "onSaveInstanceState() this:$this")
         outState.putStringArrayList("selectedItems", getSelectedItems())
         outState.putBoolean("not", getNot())
-
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
         Log.d(TAG, "onCreateView() this:$this savedInstance:$savedInstanceState")
 
         val arguments = arguments
-        val items = arguments?.getStringArrayList(FilterActivity.FILTER_ITEMS) ?: emptyList<String>()
+        val items =
+            arguments?.getStringArrayList(FilterActivity.FILTER_ITEMS) ?: emptyList<String>()
         actionbar = activity?.actionBar
 
         if (savedInstanceState != null) {
@@ -53,19 +54,19 @@ class FilterListFragment : Fragment() {
         }
 
         Log.d(TAG, "Fragment bundle:$this arguments:$arguments")
-        val layout = inflater.inflate(R.layout.multi_filter,
-                container, false) as LinearLayout
+        val layout = inflater.inflate(
+            R.layout.multi_filter, container, false
+        ) as LinearLayout
 
         cb = layout.findViewById<CheckBox>(R.id.checkbox)!!
 
         lv = layout.findViewById<ListView>(R.id.listview)!!
         lv!!.choiceMode = AbsListView.CHOICE_MODE_MULTIPLE
-
         lv!!.adapter = activity?.let {
-            ArrayAdapter(it,
-                R.layout.simple_list_item_multiple_choice, items)
+            ArrayAdapter(
+                it, R.layout.simple_list_item_multiple_choice, items
+            )
         }
-
         for (i in items.indices) {
             if (mSelectedItems != null && mSelectedItems!!.contains(items[i])) {
                 lv!!.setItemChecked(i, true)
@@ -73,6 +74,7 @@ class FilterListFragment : Fragment() {
         }
 
         cb!!.isChecked = not
+
         return layout
     }
 
@@ -89,7 +91,8 @@ class FilterListFragment : Fragment() {
         val arr = ArrayList<String>()
         if (mSelectedItems == null || lv == null) {
             // Tab was not displayed so no selections were changed
-            return arguments?.getStringArrayList(FilterActivity.INITIAL_SELECTED_ITEMS) ?: ArrayList<String>()
+            return arguments?.getStringArrayList(FilterActivity.INITIAL_SELECTED_ITEMS)
+                ?: ArrayList<String>()
         }
         val size = lv!!.count
         for (i in 0..size - 1) {
@@ -101,7 +104,6 @@ class FilterListFragment : Fragment() {
     }
 
     companion object {
-
         internal val TAG = FilterListFragment::class.java.simpleName
     }
 }

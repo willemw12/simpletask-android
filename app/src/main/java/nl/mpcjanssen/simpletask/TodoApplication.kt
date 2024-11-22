@@ -55,20 +55,20 @@ import java.io.File
 import java.util.*
 
 class TodoApplication : Application() {
-
     private var androidUncaughtExceptionHandler: Thread.UncaughtExceptionHandler? = null
-    lateinit var localBroadCastManager: LocalBroadcastManager
     private lateinit var m_broadcastReceiver: BroadcastReceiver
-
+    lateinit var localBroadCastManager: LocalBroadcastManager
 
     override fun onCreate() {
         super.onCreate()
+
         app = this
         config = Config(app)
         todoList = TodoList(config)
-        db = Room.databaseBuilder(this,
-                AppDatabase::class.java, DB_FILE).fallbackToDestructiveMigration()
-                .build()
+        db = Room.databaseBuilder(
+            this, AppDatabase::class.java, DB_FILE
+        ).fallbackToDestructiveMigration().build()
+
         if (config.forceEnglish) {
             val conf = resources.configuration
             conf.locale = Locale.ENGLISH
@@ -144,11 +144,13 @@ class TodoApplication : Application() {
         Log.i(TAG, "Scheduling daily UI updateCache alarm, first at ${calendar.time}")
         val intent = Intent(this, AlarmReceiver::class.java)
         intent.putExtra(Constants.ALARM_REASON_EXTRA, Constants.ALARM_NEW_DAY)
-        val pi = PendingIntent.getBroadcast(this, 0, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT  or PendingIntent.FLAG_IMMUTABLE)
+        val pi = PendingIntent.getBroadcast(
+            this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
         val am = this.getSystemService(ALARM_SERVICE) as AlarmManager
-        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
-                AlarmManager.INTERVAL_DAY, pi)
+        am.setRepeating(
+            AlarmManager.RTC_WAKEUP, calendar.timeInMillis, AlarmManager.INTERVAL_DAY, pi
+        )
     }
 
     // fun restart() {
@@ -161,29 +163,33 @@ class TodoApplication : Application() {
     // }
 
     private fun scheduleRepeating() {
-        // Schedules background reload
-
         Log.i(TAG, "Scheduling task list reload")
         val intent = Intent(this, AlarmReceiver::class.java)
         intent.putExtra(Constants.ALARM_REASON_EXTRA, Constants.ALARM_RELOAD)
-        val pi = PendingIntent.getBroadcast(this, 0, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        val pi = PendingIntent.getBroadcast(
+            this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
 
         val am = this.getSystemService(ALARM_SERVICE) as AlarmManager
-        am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 15 * 60 * 1000,
-                15 * 60 * 1000, pi)
+        am.setRepeating(
+            AlarmManager.ELAPSED_REALTIME_WAKEUP,
+            SystemClock.elapsedRealtime() + 15 * 60 * 1000,
+            15 * 60 * 1000,
+            pi
+        )
     }
 
     override fun onTerminate() {
         Log.i(TAG, "De-registered receiver")
         localBroadCastManager.unregisterReceiver(m_broadcastReceiver)
+
         super.onTerminate()
     }
 
     fun switchTodoFile(newTodo: File) {
         if (config.changesPending) {
-            // Don't switch files when there are pending changes. This will lead to
-            // data corruption
+            // Don't switch files when there are pending changes.
+            // This will lead to data corruption
             Log.i(TAG, "Not switching, changes pending")
             showToastLong(app, "Not switching files when changes are pending")
         } else {
@@ -199,7 +205,12 @@ class TodoApplication : Application() {
 
     fun updateWidgets() {
         val mgr = AppWidgetManager.getInstance(applicationContext)
-        for (appWidgetId in mgr.getAppWidgetIds(ComponentName(applicationContext, MyAppWidgetProvider::class.java))) {
+        for (appWidgetId in mgr.getAppWidgetIds(
+            ComponentName(
+                applicationContext,
+                MyAppWidgetProvider::class.java
+            )
+        )) {
             mgr.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widgetlv)
             Log.i(TAG, "Updating widget: $appWidgetId")
         }
@@ -207,7 +218,8 @@ class TodoApplication : Application() {
 
     fun redrawWidgets() {
         val appWidgetManager = AppWidgetManager.getInstance(applicationContext)
-        val appWidgetIds = appWidgetManager.getAppWidgetIds(ComponentName(this, MyAppWidgetProvider::class.java))
+        val appWidgetIds =
+            appWidgetManager.getAppWidgetIds(ComponentName(this, MyAppWidgetProvider::class.java))
         Log.i(TAG, "Redrawing widgets ")
         if (appWidgetIds.isNotEmpty()) {
             MyAppWidgetProvider().onUpdate(this, appWidgetManager, appWidgetIds)
@@ -216,12 +228,15 @@ class TodoApplication : Application() {
 
     fun updatePinnedNotifications() {
         Log.i(TAG, "Updating pinned notifications")
-        val notificationManager: NotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager: NotificationManager =
+            getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.getActiveNotifications().forEach {
             val taskId = it.notification.extras.getString(Constants.EXTRA_TASK_ID)
             if (taskId != null) {
                 val taskText = todoList.getTaskWithId(taskId)?.text
-                val notification = NotificationCompat.Builder(this, it.notification).setContentTitle(taskText).build()
+                val notification =
+                    NotificationCompat.Builder(this, it.notification).setContentTitle(taskText)
+                        .build()
                 notificationManager.notify(it.id, notification)
             }
         }
@@ -231,6 +246,7 @@ class TodoApplication : Application() {
         config.clearCache()
         config.setTodoFile(null)
     }
+
     fun startLogin(caller: Activity) {
         val loginActivity = FileStore.loginActivity()?.java
         loginActivity?.let {
@@ -242,58 +258,63 @@ class TodoApplication : Application() {
     fun browseForNewFile(act: Activity) {
         val fileStore = FileStore
         FileDialog.browseForNewFile(
-                act,
-                fileStore,
-                // config.todoFile.parentFile ?: File("/"),
-                config.todoFile.parentFile ?: Environment.getExternalStorageDirectory(),
-                object : FileDialog.FileSelectedListener {
-                    override fun fileSelected(file: File) {
-                        switchTodoFile(file)
-                    }
-                },
-                config.showTxtOnly)
+            act,
+            fileStore,
+            // config.todoFile.parentFile ?: File("/"),
+            config.todoFile.parentFile ?: Environment.getExternalStorageDirectory(),
+            object : FileDialog.FileSelectedListener {
+                override fun fileSelected(file: File) {
+                    switchTodoFile(file)
+                }
+            },
+            config.showTxtOnly
+        )
     }
 
     private fun createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
+        // Create the NotificationChannel, but only on API 26+,
+        // because the NotificationChannel class is new and not in the support library.
+
         // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = getString(R.string.channel_name)
-            val descriptionText = getString(R.string.channel_description)
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel("pin-notifications", name, importance).apply {
-                description = descriptionText
-            }
-            // Register the channel with the system
-            val notificationManager: NotificationManager =
-                getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
+        val name = getString(R.string.channel_name)
+        val descriptionText = getString(R.string.channel_description)
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel("pin-notifications", name, importance).apply {
+            description = descriptionText
+        }
+
+        // Register the channel with the system
+        val notificationManager: NotificationManager =
+            getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
         // }
     }
 
-
     companion object {
         private val TAG = TodoApplication::class.java.simpleName
+
         // fun atLeastAPI(api: Int): Boolean = android.os.Build.VERSION.SDK_INT >= api
-        lateinit var app : TodoApplication
-        lateinit var config : Config
+        lateinit var app: TodoApplication
+        lateinit var config: Config
         lateinit var todoList: TodoList
-        lateinit var db : AppDatabase
+        lateinit var db: AppDatabase
     }
+
     var today: String = todayAsString
 }
-
 
 object Backupper : BackupInterface {
     override fun backup(file: File, lines: List<String>) {
         val start = SystemClock.elapsedRealtime()
         val now = Date().time
-        val fileToBackup = TodoFile(lines.joinToString ("\n"), file.canonicalPath, now)
-        val dao =  TodoApplication.db.todoFileDao()
-        if(dao.insert(fileToBackup) == -1L) {
+        val fileToBackup = TodoFile(lines.joinToString("\n"), file.canonicalPath, now)
+
+        val dao = TodoApplication.db.todoFileDao()
+        if (dao.insert(fileToBackup) == -1L) {
             dao.update(fileToBackup)
         }
-        dao.removeBefore( now - 2 * 24 * 60 * 60 * 1000)
+        dao.removeBefore(now - 2 * 24 * 60 * 60 * 1000)
+
         val end = SystemClock.elapsedRealtime()
         Log.d(TAG, "Backing up of tasks took ${end - start} ms")
     }

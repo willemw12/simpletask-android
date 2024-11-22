@@ -25,7 +25,6 @@
 package nl.mpcjanssen.simpletask
 
 class TodoException : RuntimeException {
-
     constructor(msg: String) : super(msg)
 
     companion object

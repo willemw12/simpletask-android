@@ -30,8 +30,7 @@ package nl.mpcjanssen.simpletask.task
  * @author Tim Barlotta
  */
 class ByPriorityFilter(
-        private val priorities: List<Priority>,
-        private val not: Boolean
+    private val priorities: List<Priority>, private val not: Boolean
 ) : TaskFilter {
 
     // FOR TESTING ONLY, DO NOT USE IN APPLICATION

@@ -26,12 +26,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class HistoryScreen : ThemedActionBarActivity() {
-
     private var toolbar_menu: Menu? = null
     private var mScroll = 0
     val db = TodoApplication.db
     lateinit var history: List<TodoFile>
-    lateinit var dbFile : File
+    lateinit var dbFile: File
     var cursorIdx = 0
     private var m_app: TodoApplication? = null
 
@@ -39,12 +38,14 @@ class HistoryScreen : ThemedActionBarActivity() {
         super.onCreate(savedInstanceState)
 
         m_app = application as TodoApplication
+
         dbFile = getDatabasePath(DB_FILE)
         if (dbFile.exists()) {
             var title = title.toString()
             title = title + " (" + dbFile.length() / 1024 + "KB)"
             setTitle(title)
         }
+
         setContentView(R.layout.history)
 
         val coroutineScope = CoroutineScope(Dispatchers.Main + Job())
@@ -63,8 +64,8 @@ class HistoryScreen : ThemedActionBarActivity() {
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.type = "application/x-sqlite3"
         shareIntent.putExtra(
-            Intent.EXTRA_SUBJECT,
-                "Simpletask History Database")
+            Intent.EXTRA_SUBJECT, "Simpletask History Database"
+        )
         try {
             createCachedDatabase(this, dbFile)
             val fileUri = Uri.parse("content://" + CachedFileProvider.AUTHORITY + "/" + dbFile.name)
@@ -74,19 +75,18 @@ class HistoryScreen : ThemedActionBarActivity() {
         }
 
         startActivity(Intent.createChooser(shareIntent, "Share History Database"))
-
     }
-
 
     fun initToolbar(): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         val inflater = menuInflater
         toolbar_menu = toolbar.menu
         toolbar_menu!!.clear()
         inflater.inflate(R.menu.history_menu, toolbar_menu)
+
         updateMenu()
+
         toolbar.setOnMenuItemClickListener(Toolbar.OnMenuItemClickListener { item ->
             when (item.itemId) {
                 // Respond to the action bar's Up/Home button
@@ -94,23 +94,30 @@ class HistoryScreen : ThemedActionBarActivity() {
                     showPrev()
                     return@OnMenuItemClickListener true
                 }
+
                 R.id.menu_next -> {
                     showNext()
                     return@OnMenuItemClickListener true
                 }
+
                 R.id.menu_clear_database -> {
                     clearDatabase()
                     return@OnMenuItemClickListener true
                 }
+
                 R.id.menu_share -> {
                     if (history.isEmpty()) {
                         showToastShort(this@HistoryScreen, "Nothing to share")
                     } else {
-                        shareText(this@HistoryScreen, "Old todo version", history.getOrNull(cursorIdx)?.contents
-                                ?: "Nothing to share")
+                        shareText(
+                            this@HistoryScreen,
+                            "Old todo version",
+                            history.getOrNull(cursorIdx)?.contents ?: "Nothing to share"
+                        )
                     }
                     return@OnMenuItemClickListener true
                 }
+
                 R.id.menu_share_database -> {
                     shareHistory()
                     return@OnMenuItemClickListener true
@@ -118,6 +125,7 @@ class HistoryScreen : ThemedActionBarActivity() {
             }
             true
         })
+
         return true
     }
 
@@ -154,30 +162,26 @@ class HistoryScreen : ThemedActionBarActivity() {
     }
 
     private fun displayCurrent() {
-
         val current = history.getOrNull(cursorIdx)
-
-
         val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
         val fileView = findViewById<TextView>(R.id.history_view)
-
         val nameView = findViewById<TextView>(R.id.name)
         val dateView = findViewById<TextView>(R.id.date)
         val sv = findViewById<ScrollView>(R.id.scrollbar)
+
         fileView.text = current?.contents ?: "No history"
         nameView.text = current?.name ?: ""
         dateView.text = format.format(current?.date ?: Date())
         sv.scrollY = mScroll
+
         updateMenu()
-
-
     }
-
 
     private fun updateMenu() {
         if (toolbar_menu == null) {
             return
         }
+
         val prev = toolbar_menu!!.findItem(R.id.menu_prev)
         val next = toolbar_menu!!.findItem(R.id.menu_next)
 
@@ -186,8 +190,6 @@ class HistoryScreen : ThemedActionBarActivity() {
 
         prev.isEnabled = enablePrev
         next.isEnabled = enableNext
-
-
     }
 
     companion object {

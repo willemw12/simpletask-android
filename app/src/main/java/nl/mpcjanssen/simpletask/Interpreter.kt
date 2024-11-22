@@ -8,15 +8,16 @@ import org.luaj.vm2.lib.OneArgFunction
 import org.luaj.vm2.lib.jse.JsePlatform
 import java.util.*
 
-object Interpreter :  AbstractInterpreter() {
-    private val globals = JsePlatform.standardGlobals()!!
+object Interpreter : AbstractInterpreter() {
     const val tag = "LuaInterp"
 
+    private val globals = JsePlatform.standardGlobals()!!
     private val TODOLIB = readAsset(TodoApplication.app.assets, "lua/todolib.lua")
 
     init {
         globals.set("toast", LuaToastShort())
         globals.set("log", LuaLog())
+
         evalScript(null, TODOLIB)
         try {
             evalScript(null, TodoApplication.config.luaConfig)
@@ -24,7 +25,6 @@ object Interpreter :  AbstractInterpreter() {
             Log.w(TodoApplication.config.TAG, "Lua execution failed " + e.message)
             showToastLong(TodoApplication.app, "${getString(R.string.lua_error)}:  ${e.message}")
         }
-
     }
 
     override fun tasklistTextSize(): Float? {
@@ -41,6 +41,7 @@ object Interpreter :  AbstractInterpreter() {
         if (module == LuaValue.NIL) {
             return Pair(true, "true")
         }
+
         val onFilter = module.get(ON_FILTER_NAME)
         if (!onFilter.isnil()) {
             val args = fillOnFilterVarargs(t)
@@ -51,6 +52,7 @@ object Interpreter :  AbstractInterpreter() {
                 Log.d(TAG, "Lua execution failed " + e.message)
             }
         }
+
         return Pair(true, "true")
     }
 
@@ -94,6 +96,7 @@ object Interpreter :  AbstractInterpreter() {
         if (module == LuaValue.NIL) {
             return ""
         }
+
         val callback = module.get(ON_SORT_NAME)
         return executeCallback(callback, t) ?: ""
     }
@@ -103,6 +106,7 @@ object Interpreter :  AbstractInterpreter() {
         if (module == LuaValue.NIL) {
             return null
         }
+
         val callback = module.get(ON_GROUP_NAME)
         return executeCallback(callback, t)
     }
@@ -135,6 +139,7 @@ object Interpreter :  AbstractInterpreter() {
         if (module == LuaValue.NIL) {
             return null
         }
+
         val callback = module.get(ON_DISPLAY_NAME)
         return executeCallback(callback, t)
     }
@@ -142,10 +147,15 @@ object Interpreter :  AbstractInterpreter() {
     override fun onAddCallback(t: Task): Task? {
         val callback = globals.get(ON_ADD_NAME)
         val result = executeCallback(callback, t)
-        return if (result!=null) Task(result) else null
+        return if (result != null) Task(result) else null
     }
 
-    override fun onTextSearchCallback(moduleName: String, input: String, search: String, caseSensitive: Boolean): Boolean? {
+    override fun onTextSearchCallback(
+        moduleName: String,
+        input: String,
+        search: String,
+        caseSensitive: Boolean
+    ): Boolean? {
         val module = getModule(moduleName)
         if (module == LuaValue.NIL) {
             return null
@@ -153,7 +163,11 @@ object Interpreter :  AbstractInterpreter() {
         val onFilter = module.get(ON_TEXTSEARCH_NAME)
         if (!onFilter.isnil()) {
             try {
-                val result = onFilter.invoke(LuaString.valueOf(input), LuaString.valueOf(search), LuaBoolean.valueOf(caseSensitive)).arg1()
+                val result = onFilter.invoke(
+                    LuaString.valueOf(input),
+                    LuaString.valueOf(search),
+                    LuaBoolean.valueOf(caseSensitive)
+                ).arg1()
                 return result.toboolean()
             } catch (e: LuaError) {
                 Log.d(TAG, "Lua execution failed " + e.message)
@@ -193,7 +207,6 @@ object Interpreter :  AbstractInterpreter() {
             fieldTable.set("recurrence", t.recurrencePattern)
         }
         fieldTable.set("completed", LuaBoolean.valueOf(t.isCompleted()))
-
         val prioCode = t.priority.code
         if (prioCode != "-") {
             fieldTable.set("priority", prioCode)
@@ -240,7 +253,6 @@ object Interpreter :  AbstractInterpreter() {
             }
         }
         return null
-
     }
 
     override fun clearOnFilter(moduleName: String) {
@@ -249,8 +261,6 @@ object Interpreter :  AbstractInterpreter() {
             module.set(ON_FILTER_NAME, LuaValue.NIL)
         }
     }
-
-
 }
 
 class LuaToastShort : OneArgFunction() {
@@ -258,7 +268,7 @@ class LuaToastShort : OneArgFunction() {
         val string = text?.tojstring() ?: ""
         Log.i(Interpreter.tag, "Toasted: \"$string\"")
         showToastShort(TodoApplication.app, string)
-        return LuaValue.NIL
+        return NIL
     }
 }
 
@@ -266,6 +276,6 @@ class LuaLog : OneArgFunction() {
     override fun call(text: LuaValue?): LuaValue? {
         val string = text?.tojstring() ?: ""
         Log.i(Interpreter.tag, string)
-        return LuaValue.NIL
+        return NIL
     }
 }

@@ -12,12 +12,10 @@ import java.io.File
 import java.io.FileNotFoundException
 
 class CachedFileProvider : ContentProvider() {
-
     // UriMatcher used to match against incoming requests
     private var uriMatcher: UriMatcher? = null
 
     override fun onCreate(): Boolean {
-
         uriMatcher = UriMatcher(UriMatcher.NO_MATCH)
         // Add a URI to the matcher which will match against the form
         // 'content://com.stephendnicholas.gmailattach.provider/*'
@@ -29,16 +27,13 @@ class CachedFileProvider : ContentProvider() {
 
     @Throws(FileNotFoundException::class)
     override fun openFile(uri: Uri, mode: String): ParcelFileDescriptor {
-
         Log.d(TAG, "Called with uri: '" + uri + "'." + uri.lastPathSegment)
 
         // Check incoming Uri against the matcher
         when (uriMatcher!!.match(uri)) {
-
-        // If it returns 1 - then it matches the Uri defined in onCreate
+            // If it returns 1 - then it matches the Uri defined in onCreate
             1 -> {
                 context?.let {
-
                     // The desired file name is specified by the last segment of the
                     // path
                     // E.g.
@@ -49,11 +44,12 @@ class CachedFileProvider : ContentProvider() {
                     // Create & return a ParcelFileDescriptor pointing to the file
                     // Note: I don't care what mode they ask for - they're only getting
                     // read only
-                    return ParcelFileDescriptor.open(fileLocation, ParcelFileDescriptor.MODE_READ_ONLY)
+                    return ParcelFileDescriptor.open(
+                        fileLocation, ParcelFileDescriptor.MODE_READ_ONLY
+                    )
                 } ?: throw FileNotFoundException("Context is null")
             }
-
-        // Otherwise unrecognised Uri
+            // Otherwise unrecognised Uri
             else -> {
                 Log.d(TAG, "Unsupported uri: '$uri'.")
                 throw FileNotFoundException("Unsupported uri: $uri")
@@ -61,12 +57,13 @@ class CachedFileProvider : ContentProvider() {
         }
     }
 
-    // //////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////
     // Not supported / used / required for this example
-    // //////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////
 
-    override fun update(uri: Uri, contentvalues: ContentValues?, s: String?,
-                        `as`: Array<String>?): Int {
+    override fun update(
+        uri: Uri, contentvalues: ContentValues?, s: String?, `as`: Array<String>?
+    ): Int {
         return 0
     }
 
@@ -85,13 +82,13 @@ class CachedFileProvider : ContentProvider() {
         return "text/plain"
     }
 
-    override fun query(uri: Uri, projection: Array<String>?, s: String?, as1: Array<String>?,
-                       s1: String? ): Cursor? {
+    override fun query(
+        uri: Uri, projection: Array<String>?, s: String?, as1: Array<String>?, s1: String?
+    ): Cursor? {
         return null
     }
 
     companion object {
-
         private val TAG = CachedFileProvider::class.java.simpleName
 
         // The authority is the symbolic name for the provider class

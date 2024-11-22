@@ -1,35 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--suppress ALL -->
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/btn_filter_add"
-        android:title="@string/save_filter"
         android:icon="@drawable/ic_add_white_24dp"
-        app:showAsAction="always"
-        />
+        android:title="@string/save_filter"
+        app:showAsAction="always" />
     <item
         android:id="@+id/btn_filter_import"
-        android:title="@string/filter_import_export"
         android:icon="@drawable/ic_import_export_white_24dp"
-        app:showAsAction="always"
-        >
+        android:title="@string/filter_import_export"
+        app:showAsAction="always">
         <menu>
             <item
                 android:id="@+id/menu_export_filter_import"
-                android:title="@string/import_filter"
                 android:orderInCategory="100"
-                app:showAsAction="never"
-                />
+                android:title="@string/import_filter"
+                app:showAsAction="never" />
             <item
                 android:id="@+id/menu_export_filter_export"
-                android:title="@string/export_filter"
                 android:orderInCategory="100"
-                app:showAsAction="never"
-                />
+                android:title="@string/export_filter"
+                app:showAsAction="never" />
         </menu>
     </item>
 </menu>

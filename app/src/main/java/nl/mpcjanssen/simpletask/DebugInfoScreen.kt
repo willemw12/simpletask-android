@@ -13,12 +13,13 @@ import nl.mpcjanssen.simpletask.util.shareText
 import java.util.*
 
 class DebugInfoScreen : ThemedActionBarActivity() {
-
     private var app: TodoApplication? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.log)
+
         val mListView = findViewById<ListView>(R.id.listView)
         val mVersionInfo = findViewById<TextView>(R.id.versionInfo)
         mListView.isFastScrollEnabled = true
@@ -30,25 +31,27 @@ class DebugInfoScreen : ThemedActionBarActivity() {
             myDataset.add(line)
         }
 
-        // specify an adapter (see also next example)
+        // Specify an adapter (see also next example)
         val mAdapter = ArrayAdapter(this, R.layout.log_item, myDataset)
         mListView.adapter = mAdapter
-        initToolbar()
 
+        initToolbar()
     }
 
     private fun sendLog() {
-        shareText(this@DebugInfoScreen, "${appVersion(this)} log", LogCat.getLog().joinToString("\n"))
+        shareText(
+            this@DebugInfoScreen, "${appVersion(this)} log", LogCat.getLog().joinToString("\n")
+        )
     }
 
     fun initToolbar(): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         val inflater = menuInflater
         val toolbarMenu = toolbar.menu
         toolbarMenu.clear()
         inflater.inflate(R.menu.log_menu, toolbarMenu)
+
         toolbar.setOnMenuItemClickListener(Toolbar.OnMenuItemClickListener { item ->
             when (item.itemId) {
                 // Respond to the action bar's Up/Home button
@@ -59,6 +62,7 @@ class DebugInfoScreen : ThemedActionBarActivity() {
             }
             true
         })
+
         return true
     }
 }

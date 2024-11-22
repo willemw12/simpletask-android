@@ -23,6 +23,7 @@
  */
 
 @file:Suppress("unused")
+
 package nl.mpcjanssen.simpletask
 
 import android.content.Context
@@ -32,7 +33,11 @@ import android.text.format.DateFormat
 import android.util.AttributeSet
 import android.view.View
 
-class TimePreference @JvmOverloads constructor(ctx: Context, attrs: AttributeSet?, defStyle: Int = android.R.attr.dialogPreferenceStyle) : DialogPreference(ctx, attrs, defStyle) {
+class TimePreference @JvmOverloads constructor(
+    ctx: Context,
+    attrs: AttributeSet?,
+    defStyle: Int = android.R.attr.dialogPreferenceStyle
+) : DialogPreference(ctx, attrs, defStyle) {
     private var m_minutes = 0
     private var m_picker: android.widget.TimePicker? = null
 
@@ -57,6 +62,7 @@ class TimePreference @JvmOverloads constructor(ctx: Context, attrs: AttributeSet
     @Suppress("DEPRECATION")
     override fun onBindDialogView(v: View) {
         super.onBindDialogView(v)
+
         m_picker?.apply {
             currentHour = m_minutes / 60
             currentMinute = m_minutes % 60

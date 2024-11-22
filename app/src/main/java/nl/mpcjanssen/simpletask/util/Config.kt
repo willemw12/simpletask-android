@@ -10,24 +10,27 @@ import java.io.File
 import java.util.*
 
 class Config(app: TodoApplication) : Preferences(app) {
-
     val TAG = "Config"
 
     init {
-        registerCallbacks(listOf<String>(
+        registerCallbacks(
+            listOf<String>(
                 getString(R.string.widget_theme_pref_key),
                 getString(R.string.widget_extended_pref_key),
                 getString(R.string.widget_background_transparency),
                 getString(R.string.widget_header_transparency)
-        )) {
+            )
+        ) {
             TodoApplication.app.redrawWidgets()
         }
-        registerCallbacks(listOf<String>(
+        registerCallbacks(
+            listOf<String>(
                 getString(R.string.calendar_sync_dues),
                 getString(R.string.calendar_sync_thresholds),
                 getString(R.string.calendar_reminder_days),
                 getString(R.string.calendar_reminder_time)
-        )) {
+            )
+        ) {
             CalendarSync.updatedSyncTypes()
         }
     }
@@ -125,7 +128,10 @@ class Config(app: TodoApplication) : Preferences(app) {
             }
         }
 
-    private val _widgetTheme by StringPreference(R.string.widget_theme_pref_key, "light_darkactionbar")
+    private val _widgetTheme by StringPreference(
+        R.string.widget_theme_pref_key,
+        "light_darkactionbar"
+    )
     val isDarkWidgetTheme: Boolean
         get() = _widgetTheme == "dark"
 
@@ -168,9 +174,7 @@ class Config(app: TodoApplication) : Preferences(app) {
 
     private var _todoFileName by StringOrNullPreference(R.string.todo_file_key)
     val todoFile: File
-        get()  = _todoFileName?.let { File(it )} ?: FileStore.getDefaultFile()
-
-
+        get() = _todoFileName?.let { File(it) } ?: FileStore.getDefaultFile()
 
     fun setTodoFile(file: File?) {
         _todoFileName = file?.path
@@ -180,7 +184,7 @@ class Config(app: TodoApplication) : Preferences(app) {
     val doneFile: File
         // @RequiresApi(Build.VERSION_CODES.M)
         get() {
-            val filename = if (FileStore.isEncrypted) "done.txt.jenc"  else "done.txt"
+            val filename = if (FileStore.isEncrypted) "done.txt.jenc" else "done.txt"
             return File(todoFile.parentFile, filename)
         }
 
@@ -206,7 +210,10 @@ class Config(app: TodoApplication) : Preferences(app) {
 
     var rightDrawerDemonstrated by BooleanPreference(R.string.right_drawer_demonstrated, false)
 
-    val localFileRoot by StringPreference(R.string.local_file_root, this.context.getExternalFilesDir(null)!!.canonicalPath)
+    val localFileRoot by StringPreference(
+        R.string.local_file_root,
+        this.context.getExternalFilesDir(null)!!.canonicalPath
+    )
 
     val hasColorDueDates by BooleanPreference(R.string.color_due_date_key, true)
 
@@ -232,7 +239,7 @@ class Config(app: TodoApplication) : Preferences(app) {
     var forceEnglish by BooleanPreference(R.string.force_english, false)
     var useUUIDs by BooleanPreference(R.string.use_uuids, false)
 
-    fun legacyQueryStoreJson() : String   {
+    fun legacyQueryStoreJson(): String {
         val queries = LegacyQueryStore.ids().map {
             LegacyQueryStore.get(it)
         }
@@ -244,23 +251,23 @@ class Config(app: TodoApplication) : Preferences(app) {
 
     var savedQueriesJSONString by StringPreference(R.string.query_store, legacyQueryStoreJson())
 
-    var savedQueries : List<NamedQuery>
-    get() {
-        val queries = ArrayList<NamedQuery>()
-        val jsonFilters = JSONObject(savedQueriesJSONString)
-        jsonFilters.keys().forEach { name ->
-            val json = jsonFilters.getJSONObject(name)
-            val newQuery = NamedQuery(name, Query(json, luaModule = "mainui"))
-            queries.add(newQuery)
+    var savedQueries: List<NamedQuery>
+        get() {
+            val queries = ArrayList<NamedQuery>()
+            val jsonFilters = JSONObject(savedQueriesJSONString)
+            jsonFilters.keys().forEach { name ->
+                val json = jsonFilters.getJSONObject(name)
+                val newQuery = NamedQuery(name, Query(json, luaModule = "mainui"))
+                queries.add(newQuery)
+            }
+            return queries
         }
-        return queries
-    }
-    set(queries) {
-        val jsonFilters = queries.fold(JSONObject()) { acc, query ->
-            acc.put(query.name, query.query.saveInJSON())
+        set(queries) {
+            val jsonFilters = queries.fold(JSONObject()) { acc, query ->
+                acc.put(query.name, query.query.saveInJSON())
+            }
+            savedQueriesJSONString = jsonFilters.toString(2)
         }
-        savedQueriesJSONString = jsonFilters.toString(2)
-    }
 
     fun getSortString(key: String): String {
         if (useTodoTxtTerms) {
@@ -283,7 +290,7 @@ class Config(app: TodoApplication) : Preferences(app) {
     var mainQuery: Query
         get() = Query(this.prefs, luaModule = "mainui")
         set(value) {
-            // Update the intent so we wont get the old applyFilter after
+            // Update the intent so we won't get the old applyFilter after.
             // switching back to app later. Fixes [1c5271ee2e
             value.saveInPrefs(prefs)
             TodoApplication.config.lastScrollPosition = -1
@@ -292,5 +299,4 @@ class Config(app: TodoApplication) : Preferences(app) {
     val idleBeforeSaveSeconds by IntPreference(R.string.idle_before_save, 5)
 
     var uppercaseHeaders by BooleanPreference(R.string.uppercase_headers, true)
-
 }

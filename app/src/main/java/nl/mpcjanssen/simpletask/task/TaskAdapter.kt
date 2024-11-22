@@ -21,13 +21,15 @@ import nl.mpcjanssen.simpletask.databinding.ListItemBinding
 import nl.mpcjanssen.simpletask.util.*
 import java.util.ArrayList
 
-class TaskViewHolder(itemView: View, val viewType : Int) : RecyclerView.ViewHolder(itemView)
+class TaskViewHolder(itemView: View, val viewType: Int) : RecyclerView.ViewHolder(itemView)
 
-class TaskAdapter(val completeAction: (Task) -> Unit,
-                  val unCompleteAction: (Task) -> Unit,
-                  val onClickAction: (Task) -> Unit,
-                  val onLongClickAction: (Task) -> Boolean,
-                  val startDrag: (RecyclerView.ViewHolder) -> Unit) : RecyclerView.Adapter <TaskViewHolder>() {
+class TaskAdapter(
+    val completeAction: (Task) -> Unit,
+    val unCompleteAction: (Task) -> Unit,
+    val onClickAction: (Task) -> Unit,
+    val onLongClickAction: (Task) -> Boolean,
+    val startDrag: (RecyclerView.ViewHolder) -> Unit
+) : RecyclerView.Adapter<TaskViewHolder>() {
     lateinit var query: Query
     val tag = "TaskAdapter"
     var textSize: Float = 14.0F
@@ -54,7 +56,6 @@ class TaskAdapter(val completeAction: (Task) -> Unit,
                 // Empty at end
                 LayoutInflater.from(parent.context).inflate(R.layout.empty_list_item, parent, false)
             }
-
         }
         return TaskViewHolder(view, viewType)
     }
@@ -67,7 +68,7 @@ class TaskAdapter(val completeAction: (Task) -> Unit,
         }
     }
 
-    private fun bindHeader(holder : TaskViewHolder, position: Int) {
+    private fun bindHeader(holder: TaskViewHolder, position: Int) {
         val binding = ListHeaderBinding.bind(holder.itemView)
         val t = binding.listHeaderTitle
         val line = visibleLines[position]
@@ -75,7 +76,7 @@ class TaskAdapter(val completeAction: (Task) -> Unit,
         t.textSize = textSize
     }
 
-    private fun bindTask (holder : TaskViewHolder, position: Int) {
+    private fun bindTask(holder: TaskViewHolder, position: Int) {
         val binding = ListItemBinding.bind(holder.itemView)
         val line = visibleLines[position]
         val task = line.task ?: return
@@ -108,7 +109,9 @@ class TaskAdapter(val completeAction: (Task) -> Unit,
                 else -> true
             }
         }
-        val txt = Interpreter.onDisplayCallback(query.luaModule, task) ?: task.showParts(tokensToShowFilter)
+        val txt = Interpreter.onDisplayCallback(query.luaModule, task) ?: task.showParts(
+            tokensToShowFilter
+        )
         val ss = SpannableString(txt)
 
         task.lists?.mapTo(ArrayList()) { "@$it" }?.let { setColor(ss, Color.GRAY, it) }
@@ -132,17 +135,14 @@ class TaskAdapter(val completeAction: (Task) -> Unit,
 
         val cb = binding.checkBox
 
-
         if (completed) {
             // Log.i( "Striking through " + task.getText());
-            ss.setSpan(StrikethroughSpan(), 0 , ss.length, SPAN_INCLUSIVE_INCLUSIVE)
+            ss.setSpan(StrikethroughSpan(), 0, ss.length, SPAN_INCLUSIVE_INCLUSIVE)
             taskAge.paintFlags = taskAge.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             cb.setOnClickListener { unCompleteAction(task) }
         } else {
             taskAge.paintFlags = taskAge.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-
             cb.setOnClickListener { completeAction(task) }
-
         }
         taskText.text = ss
         taskText.textSize = textSize
@@ -181,12 +181,12 @@ class TaskAdapter(val completeAction: (Task) -> Unit,
 
         // Set click listeners
         view.setOnClickListener {
-            onClickAction (task)
+            onClickAction(task)
             it.isActivated = !it.isActivated
             taskDragArea.visibility = dragIndicatorVisibility(position)
         }
 
-        view.setOnLongClickListener { onLongClickAction (task) }
+        view.setOnLongClickListener { onLongClickAction(task) }
 
         taskDragArea.setOnTouchListener { view, motionEvent ->
             if (motionEvent.actionMasked == MotionEvent.ACTION_DOWN) {
@@ -207,13 +207,22 @@ class TaskAdapter(val completeAction: (Task) -> Unit,
             caller.showListViewProgress(true)
         }
         Log.i(tag, "setFilteredTasks called: ${TodoApplication.todoList}")
-        val (visibleTasks, total) = TodoApplication.todoList.getSortedTasks(newQuery, TodoApplication.config.sortCaseSensitive)
+        val (visibleTasks, total) = TodoApplication.todoList.getSortedTasks(
+            newQuery,
+            TodoApplication.config.sortCaseSensitive
+        )
         countTotalTasks = total
         countVisibleTasks = visibleTasks.size
 
         val newVisibleLines = ArrayList<VisibleLine>()
 
-        newVisibleLines.addAll(addHeaderLines(visibleTasks, newQuery, getString(R.string.no_header)))
+        newVisibleLines.addAll(
+            addHeaderLines(
+                visibleTasks,
+                newQuery,
+                getString(R.string.no_header)
+            )
+        )
 
         caller.runOnUiThread {
             // Replace the array in the main thread to prevent OutOfIndex exceptions
@@ -230,13 +239,10 @@ class TaskAdapter(val completeAction: (Task) -> Unit,
         }
     }
 
-
     var countVisibleTasks = 0
     var countTotalTasks = 0
 
-    /*
-    ** Get the adapter position for task
-    */
+    // Get the adapter position for task
     fun getPosition(task: Task): Int {
         val line = TaskLine(task = task)
         return visibleLines.indexOf(line)
@@ -270,7 +276,10 @@ class TaskAdapter(val completeAction: (Task) -> Unit,
                 "middle" -> TextUtils.TruncateAt.MIDDLE
                 "marquee" -> TextUtils.TruncateAt.MARQUEE
                 else -> {
-                    Log.w(tag, "Unrecognized preference value for task text ellipsis: {} ! $ellipsizePref")
+                    Log.w(
+                        tag,
+                        "Unrecognized preference value for task text ellipsis: {} ! $ellipsizePref"
+                    )
                     TextUtils.TruncateAt.MIDDLE
                 }
             }
@@ -284,32 +293,47 @@ class TaskAdapter(val completeAction: (Task) -> Unit,
             return View.GONE
         }
         val line = visibleLines[visibleLineIndex]
-        if (line.header) return View.GONE
-        val task = line.task ?: throw IllegalStateException("If it's not a header, it must be a task")
+        if (line.header) {
+          return View.GONE
+        }
 
-        val shouldShow = TodoApplication.todoList.isSelected(task)
-            && canMoveLineUpOrDown(visibleLineIndex)
+        val task =
+            line.task ?: throw IllegalStateException("If it's not a header, it must be a task")
+
+        val shouldShow =
+            TodoApplication.todoList.isSelected(task) && canMoveLineUpOrDown(visibleLineIndex)
 
         return if (shouldShow) View.VISIBLE else View.GONE
     }
 
     fun canMoveLineUpOrDown(fromIndex: Int): Boolean {
-        return canMoveVisibleLine(fromIndex, fromIndex - 1)
-            || canMoveVisibleLine(fromIndex, fromIndex + 1)
+        return canMoveVisibleLine(fromIndex, fromIndex - 1) || canMoveVisibleLine(
+            fromIndex,
+            fromIndex + 1
+        )
     }
 
     fun canMoveVisibleLine(fromIndex: Int, toIndex: Int): Boolean {
-        if (fromIndex < 0 || fromIndex >= visibleLines.size) return false
-        if (toIndex < 0 || toIndex >= visibleLines.size) return false
+        if (fromIndex < 0 || fromIndex >= visibleLines.size) {
+          return false
+        }
+        if (toIndex < 0 || toIndex >= visibleLines.size) {
+          return false
+        }
 
         val from = visibleLines[fromIndex]
         val to = visibleLines[toIndex]
 
-        if (from.header) return false
-        if (to.header) return false
+        if (from.header) {
+          return false
+        }
+        if (to.header) {
+          return false
+        }
 
-        val comp = TodoApplication.todoList.getMultiComparator(query,
-                TodoApplication.config.sortCaseSensitive)
+        val comp = TodoApplication.todoList.getMultiComparator(
+            query, TodoApplication.config.sortCaseSensitive
+        )
         val comparison = comp.comparator.compare(from.task, to.task)
 
         return comparison == 0
@@ -361,8 +385,9 @@ class TaskAdapter(val completeAction: (Task) -> Unit,
         //
         // -------------------------------------------------------------------
 
-        val comp = TodoApplication.todoList.getMultiComparator(query,
-                TodoApplication.config.sortCaseSensitive)
+        val comp = TodoApplication.todoList.getMultiComparator(
+            query, TodoApplication.config.sortCaseSensitive
+        )
 
         // If we're sorting by reverse file order, the meaning of above/below
         // is swapped in the todo.txt file vs in the displayed lines
@@ -373,10 +398,10 @@ class TaskAdapter(val completeAction: (Task) -> Unit,
         }
 
         TodoApplication.todoList.notifyTasklistChanged(
-                TodoApplication.config.todoFile,
-                save = true,
-                refreshMainUI = true,
-                forceKeepSelection = true);
+            TodoApplication.config.todoFile,
+            save = true,
+            refreshMainUI = true,
+            forceKeepSelection = true
+        )
     }
 }
-

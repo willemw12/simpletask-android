@@ -32,7 +32,6 @@ class TodoList(val config: Config) {
         config.todoList?.let { todoItems.addAll(it.asSequence()) }
     }
 
-
     fun add(items: List<Task>, atEnd: Boolean) {
         Log.d(tag, "Add task ${items.size} atEnd: $atEnd")
         val updatedItems = items.map { item ->
@@ -50,7 +49,6 @@ class TodoList(val config: Config) {
         add(listOf(t), atEnd)
     }
 
-
     fun removeAll(tasks: List<Task>) {
         Log.d(tag, "Remove")
         pendingEdits.removeAll(tasks)
@@ -58,13 +56,11 @@ class TodoList(val config: Config) {
 
     }
 
-
     fun size(): Int {
         return todoItems.size
     }
 
     val priorities: ArrayList<Priority>
-
         get() {
             val res = HashSet<Priority>()
             todoItems.forEach {
@@ -76,7 +72,6 @@ class TodoList(val config: Config) {
         }
 
     val contexts: List<String>
-
         get() {
             val lists = mLists
             if (lists != null) {
@@ -84,7 +79,7 @@ class TodoList(val config: Config) {
             }
             val res = HashSet<String>()
             todoItems.forEach { t ->
-                t.lists?.let {res.addAll(it)}
+                t.lists?.let { res.addAll(it) }
 
             }
             val newLists = res.toMutableList()
@@ -93,7 +88,6 @@ class TodoList(val config: Config) {
         }
 
     val projects: List<String>
-
         get() {
             val tags = mTags
             if (tags != null) {
@@ -101,14 +95,12 @@ class TodoList(val config: Config) {
             }
             val res = HashSet<String>()
             todoItems.forEach { t ->
-                t.tags?.let {res.addAll(it)}
-
+                t.tags?.let { res.addAll(it) }
             }
             val newTags = res.toMutableList()
             mTags = newTags
             return newTags
         }
-
 
     fun uncomplete(items: List<Task>) {
         Log.d(tag, "Uncomplete")
@@ -116,7 +108,6 @@ class TodoList(val config: Config) {
             it.markIncomplete()
         }
     }
-
 
     fun complete(tasks: List<Task>, keepPrio: Boolean, extraAtEnd: Boolean) {
         Log.d(tag, "Complete")
@@ -136,12 +127,10 @@ class TodoList(val config: Config) {
 
     }
 
-
     fun prioritize(tasks: List<Task>, prio: Priority) {
         Log.d(tag, "Complete")
         tasks.map { it.priority = prio }
     }
-
 
     fun defer(deferString: String, tasks: List<Task>, dateType: DateType) {
         Log.d(tag, "Defer")
@@ -152,7 +141,6 @@ class TodoList(val config: Config) {
             }
         }
     }
-
 
     fun update(org: Collection<Task>, updated: List<Task>, addAtEnd: Boolean) {
         val smallestSize = org.zip(updated) { orgTask, updatedTask ->
@@ -170,22 +158,20 @@ class TodoList(val config: Config) {
     }
 
     val selectedTasks: List<Task>
-
         get() {
             return todoItems.toList().filter { it.selected }
         }
 
-    val fileFormat : String =  todoItems.toList().joinToString(separator = "\n", transform = {
+    val fileFormat: String = todoItems.toList().joinToString(separator = "\n", transform = {
         it.inFileFormat(config.useUUIDs)
     })
 
-
-
-
-    fun notifyTasklistChanged(todoFile: File,
-            save: Boolean,
-            refreshMainUI: Boolean = true,
-            forceKeepSelection: Boolean = false) {
+    fun notifyTasklistChanged(
+        todoFile: File,
+        save: Boolean,
+        refreshMainUI: Boolean = true,
+        forceKeepSelection: Boolean = false
+    ) {
         Log.d(tag, "Notified changed")
         if (save) {
             save(FileStore, todoFile, eol = config.eol)
@@ -204,7 +190,6 @@ class TodoList(val config: Config) {
         }
     }
 
-
     private fun startAddTaskActivity(act: Activity, prefill: String) {
         Log.d(tag, "Start add/edit task activity")
         val intent = Intent(act, AddTask::class.java)
@@ -214,7 +199,13 @@ class TodoList(val config: Config) {
 
     fun getMultiComparator(filter: Query, caseSensitive: Boolean): MultiComparator {
         val sorts = filter.getSort(config.defaultSorts)
-        return MultiComparator(sorts, TodoApplication.app.today, caseSensitive, filter.createIsThreshold, filter.luaModule)
+        return MultiComparator(
+            sorts,
+            TodoApplication.app.today,
+            caseSensitive,
+            filter.createIsThreshold,
+            filter.luaModule
+        )
     }
 
     fun getSortedTasks(filter: Query, caseSensitive: Boolean): Pair<List<Task>, Int> {
@@ -236,7 +227,6 @@ class TodoList(val config: Config) {
 
     }
 
-
     fun reload(reason: String = "") {
         FileStoreActionQueue.add("Reload") {
             Log.d(tag, "Reload: $reason")
@@ -252,7 +242,6 @@ class TodoList(val config: Config) {
 
         }
     }
-
 
     private fun reloadaction(file: File) {
         Log.d(tag, "Executing reloadaction")
@@ -279,7 +268,6 @@ class TodoList(val config: Config) {
                 Log.e(tag, "TodoList load failed: ${file.path}", e)
                 showToastShort(TodoApplication.app, "Loading of todo file failed")
             }
-
             Log.i(tag, "TodoList loaded from filestore")
         } else {
             Log.i(tag, "Remote version is same, load from cache")
@@ -287,20 +275,20 @@ class TodoList(val config: Config) {
         broadcastFileSyncDone(TodoApplication.app.localBroadCastManager)
     }
 
-
     private fun save(fileStore: IFileStore, todoFile: File, eol: String) {
         Log.d(tag, "Save: ${todoFile.path}")
         config.changesPending = true
         broadcastUpdateStateIndicator(TodoApplication.app.localBroadCastManager)
         val lines = todoItems.toList().let {
             config.todoList = it
-           it.map {
+            it.map {
                 it.inFileFormat(config.useUUIDs)
             }
         }
+
         // Update cache
         FileStoreActionQueue.add("Backup") {
-                Backupper.backup(todoFile, lines)
+            Backupper.backup(todoFile, lines)
         }
         runOnMainThread {
             timer?.apply { cancel() }
@@ -309,7 +297,8 @@ class TodoList(val config: Config) {
                     broadcastFileSyncStart(TodoApplication.app.localBroadCastManager)
                     try {
                         Log.i(tag, "Saving todo list, size ${lines.size}")
-                        val newFile = fileStore.saveTasksToFile(todoFile, lines, eol = eol).canonicalPath
+                        val newFile =
+                            fileStore.saveTasksToFile(todoFile, lines, eol = eol).canonicalPath
 
                         if (config.changesPending) {
                             // Remove the red bar
@@ -317,13 +306,15 @@ class TodoList(val config: Config) {
                             broadcastUpdateStateIndicator(TodoApplication.app.localBroadCastManager)
                         }
                         if (newFile != todoFile.canonicalPath) {
-                            // The file was written under another name
+                            // The file was written under another name.
                             // Usually this means the was a conflict.
                             Log.i(tag, "Filename was changed remotely. New name is: $newFile")
-                            showToastLong(TodoApplication.app, "Filename was changed remotely. New name is: $newFile")
+                            showToastLong(
+                                TodoApplication.app,
+                                "Filename was changed remotely. New name is: $newFile"
+                            )
                             TodoApplication.app.switchTodoFile(File(newFile))
                         }
-
                     } catch (e: Exception) {
                         Log.e(tag, "TodoList save to ${todoFile.path} failed", e)
                         config.changesPending = true
@@ -341,6 +332,7 @@ class TodoList(val config: Config) {
                     Log.d(tag, "Executing pending Save")
                     saveAction()
                 }
+
                 override fun onTick(p0: Long) {
                     Log.d(tag, "Scheduled save in $p0")
                 }
@@ -349,14 +341,17 @@ class TodoList(val config: Config) {
         }
     }
 
-
     fun archive(todoFile: File, doneFile: File, tasks: List<Task>, eol: String) {
         Log.d(tag, "Archive ${tasks.size} tasks")
 
         FileStoreActionQueue.add("Append to file") {
             broadcastFileSyncStart(TodoApplication.app.localBroadCastManager)
             try {
-                FileStore.appendTaskToFile(doneFile, tasks.map {it.inFileFormat(useUUIDs = TodoApplication.config.useUUIDs)}, eol)
+                FileStore.appendTaskToFile(
+                    doneFile,
+                    tasks.map { it.inFileFormat(useUUIDs = TodoApplication.config.useUUIDs) },
+                    eol
+                )
                 removeAll(tasks)
                 notifyTasklistChanged(todoFile, save = true, refreshMainUI = true)
             } catch (e: Exception) {
@@ -385,11 +380,9 @@ class TodoList(val config: Config) {
 
     fun isSelected(item: Task): Boolean = item.selected
 
-
     fun numSelected(): Int {
         return todoItems.toList().count { it.selected }
     }
-
 
     fun selectTasks(items: List<Task>) {
         Log.d(tag, "Select")
@@ -397,16 +390,13 @@ class TodoList(val config: Config) {
         broadcastRefreshSelection(TodoApplication.app.localBroadCastManager)
     }
 
-
     private fun selectTask(item: Task?) {
         item?.selected = true
     }
 
-
     private fun unSelectTask(item: Task) {
         item.selected = false
     }
-
 
     fun unSelectTasks(items: List<Task>) {
         Log.d(tag, "Unselect")
@@ -415,7 +405,6 @@ class TodoList(val config: Config) {
 
     }
 
-
     fun clearSelection() {
         Log.d(tag, "Clear selection")
         todoItems.iterator().forEach { it.selected = false }
@@ -423,11 +412,9 @@ class TodoList(val config: Config) {
 
     }
 
-
     fun getTaskIndex(t: Task): Int {
         return todoItems.indexOf(t)
     }
-
 
     fun getTaskAt(idx: Int): Task? {
         return todoItems.getOrNull(idx)
@@ -437,18 +424,15 @@ class TodoList(val config: Config) {
         return todoItems.find { it.id == id }
     }
 
-
-    fun each (callback : (Task) -> Unit) {
+    fun each(callback: (Task) -> Unit) {
         todoItems.forEach { callback.invoke(it) }
     }
-
 
     fun editTasks(from: Activity, tasks: List<Task>, prefill: String) {
         Log.d(tag, "Edit tasks")
         pendingEdits.addAll(tasks)
         startAddTaskActivity(from, prefill)
     }
-
 
     fun clearPendingEdits() {
         Log.d(tag, "Clear selection")

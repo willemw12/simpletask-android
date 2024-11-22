@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2015 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2015 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,24 +13,9 @@
      limitations under the License.
 -->
 
-<selector
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" 
-    >
-    <item
-        android:state_enabled="false"
-        android:alpha="0.28"
-        android:color="?attr/colorControlNormal"
-        />
-    <item
-        app:state_indeterminate="true"
-        android:color="?attr/colorControlNormal"
-        />
-    <item
-        android:state_checked="true"
-        android:color="?attr/colorControlActivated"
-        />
-    <item
-        android:color="?attr/colorControlNormal"
-        />
+<selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:alpha="0.28" android:color="?attr/colorControlNormal" android:state_enabled="false" />
+    <item android:color="?attr/colorControlNormal" app:state_indeterminate="true" />
+    <item android:color="?attr/colorControlActivated" android:state_checked="true" />
+    <item android:color="?attr/colorControlNormal" />
 </selector>

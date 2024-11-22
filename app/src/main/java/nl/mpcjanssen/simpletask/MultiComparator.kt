@@ -5,8 +5,14 @@ import nl.mpcjanssen.simpletask.task.Task
 import nl.mpcjanssen.simpletask.util.alfaSort
 import java.util.*
 
-class MultiComparator(sorts: ArrayList<String>, today: String, caseSensitve: Boolean, createIsThreshold: Boolean, moduleName: String? = null) {
-    var comparator : Comparator<Task> = compareBy { null }
+class MultiComparator(
+    sorts: ArrayList<String>,
+    today: String,
+    caseSensitve: Boolean,
+    createIsThreshold: Boolean,
+    moduleName: String? = null
+) {
+    var comparator: Comparator<Task> = compareBy { null }
 
     var fileOrder = true
 
@@ -14,7 +20,8 @@ class MultiComparator(sorts: ArrayList<String>, today: String, caseSensitve: Boo
 
     init {
         label@ for (sort in sorts) {
-            val parts = sort.split(Query.SORT_SEPARATOR.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            val parts = sort.split(Query.SORT_SEPARATOR.toRegex()).dropLastWhile { it.isEmpty() }
+                .toTypedArray()
             var reverse = false
             val sortType: String
             if (parts.size == 1) {
@@ -34,6 +41,7 @@ class MultiComparator(sorts: ArrayList<String>, today: String, caseSensitve: Boo
                     fileOrder = !reverse
                     break@label
                 }
+
                 "by_context" -> comp = { t ->
                     val txt = t.lists?.let { alfaSort(it).firstOrNull() } ?: ""
                     if (caseSensitve) {
@@ -42,6 +50,7 @@ class MultiComparator(sorts: ArrayList<String>, today: String, caseSensitve: Boo
                         txt.lowercase()
                     }
                 }
+
                 "by_project" -> comp = { t ->
                     val txt = t.tags?.let { alfaSort(it).firstOrNull() } ?: ""
                     if (caseSensitve) {
@@ -50,11 +59,13 @@ class MultiComparator(sorts: ArrayList<String>, today: String, caseSensitve: Boo
                         txt.lowercase()
                     }
                 }
+
                 "alphabetical" -> comp = if (caseSensitve) {
                     { it.alphaParts }
                 } else {
                     { it.alphaParts.lowercase() }
                 }
+
                 "by_prio" -> comp = { it.priority }
                 "completed" -> comp = { it.isCompleted() }
                 "by_creation_date" -> comp = { it.createDate ?: lastDate }
@@ -64,10 +75,11 @@ class MultiComparator(sorts: ArrayList<String>, today: String, caseSensitve: Boo
                     val fallback = if (createIsThreshold) it.createDate ?: lastDate else lastDate
                     it.thresholdDate ?: fallback
                 }
+
                 "by_completion_date" -> comp = { it.completionDate ?: lastDate }
                 "by_lua" -> {
                     if (moduleName == null || !Interpreter.hasOnSortCallback(moduleName)) {
-                       continue@label
+                        continue@label
                     }
                     comp = {
                         Interpreter.onSortCallback(moduleName, it)
@@ -76,6 +88,7 @@ class MultiComparator(sorts: ArrayList<String>, today: String, caseSensitve: Boo
                         // }
                     }
                 }
+
                 else -> {
                     Log.w("MultiComparator", "Unknown sort: $sort")
                     continue@label
@@ -88,5 +101,4 @@ class MultiComparator(sorts: ArrayList<String>, today: String, caseSensitve: Boo
             }
         }
     }
-
 }

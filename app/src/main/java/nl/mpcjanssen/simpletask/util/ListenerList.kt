@@ -23,5 +23,4 @@ class ListenerList<L> {
     fun remove(listener: L) {
         listenerList.remove(listener)
     }
-
 }

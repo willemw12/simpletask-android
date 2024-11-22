@@ -12,6 +12,7 @@ abstract class AbstractInterpreter {
     val CONFIG_THEME = "theme"
     val CONFIG_TASKLIST_TEXT_SIZE_SP = "tasklistTextSize"
     abstract fun tasklistTextSize(): Float?
+
     // Callback to determine the theme. Return true for datk.
     abstract fun configTheme(): String?
 
@@ -23,7 +24,13 @@ abstract class AbstractInterpreter {
     abstract fun onGroupCallback(moduleName: String, t: Task): String?
     abstract fun onDisplayCallback(moduleName: String, t: Task): String?
     abstract fun onAddCallback(t: Task): Task?
-    abstract fun onTextSearchCallback(moduleName: String, input: String, search: String, caseSensitive: Boolean): Boolean?
+    abstract fun onTextSearchCallback(
+        moduleName: String,
+        input: String,
+        search: String,
+        caseSensitive: Boolean
+    ): Boolean?
+
     abstract fun evalScript(moduleName: String?, script: String?): AbstractInterpreter
     abstract fun clearOnFilter(moduleName: String)
 }

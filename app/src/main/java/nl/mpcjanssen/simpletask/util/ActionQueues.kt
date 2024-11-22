@@ -7,10 +7,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
 open class ActionQueue(val qName: String) : Thread() {
-
-
     fun add(description: String, r: () -> Unit) {
         Log.i(qName, "-> $description")
         val coroutineScope = CoroutineScope(Dispatchers.Main + Job())

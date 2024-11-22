@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--
-@copyright 2014- Mark Janssen
--->
+<!-- @copyright 2014- Mark Janssen -->
 
 <!--suppress ALL -->
-<WebView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<WebView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/help_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:textSize="12pt"
     android:paddingTop="15dp"
     android:shadowRadius="1.0"
-    />
+    android:textSize="12pt" />

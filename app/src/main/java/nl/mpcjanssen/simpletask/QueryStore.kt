@@ -27,22 +27,19 @@ object QueryStore {
         FileStore.writeFile(exportFile, json)
     }
 
-    fun ids() : List<String> {
-        return TodoApplication.config.savedQueries.map { it.name  }
+    fun ids(): List<String> {
+        return TodoApplication.config.savedQueries.map { it.name }
     }
 
-
     fun get(id: String): NamedQuery {
-        return  TodoApplication.config.savedQueries.first { it.name == id }
+        return TodoApplication.config.savedQueries.first { it.name == id }
     }
 
     fun save(query: Query, name: String) {
         val queries = TodoApplication.config.savedQueries.toMutableList()
-        queries.add(NamedQuery(name,query))
+        queries.add(NamedQuery(name, query))
         TodoApplication.config.savedQueries = queries
     }
-
-
 
     fun delete(id: String) {
         val newQueries = TodoApplication.config.savedQueries.filterNot { it.name == id }
@@ -52,7 +49,7 @@ object QueryStore {
     fun rename(squery: NamedQuery, newName: String) {
         val queries = TodoApplication.config.savedQueries.toMutableList()
         val idx = queries.indexOf(squery)
-        if (idx != -1 ) {
+        if (idx != -1) {
             queries[idx] = NamedQuery(newName, squery.query)
         }
         TodoApplication.config.savedQueries = queries
@@ -63,14 +60,13 @@ object LegacyQueryStore {
     private const val ID_PREFIX: String = "filter_"
     const val TAG = "QueryStore"
 
-
-    fun ids() : List<String> {
+    fun ids(): List<String> {
         val prefsPath = "../shared_prefs"
         val prefsXml = File(TodoApplication.app.filesDir, "$prefsPath/")
         return if (prefsXml.exists() && prefsXml.isDirectory) {
             val ids = prefsXml.listFiles { _, name -> name.startsWith(ID_PREFIX) }
-                    ?.map { it.relativeTo(prefsXml).name }
-                    ?.map { it -> it.substringBeforeLast(".xml") } ?: emptyList()
+                ?.map { it.relativeTo(prefsXml).name }?.map { it -> it.substringBeforeLast(".xml") }
+                ?: emptyList()
             Log.d(TAG, "Saved applyFilter ids: $ids")
             ids
         } else {
@@ -79,12 +75,10 @@ object LegacyQueryStore {
         }
     }
 
-
     fun get(id: String): NamedQuery {
         val prefs = prefs(id)
         return NamedQuery.initFromPrefs(prefs, "mainui", id)
     }
-
 
     private fun prefs(id: String): SharedPreferences {
         return TodoApplication.app.getSharedPreferences(id, Context.MODE_PRIVATE)
@@ -98,6 +92,4 @@ object LegacyQueryStore {
             Log.w(TAG, "Failed to delete saved query: $id")
         }
     }
-
 }
-

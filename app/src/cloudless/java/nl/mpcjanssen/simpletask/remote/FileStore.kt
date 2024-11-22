@@ -12,19 +12,17 @@ import java.util.*
 import kotlin.reflect.KClass
 
 object FileStore : IFileStore {
-    private var lastSeenRemoteId by TodoApplication.config.StringOrNullPreference(R.string.file_current_version_id)
-
-
-    override val isOnline = true
     private const val TAG = "FileStore"
+
+    private var lastSeenRemoteId by TodoApplication.config.StringOrNullPreference(R.string.file_current_version_id)
     private var observer: TodoObserver? = null
 
+    override val isOnline = true
 
     init {
         Log.i(TAG, "onCreate")
         Log.i(TAG, "Default path: ${getDefaultFile().path}")
         observer = null
-
     }
 
     override val isEncrypted: Boolean
@@ -47,11 +45,13 @@ object FileStore : IFileStore {
             broadcastAuthFailed(TodoApplication.app.localBroadCastManager)
             return emptyList()
         }
+
         Log.i(TAG, "Loading tasks")
         val lines = file.readLines()
         Log.i(TAG, "Read ${lines.size} lines from $file")
         setWatching(file)
         lastSeenRemoteId = file.lastModified().toString()
+
         return lines
     }
 
@@ -60,6 +60,7 @@ object FileStore : IFileStore {
             broadcastAuthFailed(TodoApplication.app.localBroadCastManager)
             return true
         }
+
         return lastSeenRemoteId != file.lastModified().toString()
     }
 
@@ -72,6 +73,7 @@ object FileStore : IFileStore {
             broadcastAuthFailed(TodoApplication.app.localBroadCastManager)
             return
         }
+
         Log.i(TAG, "Writing file to  ${file.canonicalPath}")
         file.writeText(contents)
     }
@@ -81,6 +83,7 @@ object FileStore : IFileStore {
             broadcastAuthFailed(TodoApplication.app.localBroadCastManager)
             return
         }
+
         Log.i(TAG, "Reading file: ${file.path}")
         val contents: String
         val lines = file.readLines()
@@ -94,6 +97,7 @@ object FileStore : IFileStore {
 
     private fun setWatching(file: File) {
         Log.i(TAG, "Observer: adding folder watcher on ${file.parent}")
+
         val obs = observer
         if (obs != null && file.canonicalPath == obs.fileName) {
             Log.w(TAG, "Observer: already watching: ${file.canonicalPath}")
@@ -104,21 +108,25 @@ object FileStore : IFileStore {
             obs.stopWatching()
             observer = null
         }
+
         observer = TodoObserver(file)
         Log.i(TAG, "Observer: modifying done")
     }
 
-    override fun saveTasksToFile(file: File, lines: List<String>, eol: String) : File {
+    override fun saveTasksToFile(file: File, lines: List<String>, eol: String): File {
         if (!isAuthenticated) {
             broadcastAuthFailed(TodoApplication.app.localBroadCastManager)
             return file
         }
+
         Log.i(TAG, "Saving tasks to file: ${file.path}")
         val obs = observer
         obs?.ignoreEvents(true)
         writeFile(file, lines.joinToString(eol) + eol)
         obs?.delayedStartListen(1000)
+
         lastSeenRemoteId = file.lastModified().toString()
+
         return file
     }
 
@@ -127,12 +135,12 @@ object FileStore : IFileStore {
             broadcastAuthFailed(TodoApplication.app.localBroadCastManager)
             return
         }
+
         Log.i(TAG, "Appending ${lines.size} tasks to ${file.path}")
         file.appendText(lines.joinToString(eol) + eol)
     }
 
     override fun logout() {
-
     }
 
     override fun getDefaultFile(): File {
@@ -144,7 +152,9 @@ object FileStore : IFileStore {
             broadcastAuthFailed(TodoApplication.app.localBroadCastManager)
             return emptyList()
         }
+
         val result = ArrayList<FileEntry>()
+
         if (file.canonicalPath == "/") {
             TodoApplication.app.getExternalFilesDir(null)?.let {
                 result.add(FileEntry(it, true))
@@ -152,9 +162,8 @@ object FileStore : IFileStore {
         }
 
         val filter = FilenameFilter { dir, filename ->
-            val sel = File(dir,filename)
-            if (!sel.canRead())
-                false
+            val sel = File(dir, filename)
+            if (!sel.canRead()) false
             else {
                 if (sel.isDirectory) {
                     result.add(FileEntry(File(filename), true))
@@ -164,14 +173,16 @@ object FileStore : IFileStore {
                 }
             }
         }
+
         // Run the file applyFilter for side effects
         file.list(filter)
+
         return result
     }
 
     class TodoObserver(val file: File) : FileObserver(file) {
         private val tag = "FileWatchService"
-        val fileName : String = file.canonicalPath
+        val fileName: String = file.canonicalPath
         private var ignoreEvents: Boolean = false
         private val handler: Handler
 
@@ -182,10 +193,10 @@ object FileStore : IFileStore {
 
         init {
             this.startWatching()
+
             Log.i(tag, "Observer: creating observer on: $fileName")
             this.ignoreEvents = false
             this.handler = Handler(Looper.getMainLooper())
-
         }
 
         fun ignoreEvents(ignore: Boolean) {
@@ -196,9 +207,7 @@ object FileStore : IFileStore {
         override fun onEvent(event: Int, eventPath: String?) {
             if (eventPath != null && eventPath == fileName) {
                 Log.d(tag, "Observer event: $fileName:$event")
-                if (event == CLOSE_WRITE ||
-                        event == MODIFY ||
-                        event == MOVED_TO) {
+                if (event == CLOSE_WRITE || event == MODIFY || event == MOVED_TO) {
                     if (ignoreEvents) {
                         Log.i(tag, "Observer: ignored event on: $fileName")
                     } else {
@@ -207,16 +216,15 @@ object FileStore : IFileStore {
                     }
                 }
             }
-
         }
 
         fun delayedStartListen(ms: Int) {
             // Cancel any running timers
             handler.removeCallbacks(delayedEnable)
+
             // Reschedule
             Log.i(tag, "Observer: Adding delayed enabling to todoQueue")
             handler.postDelayed(delayedEnable, ms.toLong())
         }
-
     }
 }

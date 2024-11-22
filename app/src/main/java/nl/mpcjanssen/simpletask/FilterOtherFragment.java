@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 public class FilterOtherFragment extends Fragment {
-
     final static String TAG = FilterOtherFragment.class.getSimpleName();
 
     private CheckBox cbHideCompleted;
@@ -51,15 +50,13 @@ public class FilterOtherFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView() this:" + this + " savedInstance:" + savedInstanceState);
 
         Bundle arguments = getArguments();
 
         Log.d(TAG, "Fragment bundle:" + this + " arguments:" + arguments);
-        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.other_filter,
-                container, false);
+        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.other_filter, container, false);
 
         cbHideCompleted = layout.findViewById(R.id.cb_show_completed);
         cbHideFuture = layout.findViewById(R.id.cb_show_future);
@@ -124,6 +121,7 @@ public class FilterOtherFragment extends Fragment {
             return !cbHideLists.isChecked();
         }
     }
+
     public boolean getHideTags() {
         Bundle arguments = getArguments();
         if (cbHideCompleted == null) {
@@ -132,6 +130,7 @@ public class FilterOtherFragment extends Fragment {
             return !cbHideTags.isChecked();
         }
     }
+
     public boolean getHideCreateDate() {
         Bundle arguments = getArguments();
         if (cbHideCreateDate == null) {

@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-    >
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
     <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_edit_filter"
-            style="@style/SimpleToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:minHeight="?attr/actionBarSize"
-            tools:ignore="UnusedAttribute"
-        />
+        android:id="@+id/toolbar_edit_filter"
+        style="@style/SimpleToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:minHeight="?attr/actionBarSize"
+        tools:ignore="UnusedAttribute" />
+
     <com.google.android.material.tabs.TabLayout
-            android:id="@+id/sliding_tabs"
-            style="@style/SimpleToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/toolbar_edit_filter"
-            android:minHeight="?attr/actionBarSize"
-            app:tabMode="scrollable"
-            tools:ignore="UnusedAttribute"/>
+        android:id="@+id/sliding_tabs"
+        style="@style/SimpleToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar_edit_filter"
+        android:minHeight="?attr/actionBarSize"
+        app:tabMode="scrollable"
+        tools:ignore="UnusedAttribute" />
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/sliding_tabs"
-        />
+        android:layout_below="@id/sliding_tabs" />
 </RelativeLayout>

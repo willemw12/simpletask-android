@@ -1,5 +1,3 @@
-import kotlin.plus
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -20,7 +18,13 @@ android {
 
     packaging {
         resources {
-            excludes += setOf("META-INF/LICENSE.txt", "META-INF/DEPENDENCIES", "META-INF/LICENSE", "META-INF/NOTICE.txt", "LICENSE.txt")
+            excludes += setOf(
+                "META-INF/LICENSE.txt",
+                "META-INF/DEPENDENCIES",
+                "META-INF/LICENSE",
+                "META-INF/NOTICE.txt",
+                "LICENSE.txt"
+            )
         }
     }
 
@@ -58,8 +62,7 @@ android {
             // signingConfig signingConfigs.release
             isMinifyEnabled = true
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
             // manifestPlaceholders["providerBuildType"] = "release"
         }

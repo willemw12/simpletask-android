@@ -39,14 +39,17 @@ import nl.mpcjanssen.simpletask.databinding.LoginBinding
 import nl.mpcjanssen.simpletask.util.showToastLong
 
 class LoginScreen : ThemedNoActionBarActivity() {
-
     private lateinit var binding: LoginBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         if (FileStore.isAuthenticated) {
             switchToTodolist()
         }
+
         setTheme(TodoApplication.config.activeTheme)
+
         binding = LoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -71,7 +74,7 @@ class LoginScreen : ThemedNoActionBarActivity() {
     }
 
     internal fun continueLogin() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !Environment.isExternalStorageManager()  )  {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !Environment.isExternalStorageManager()) {
             val intent = Intent()
             intent.action = Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
             val uri: Uri = Uri.fromParts("package", this.packageName, null)
@@ -92,8 +95,13 @@ class LoginScreen : ThemedNoActionBarActivity() {
         ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSIONS)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
         when (requestCode) {
             REQUEST_PERMISSIONS -> continueLogin()
             REQUEST_FULL_PERMISSION -> finishLogin()

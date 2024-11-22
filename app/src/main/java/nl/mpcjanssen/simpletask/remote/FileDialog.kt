@@ -14,12 +14,13 @@ import nl.mpcjanssen.simpletask.util.showToastLong
 import java.io.File
 
 class FileDialog {
-
     private val fileListenerList = ListenerList<FileSelectedListener>()
     private var loadingOverlay: Dialog? = null
     private var showingDialog: AlertDialog? = null
 
-    fun createFileDialog(act: Activity, fileStore: IFileStore, startFolder: File, txtOnly: Boolean) {
+    fun createFileDialog(
+        act: Activity, fileStore: IFileStore, startFolder: File, txtOnly: Boolean
+    ) {
         // Use an async task because we need to manage the UI
         Thread(Runnable {
             val unsortedFileList: List<FileEntry> = try {
@@ -43,7 +44,9 @@ class FileDialog {
                 }
             } ?: return@Runnable
             Log.i(TAG, "File list from ${startFolder.path} loaded")
-            val fileList = unsortedFileList.sortedWith(compareBy({ !it.isFolder }, { it.file.name })).toMutableList()
+            val fileList =
+                unsortedFileList.sortedWith(compareBy({ !it.isFolder }, { it.file.name }))
+                    .toMutableList()
 
             if (startFolder.canonicalPath != ROOT_DIR) {
                 fileList.add(0, FileEntry(File(PARENT_DIR), isFolder = true))
@@ -55,7 +58,9 @@ class FileDialog {
                 builder.setItems(namesList, DialogInterface.OnClickListener { dialog, which ->
                     val fileNameChosen = namesList[which]
                     if (fileNameChosen == PARENT_DIR) {
-                        createFileDialog(act, fileStore, startFolder.parentFile ?: File("/"), txtOnly)
+                        createFileDialog(
+                            act, fileStore, startFolder.parentFile ?: File("/"), txtOnly
+                        )
                         return@OnClickListener
                     }
 
@@ -65,7 +70,9 @@ class FileDialog {
                         dialog.dismiss()
                         return@OnClickListener
                     }
-                    Log.i(TAG, "Selected entry ${fileEntry.file.path}, folder: ${fileEntry.isFolder}")
+                    Log.i(
+                        TAG, "Selected entry ${fileEntry.file.path}, folder: ${fileEntry.isFolder}"
+                    )
 
                     val newPath = File(startFolder, fileEntry.file.path)
                     if (fileEntry.isFolder) {
@@ -96,10 +103,15 @@ class FileDialog {
         })
     }
 
-
     companion object {
         const val TAG = "FileDialog"
-        fun browseForNewFile(act: Activity, fileStore: FileStore, folder: File, listener: FileSelectedListener, txtOnly: Boolean) {
+        fun browseForNewFile(
+            act: Activity,
+            fileStore: FileStore,
+            folder: File,
+            listener: FileSelectedListener,
+            txtOnly: Boolean
+        ) {
             if (!FileStore.isOnline) {
                 showToastLong(act, "Device is offline")
                 Log.i(TAG, "Device is offline, browser closed")
@@ -119,6 +131,3 @@ class FileDialog {
         fun fileSelected(file: File)
     }
 }
-
-
-

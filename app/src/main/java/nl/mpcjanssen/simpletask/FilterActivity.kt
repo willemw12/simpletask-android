@@ -1,8 +1,6 @@
 package nl.mpcjanssen.simpletask
 
-import android.app.Activity
 import android.appwidget.AppWidgetManager
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
@@ -26,12 +24,12 @@ import java.io.IOException
 import java.util.*
 
 class FilterActivity : ThemedNoActionBarActivity() {
-
     internal var asWidgetConfigure = false
     internal var asWidgetReConfigure = false
-    internal lateinit var mFilter: Query
 
+    internal lateinit var mFilter: Query
     internal lateinit var m_app: TodoApplication
+
     val prefs = TodoApplication.config.prefs
 
     private var pager: ViewPager? = null
@@ -66,9 +64,7 @@ class FilterActivity : ThemedNoActionBarActivity() {
             "widget$id"
         } ?: "mainui"
 
-
         val context = applicationContext
-
         if (!asWidgetConfigure) {
             mFilter = Query(intent, luaModule = environment)
         } else if (intent.getBooleanExtra(Constants.EXTRA_WIDGET_RECONFIGURE, false)) {
@@ -76,17 +72,20 @@ class FilterActivity : ThemedNoActionBarActivity() {
             asWidgetConfigure = false
             setTitle(R.string.config_widget)
             val prefsName = intent.getIntExtra(Constants.EXTRA_WIDGET_ID, -1).toString()
-            val preferences = context.getSharedPreferences(prefsName , Context.MODE_PRIVATE)
+            val preferences = context.getSharedPreferences(prefsName, MODE_PRIVATE)
             mFilter = Query(preferences, luaModule = environment)
         } else {
             setTitle(R.string.create_widget)
             mFilter = Query(prefs, luaModule = environment)
         }
+
         pagerAdapter = ScreenSlidePagerAdapter(supportFragmentManager)
 
         val contextTab = FilterListFragment()
         contextTab.arguments = Bundle().apply {
-            val contexts = alfaSort(TodoApplication.todoList.contexts, TodoApplication.config.sortCaseSensitive, "-")
+            val contexts = alfaSort(
+                TodoApplication.todoList.contexts, TodoApplication.config.sortCaseSensitive, "-"
+            )
             putStringArrayList(FILTER_ITEMS, contexts)
             putStringArrayList(INITIAL_SELECTED_ITEMS, mFilter.contexts)
             putBoolean(INITIAL_NOT, mFilter.contextsNot)
@@ -96,7 +95,9 @@ class FilterActivity : ThemedNoActionBarActivity() {
 
         val projectTab = FilterListFragment()
         projectTab.arguments = Bundle().apply {
-            val projects = alfaSort(TodoApplication.todoList.projects, TodoApplication.config.sortCaseSensitive, "-")
+            val projects = alfaSort(
+                TodoApplication.todoList.projects, TodoApplication.config.sortCaseSensitive, "-"
+            )
             putStringArrayList(FILTER_ITEMS, projects)
             putStringArrayList(INITIAL_SELECTED_ITEMS, mFilter.projects)
             putBoolean(INITIAL_NOT, mFilter.projectsNot)
@@ -134,7 +135,6 @@ class FilterActivity : ThemedNoActionBarActivity() {
         }
         pagerAdapter!!.add(sortTab)
 
-
         val scriptTab = FilterScriptFragment()
         scriptFragment = scriptTab
         scriptTab.arguments = Bundle().apply {
@@ -148,6 +148,7 @@ class FilterActivity : ThemedNoActionBarActivity() {
 
         pager = findViewById<ViewPager>(R.id.pager)
         pager!!.adapter = pagerAdapter
+
         // Give the TabLayout the ViewPager
         val tabLayout = findViewById<TabLayout>(R.id.sliding_tabs)
         tabLayout.setupWithViewPager(pager as ViewPager)
@@ -157,7 +158,9 @@ class FilterActivity : ThemedNoActionBarActivity() {
                 return
             }
 
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            override fun onPageScrolled(
+                position: Int, positionOffset: Float, positionOffsetPixels: Int
+            ) {
                 return
             }
 
@@ -166,6 +169,7 @@ class FilterActivity : ThemedNoActionBarActivity() {
                 m_page = position
             }
         })
+
         val activePage = prefs.getInt(getString(R.string.last_open_filter_tab), 0)
         if (activePage < (pagerAdapter?.count ?: 0)) {
             pager?.setCurrentItem(activePage, false)
@@ -186,6 +190,7 @@ class FilterActivity : ThemedNoActionBarActivity() {
                 finish()
                 return true
             }
+
             R.id.menu_filter_action -> {
                 when {
                     asWidgetConfigure -> askWidgetName()
@@ -193,51 +198,56 @@ class FilterActivity : ThemedNoActionBarActivity() {
                         updateWidget()
                         finish()
                     }
+
                     else -> applyFilter()
                 }
             }
+
             R.id.menu_filter_load_script -> openScript { contents ->
-                runOnMainThread(
-                        Runnable { setScript(contents) })
+                runOnMainThread(Runnable { setScript(contents) })
             }
         }
         return true
     }
 
     private fun openScript(file_read: (String) -> Unit) {
-            val dialog = FileDialog()
+        val dialog = FileDialog()
         dialog.addFileListener(object : FileDialog.FileSelectedListener {
-                override fun fileSelected(file: File) {
-                    Thread(Runnable {
-                        try {
-                            FileStore.readFile(file, file_read)
-                        } catch (e: IOException) {
-                            showToastShort(this@FilterActivity, "Failed to load script.")
-                            e.printStackTrace()
-                        }
-                    }).start()
-                }
-            })
+            override fun fileSelected(file: File) {
+                Thread(Runnable {
+                    try {
+                        FileStore.readFile(file, file_read)
+                    } catch (e: IOException) {
+                        showToastShort(this@FilterActivity, "Failed to load script.")
+                        e.printStackTrace()
+                    }
+                }).start()
+            }
+        })
         // val startFolder = TodoApplication.config.todoFile.parentFile ?: File("/"
-        val startFolder = TodoApplication.config.todoFile.parentFile ?: Environment.getExternalStorageDirectory()
+        val startFolder =
+            TodoApplication.config.todoFile.parentFile ?: Environment.getExternalStorageDirectory()
         dialog.createFileDialog(this@FilterActivity, FileStore, startFolder, txtOnly = false)
     }
 
     private fun createFilterIntent(): Intent {
         val target = Intent(this, Simpletask::class.java)
         target.action = Constants.INTENT_START_FILTER
-        updateFilterFromFragments()
-        mFilter.saveInIntent(target)
 
+        updateFilterFromFragments()
+
+        mFilter.saveInIntent(target)
         target.putExtra("name", mFilter.proposedName)
+
         return target
     }
 
     private fun updateFilterFromFragments() {
         for (f in pagerAdapter!!.fragments) {
-            when (f.arguments?.getString(TAB_TYPE, "")?: "") {
+            when (f.arguments?.getString(TAB_TYPE, "") ?: "") {
                 "" -> {
                 }
+
                 OTHER_TAB -> {
                     val of = f as FilterOtherFragment
                     mFilter.hideCompleted = of.hideCompleted
@@ -248,25 +258,30 @@ class FilterActivity : ThemedNoActionBarActivity() {
                     mFilter.hideHidden = of.hideHidden
                     mFilter.createIsThreshold = of.createAsThreshold
                 }
+
                 CONTEXT_TAB -> {
                     val lf = f as FilterListFragment
                     mFilter.contexts = lf.getSelectedItems()
                     mFilter.contextsNot = lf.getNot()
                 }
+
                 PROJECT_TAB -> {
                     val pf = f as FilterListFragment
                     mFilter.projects = pf.getSelectedItems()
                     mFilter.projectsNot = pf.getNot()
                 }
+
                 PRIO_TAB -> {
                     val prf = f as FilterListFragment
                     mFilter.priorities = Priority.toPriority(prf.getSelectedItems())
                     mFilter.prioritiesNot = prf.getNot()
                 }
+
                 SORT_TAB -> {
                     val sf = f as FilterSortFragment
                     mFilter.setSort(sf.selectedItem)
                 }
+
                 SCRIPT_TAB -> {
                     val scrf = f as FilterScriptFragment
                     mFilter.useScript = scrf.useScript
@@ -279,7 +294,7 @@ class FilterActivity : ThemedNoActionBarActivity() {
 
     private fun setScript(script: String?) {
         if (scriptFragment == null) {
-            // fragment was never intialized
+            // Fragment was never initialized
             showToastShort(this, "Script tab not visible??")
         } else {
             script?.let { scriptFragment!!.script = script }
@@ -288,23 +303,26 @@ class FilterActivity : ThemedNoActionBarActivity() {
 
     private fun updateWidget() {
         updateFilterFromFragments()
+
         val widgetId = intent.getIntExtra(Constants.EXTRA_WIDGET_ID, 0)
         Log.i(TAG, "Saving settings for widget $widgetId")
         val preferences = applicationContext.getSharedPreferences("" + widgetId, MODE_PRIVATE)
         mFilter.saveInPrefs(preferences)
+
         broadcastRefreshWidgets(m_app.localBroadCastManager)
     }
 
     private fun createWidget(name: String) {
-        val mAppWidgetId: Int
-
         val intent = intent
         val extras = intent.extras
+
         updateFilterFromFragments()
+
         if (extras != null) {
+            val mAppWidgetId: Int
             mAppWidgetId = extras.getInt(
-                    AppWidgetManager.EXTRA_APPWIDGET_ID,
-                    AppWidgetManager.INVALID_APPWIDGET_ID)
+                AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID
+            )
 
             val context = applicationContext
 
@@ -314,12 +332,13 @@ class FilterActivity : ThemedNoActionBarActivity() {
             namedFilter.saveInPrefs(preferences)
 
             val appWidgetManager = AppWidgetManager.getInstance(context)
-            MyAppWidgetProvider.updateAppWidget(context, appWidgetManager,
-                    mAppWidgetId, name)
+            MyAppWidgetProvider.updateAppWidget(
+                context, appWidgetManager, mAppWidgetId, name
+            )
 
             val resultValue = Intent(applicationContext, AppWidgetService::class.java)
             resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId)
-            setResult(Activity.RESULT_OK, resultValue)
+            setResult(RESULT_OK, resultValue)
             finish()
         }
     }
@@ -351,11 +370,9 @@ class FilterActivity : ThemedNoActionBarActivity() {
                 createWidget(value)
             }
         }
-
         alert.setNegativeButton("Cancel") { _, _ -> }
 
         alert.show()
-
     }
 
     override fun onDestroy() {
@@ -368,7 +385,8 @@ class FilterActivity : ThemedNoActionBarActivity() {
      * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
      * sequence.
      */
-    private inner class ScreenSlidePagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+    private inner class ScreenSlidePagerAdapter(fm: FragmentManager) :
+        FragmentStatePagerAdapter(fm) {
         val fragments: ArrayList<Fragment> = ArrayList<Fragment>()
 
         fun add(frag: Fragment) {
@@ -377,7 +395,7 @@ class FilterActivity : ThemedNoActionBarActivity() {
 
         override fun getPageTitle(position: Int): CharSequence {
             val f = fragments[position]
-            val type = f.arguments?.getString(TAB_TYPE, "unknown") ?:"unknown"
+            val type = f.arguments?.getString(TAB_TYPE, "unknown") ?: "unknown"
             return when (type) {
                 PROJECT_TAB -> TodoApplication.config.tagTerm
                 CONTEXT_TAB -> TodoApplication.config.listTerm
@@ -392,11 +410,9 @@ class FilterActivity : ThemedNoActionBarActivity() {
         override fun getCount(): Int {
             return fragments.size
         }
-
     }
 
     companion object {
-
         const val TAG = "FilterActivity"
         const val TAB_TYPE = "type"
         const val CONTEXT_TAB = "context"
@@ -412,4 +428,3 @@ class FilterActivity : ThemedNoActionBarActivity() {
         const val INITIAL_NOT = "initialNot"
     }
 }
-

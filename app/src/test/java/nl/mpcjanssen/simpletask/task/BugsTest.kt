@@ -10,7 +10,6 @@ import org.junit.Assert
  * Tests to guard against bug regressions.
  */
 class BugsTest : TestCase() {
-
     fun testBuga7248d85e() {
         // Even though tasks below is not technically formatted
         // correctly it should not be changed in the file
@@ -27,7 +26,9 @@ class BugsTest : TestCase() {
 
     fun testBug50() {
         val t = Task("2012-01-01 @list test")
-        Assert.assertEquals("test", t.showParts { (it !is ListToken) && (it !is CreateDateToken) }.trim { it <= ' ' })
+        Assert.assertEquals(
+            "test",
+            t.showParts { (it !is ListToken) && (it !is CreateDateToken) }.trim { it <= ' ' })
 
     }
 

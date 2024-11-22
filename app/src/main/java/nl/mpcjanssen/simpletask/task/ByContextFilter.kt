@@ -28,17 +28,15 @@ package nl.mpcjanssen.simpletask.task
  * A applyFilter that matches Tasks containing the specified contexts
  */
 class ByContextFilter(
-        private val contexts: List<String>,
-        private val not: Boolean
+    private val contexts: List<String>, private val not: Boolean
 ) : TaskFilter {
-
     override fun apply(task: Task): Boolean {
         return if (not) !filter(task) else filter(task)
     }
 
     private fun filter(input: Task): Boolean {
         val match = input.lists?.any { contexts.contains(it) } == true
-         // Match tasks without context if applyFilter contains "-"
+        // Match tasks without context if applyFilter contains "-"
         return match || input.lists == null && contexts.contains("-")
     }
 }

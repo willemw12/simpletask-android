@@ -40,7 +40,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import java.util.*
 
 class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
-
     lateinit var prefs: SharedPreferences
     lateinit var app: TodoApplication
 
@@ -49,6 +48,7 @@ class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPrefer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         prefs = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this)
         app = application as TodoApplication
         localBroadcastManager = app.localBroadCastManager
@@ -58,7 +58,11 @@ class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPrefer
         m_broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, receivedIntent: Intent) {
                 if (receivedIntent.action == Constants.BROADCAST_THEME_CHANGED) {
-                    Log.i(TAG, "Reloading preference screen with fragment ${intent.getStringExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT)}")
+                    Log.i(
+                        TAG, "Reloading preference screen with fragment ${
+                            intent.getStringExtra(EXTRA_SHOW_FRAGMENT)
+                        }"
+                    )
                     recreate()
                 }
             }
@@ -69,20 +73,22 @@ class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPrefer
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            getString(R.string.calendar_sync_thresholds),
-            getString(R.string.calendar_sync_dues) -> requestCalendarPermission()
+            getString(R.string.calendar_sync_thresholds), getString(R.string.calendar_sync_dues) -> requestCalendarPermission()
             getString(R.string.theme_pref_key) -> {
                 onContentChanged()
                 val broadcastIntent = Intent(Constants.BROADCAST_THEME_CHANGED)
-                intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, AppearancePrefFragment::class.java.name)
+                intent.putExtra(
+                    EXTRA_SHOW_FRAGMENT, AppearancePrefFragment::class.java.name
+                )
                 localBroadcastManager.sendBroadcast(broadcastIntent)
             }
+
             getString(R.string.datebar_relative_size) -> {
                 val broadcastIntent = Intent(Constants.BROADCAST_DATEBAR_SIZE_CHANGED)
                 localBroadcastManager.sendBroadcast(broadcastIntent)
             }
-            getString(R.string.custom_font_size),
-            getString(R.string.font_size) -> {
+
+            getString(R.string.custom_font_size), getString(R.string.font_size) -> {
                 val broadcastIntent = Intent(Constants.BROADCAST_MAIN_FONTSIZE_CHANGED)
                 localBroadcastManager.sendBroadcast(broadcastIntent)
             }
@@ -91,31 +97,36 @@ class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPrefer
 
     private fun requestCalendarPermission() {
         if (TodoApplication.config.isSyncDues || TodoApplication.config.isSyncThresholds) {
-            val writePermissionCheck = ContextCompat.checkSelfPermission(app,
-            Manifest.permission.WRITE_CALENDAR)
-
+            val writePermissionCheck = ContextCompat.checkSelfPermission(
+                app, Manifest.permission.WRITE_CALENDAR
+            )
             if (writePermissionCheck == PackageManager.PERMISSION_DENIED) {
-                ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.WRITE_CALENDAR), 0)
+                ActivityCompat.requestPermissions(
+                    this, arrayOf(Manifest.permission.WRITE_CALENDAR), 0
+                )
             }
-            val readPermissionCheck = ContextCompat.checkSelfPermission(app,
-                    Manifest.permission.READ_CALENDAR)
 
+            val readPermissionCheck = ContextCompat.checkSelfPermission(
+                app, Manifest.permission.READ_CALENDAR
+            )
             if (readPermissionCheck == PackageManager.PERMISSION_DENIED) {
-                ActivityCompat.requestPermissions(this,
-                        arrayOf(Manifest.permission.READ_CALENDAR), 0)
+                ActivityCompat.requestPermissions(
+                    this, arrayOf(Manifest.permission.READ_CALENDAR), 0
+                )
             }
         }
     }
 
     override fun onResume() {
         super.onResume()
+
         // Set up a listener whenever a key changes
         prefs.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onPause() {
         super.onPause()
+
         // Set up a listener whenever a key changes
         prefs.unregisterOnSharedPreferenceChangeListener(this)
     }
@@ -131,9 +142,9 @@ class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPrefer
 
         // Remove calendar preferences for older devices
         // if (!TodoApplication.atLeastAPI(16)) {
-            target.addAll(allHeaders.filter { it.fragment != CalendarPrefFragment::class.java.name })
+        //     target.addAll(allHeaders.filter { it.fragment != CalendarPrefFragment::class.java.name })
         // } else {
-        //     target.addAll(allHeaders)
+        target.addAll(allHeaders)
         // }
     }
 
@@ -143,7 +154,7 @@ class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPrefer
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-        // Respond to the action bar's Up/Home button
+            // Respond to the action bar's Up/Home button
             android.R.id.home -> {
                 super.onBackPressed()
                 return true
@@ -159,7 +170,6 @@ class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPrefer
             super.onCreate(savedInstanceState)
             addPreferencesFromResource(xmlId)
         }
-
     }
 
     class AppearancePrefFragment : PrefFragment(R.xml.appearance_preferences)
@@ -189,7 +199,9 @@ class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPrefer
     class InterfacePrefFragment : PrefFragment(R.xml.interface_preferences) {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
-            val appendTextPref = findPreference(getString(R.string.share_task_append_text)) as EditTextPreference
+
+            val appendTextPref =
+                findPreference(getString(R.string.share_task_append_text)) as EditTextPreference
             appendTextPref.valueInSummary()
             appendTextPref.setOnPreferenceChangeListener { preference, any ->
                 preference.summary = getString(R.string.share_task_append_text_summary)
@@ -231,5 +243,7 @@ class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPrefer
 
 // Helper to replace %s in all setting summaries not only ListPreferences
 fun Preference.valueInSummary(any: Any? = null) {
-    this.summary = this.summary.replaceFirst(Regex("%s"), any?.toString() ?: this.sharedPreferences.getString(this.key, "")?:"")
-    }
+    this.summary = this.summary.replaceFirst(
+        Regex("%s"), any?.toString() ?: this.sharedPreferences.getString(this.key, "") ?: ""
+    )
+}

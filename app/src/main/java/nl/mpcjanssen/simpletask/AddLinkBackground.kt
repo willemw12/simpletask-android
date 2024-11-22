@@ -62,15 +62,25 @@ class AddLinkBackground : Activity() {
         Log.d(tag, "Adding background tasks to todolist $todoList")
 
         val rawLines = sharedText.split("\r\n|\r|\n".toRegex()).filterNot(String::isBlank)
-        val lines = if (appendText.isBlank()) { rawLines } else {
+        val lines = if (appendText.isBlank()) {
+            rawLines
+        } else {
             rawLines.map { "$it $appendText" }
         }
         val tasks = lines.map { text ->
-            if (TodoApplication.config.hasPrependDate) { Task(text, todayAsString) } else { Task(text) }
+            if (TodoApplication.config.hasPrependDate) {
+                Task(text, todayAsString)
+            } else {
+                Task(text)
+            }
         }
 
         todoList.add(tasks, TodoApplication.config.hasAppendAtEnd)
-        todoList.notifyTasklistChanged(TodoApplication.config.todoFile, save = true, refreshMainUI = true)
+        todoList.notifyTasklistChanged(
+            TodoApplication.config.todoFile,
+            save = true,
+            refreshMainUI = true
+        )
         showToastShort(TodoApplication.app, R.string.link_added)
         if (TodoApplication.config.hasShareTaskShowsEdit) {
             todoList.editTasks(this, tasks, "")

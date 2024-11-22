@@ -1,42 +1,34 @@
 <!--suppress ALL -->
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/lua_config_run"
-        android:title="@string/lua_run"
         android:icon="@drawable/ic_play_arrow_white_24dp"
-        app:showAsAction="always"
-        />
+        android:title="@string/lua_run"
+        app:showAsAction="always" />
     <item
         android:id="@+id/lua_config_help"
-        android:title="@string/help"
         android:icon="@drawable/ic_help_white_24dp"
-        app:showAsAction="ifRoom"
-        />
+        android:title="@string/help"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/lua_config_import_export"
-        android:title="@string/lua_config_import_export"
         android:icon="@drawable/ic_import_export_white_24dp"
-        app:showAsAction="always"
-        >
+        android:title="@string/lua_config_import_export"
+        app:showAsAction="always">
         <menu>
             <item
                 android:id="@+id/lua_config_import"
                 android:title="@string/import_filter"
-                app:showAsAction="never"
-                />
+                app:showAsAction="never" />
             <item
                 android:id="@+id/lua_config_export"
                 android:title="@string/lua_config_export"
-                app:showAsAction="never"
-                />
+                app:showAsAction="never" />
             <item
                 android:id="@+id/lua_config_share"
                 android:title="@string/lua_config_share"
-                app:showAsAction="never"
-                />
+                app:showAsAction="never" />
         </menu>
     </item>
 </menu>

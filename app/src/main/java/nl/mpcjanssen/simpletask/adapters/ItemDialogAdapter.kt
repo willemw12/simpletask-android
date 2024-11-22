@@ -12,11 +12,8 @@ import nl.mpcjanssen.simpletask.util.*
 
 // Provide a suitable constructor (depends on the kind of dataset)
 class ItemDialogAdapter(
-        tasks: List<Task>,
-        allItems: Collection<String>,
-        retrieveFromTask: (Task) -> Set<String>?
+    tasks: List<Task>, allItems: Collection<String>, retrieveFromTask: (Task) -> Set<String>?
 ) : RecyclerView.Adapter<ItemDialogAdapter.ViewHolder>() {
-
     private val mItems: MutableList<Item>
 
     init {
@@ -32,7 +29,7 @@ class ItemDialogAdapter(
         /* val itemAdapter = ItemDialogAdapter(sortedAllItems, onAll, onSome) */
 
         mItems = sortedItems.map { item ->
-            val state = when(item) {
+            val state = when (item) {
                 in onAll -> true
                 in onSome -> null
                 else -> false
@@ -67,14 +64,17 @@ class ItemDialogAdapter(
     // you provide access to all the views for a data item in a view holder
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         // Each data item is just a string in this case
-        var mCheckBox: IndeterminateCheckBox = v.findViewById<IndeterminateCheckBox>(R.id.indeterm_checkbox)
+        var mCheckBox: IndeterminateCheckBox =
+            v.findViewById<IndeterminateCheckBox>(R.id.indeterm_checkbox)
     }
 
     // Create new views (invoked by the layout manager)
-    override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): ItemDialogAdapter.ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup, viewType: Int
+    ): ViewHolder {
         // Create a new view
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.keep_dialog_item, parent, false)
+        val v =
+            LayoutInflater.from(parent.context).inflate(R.layout.keep_dialog_item, parent, false)
         // set the view's size, margins, paddings and layout parameters
 
         val vh = ViewHolder(v)
@@ -90,7 +90,7 @@ class ItemDialogAdapter(
         // Replace the contents of the view with that element
         holder.mCheckBox.setOnStateChangedListener(null)
         holder.mCheckBox.text = item.item
-        holder.mCheckBox.setIndeterminateUsed(item.initialState==null)
+        holder.mCheckBox.setIndeterminateUsed(item.initialState == null)
         holder.mCheckBox.state = item.state
         holder.mCheckBox.setOnStateChangedListener { _, b ->
             Log.i("ItemAdapter", "state chaged $position:$item, new state: $b")

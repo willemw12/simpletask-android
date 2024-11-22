@@ -13,9 +13,9 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class FilterSortFragment : Fragment() {
-
     private var originalItems: ArrayList<String>? = null
     private var lv: DragSortListView? = null
+
     internal var adapter: SortItemAdapter? = null
     internal var directions = ArrayList<String>()
     internal var adapterList = ArrayList<String>()
@@ -37,17 +37,18 @@ class FilterSortFragment : Fragment() {
         }
     }
 
-    private val onRemove = DragSortListView.RemoveListener { which -> adapter?.remove(adapter?.getItem(which)) }
+    private val onRemove =
+        DragSortListView.RemoveListener { which -> adapter?.remove(adapter?.getItem(which)) }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
         val arguments = arguments
         if (originalItems == null) {
             originalItems = if (savedInstanceState != null) {
                 savedInstanceState.getStringArrayList(STATE_SELECTED)
             } else {
-                arguments?.getStringArrayList(FilterActivity.FILTER_ITEMS)?: ArrayList()
+                arguments?.getStringArrayList(FilterActivity.FILTER_ITEMS) ?: ArrayList()
             }
         }
         Log.d(TAG, "Created view with: $originalItems")
@@ -64,14 +65,16 @@ class FilterSortFragment : Fragment() {
 
         adapterList.clear()
 
-        val layout: LinearLayout = inflater.inflate(R.layout.single_filter,
-                container, false) as LinearLayout
+        val layout: LinearLayout = inflater.inflate(
+            R.layout.single_filter, container, false
+        ) as LinearLayout
 
         val keys = resources.getStringArray(R.array.sortKeys)
         for (item in originalItems!!) {
             val parts = item.split("!".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             val sortType: String
             var sortDirection: String
+
             if (parts.size == 1) {
                 sortType = parts[0]
                 sortDirection = Query.NORMAL_SORT
@@ -103,7 +106,8 @@ class FilterSortFragment : Fragment() {
         lv!!.setDropListener(onDrop)
         lv!!.setRemoveListener(onRemove)
 
-        adapter = activity?.let { SortItemAdapter(it, R.layout.sort_list_item, R.id.text, adapterList) }
+        adapter =
+            activity?.let { SortItemAdapter(it, R.layout.sort_list_item, R.id.text, adapterList) }
         lv!!.adapter = adapter
         lv!!.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             var direction = directions[position]
@@ -116,6 +120,7 @@ class FilterSortFragment : Fragment() {
             directions.add(position, direction)
             adapter?.notifyDataSetChanged()
         }
+
         return layout
     }
 
@@ -133,16 +138,22 @@ class FilterSortFragment : Fragment() {
         get() {
             val multiSort = ArrayList<String>()
             when {
-                lv != null -> for (i in 0 until (adapter?.count?:1)) {
+                lv != null -> for (i in 0 until (adapter?.count ?: 1)) {
                     multiSort.add(directions[i] + Query.SORT_SEPARATOR + adapter?.getSortType(i))
                 }
+
                 originalItems != null -> multiSort.addAll(originalItems as ArrayList<String>)
-                else -> multiSort.addAll(arguments?.getStringArrayList(FilterActivity.FILTER_ITEMS) ?: java.util.ArrayList())
+                else -> multiSort.addAll(
+                    arguments?.getStringArrayList(FilterActivity.FILTER_ITEMS)
+                        ?: java.util.ArrayList()
+                )
             }
             return multiSort
         }
 
-    inner class SortItemAdapter(context: Context, resource: Int, textViewResourceId: Int, objects: List<String>) : ArrayAdapter<String>(context, resource, textViewResourceId, objects) {
+    inner class SortItemAdapter(
+        context: Context, resource: Int, textViewResourceId: Int, objects: List<String>
+    ) : ArrayAdapter<String>(context, resource, textViewResourceId, objects) {
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
             val row = super.getView(position, convertView, parent)
@@ -164,7 +175,6 @@ class FilterSortFragment : Fragment() {
     }
 
     companion object {
-
         private const val STATE_SELECTED = "selectedItem"
         internal val TAG = FilterActivity::class.java.simpleName
     }

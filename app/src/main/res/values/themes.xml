@@ -11,8 +11,8 @@
         <item name="colorPrimaryDark">@color/simple_primary_dark</item>
         <item name="colorAccent">@color/simple_accent</item>
         <item name="colorControlActivated">@color/simple_alpha_focus</item>
-            <!-- This isn't working right now, I think. -->
-            <item name="colorControlHighlight">@color/simple_alpha33</item>
+        <!-- This isn't working right now, I think. -->
+        <item name="colorControlHighlight">@color/simple_alpha33</item>
         <item name="alertDialogTheme">@style/AppCompatAlertDialogStyle</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
@@ -22,8 +22,8 @@
         <item name="colorPrimaryDark">@color/simple_primary_dark</item>
         <item name="colorAccent">@color/simple_accent</item>
         <item name="colorControlActivated">@color/simple_primary</item>
-            <!-- This isn't working right now, I think. -->
-            <item name="colorControlHighlight">@color/simple_alpha33</item>
+        <!-- This isn't working right now, I think. -->
+        <item name="colorControlHighlight">@color/simple_alpha33</item>
         <item name="alertDialogTheme">@style/AppCompatAlertDialogStyle</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
@@ -34,8 +34,8 @@
         <item name="colorPrimaryDark">@color/simple_primary_dark</item>
         <item name="colorAccent">@color/simple_accent</item>
         <item name="colorControlActivated">@color/simple_alpha_focus</item>
-            <!-- This isn't working right now, I think. -->
-            <item name="colorControlHighlight">@color/simple_alpha33</item> 
+        <!-- This isn't working right now, I think. -->
+        <item name="colorControlHighlight">@color/simple_alpha33</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="alertDialogTheme">@style/AppCompatAlertDialogStyleDark</item>
     </style>
@@ -45,8 +45,8 @@
         <item name="colorPrimaryDark">@color/simple_primary_dark</item>
         <item name="colorAccent">@color/simple_accent</item>
         <item name="colorControlActivated">@color/simple_primary</item>
-            <!-- This isn't working right now, I think. -->
-            <item name="colorControlHighlight">@color/simple_alpha33</item> 
+        <!-- This isn't working right now, I think. -->
+        <item name="colorControlHighlight">@color/simple_alpha33</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="alertDialogTheme">@style/AppCompatAlertDialogStyleDark</item>
     </style>

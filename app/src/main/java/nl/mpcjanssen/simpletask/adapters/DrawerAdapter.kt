@@ -11,12 +11,13 @@ import nl.mpcjanssen.simpletask.R
 import nl.mpcjanssen.simpletask.util.alfaSort
 import nl.mpcjanssen.simpletask.util.getString
 
-class DrawerAdapter(private val m_inflater: LayoutInflater,
-                    contextHeader: String,
-                    contexts: List<String>,
-                    projectHeader: String,
-                    projects: List<String>) : BaseAdapter(), ListAdapter {
-
+class DrawerAdapter(
+    private val m_inflater: LayoutInflater,
+    contextHeader: String,
+    contexts: List<String>,
+    projectHeader: String,
+    projects: List<String>
+) : BaseAdapter(), ListAdapter {
     internal var items: ArrayList<String> = ArrayList()
     var contextHeaderPosition: Int = 0
         internal set
@@ -61,7 +62,8 @@ class DrawerAdapter(private val m_inflater: LayoutInflater,
             tv = view as TextView
             val lv = parent as ListView
             if (lv.isItemChecked(position)) {
-                tv.text = items[position] + " " + getString(R.string.quick_filter_tag_header_inverted)
+                tv.text =
+                    items[position] + " " + getString(R.string.quick_filter_tag_header_inverted)
             } else {
                 tv.text = items[position]
             }
@@ -105,5 +107,3 @@ class DrawerAdapter(private val m_inflater: LayoutInflater,
         return items.indexOf(item)
     }
 }
-
-

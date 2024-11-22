@@ -1,24 +1,18 @@
 <!--suppress ALL -->
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
-
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_word_wrap"
-        android:title="@string/word_wrap"
         android:checkable="true"
-        app:showAsAction="never"
-        />
+        android:title="@string/word_wrap"
+        app:showAsAction="never" />
     <item
         android:id="@+id/menu_capitalize_tasks"
-        android:title="@string/menu_capitalize_tasks"
         android:checkable="true"
-        app:showAsAction="never"
-        />
+        android:title="@string/menu_capitalize_tasks"
+        app:showAsAction="never" />
     <item
         android:id="@+id/menu_help"
         android:title="@string/help"
-        app:showAsAction="never"
-        />
+        app:showAsAction="never" />
 </menu>

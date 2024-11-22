@@ -25,7 +25,6 @@
 package nl.mpcjanssen.simpletask
 
 object Constants {
-
     const val DATE_FORMAT = "YYYY-MM-DD"
 
     // Constants for creating shortcuts
@@ -67,8 +66,6 @@ object Constants {
     const val ALARM_REASON_EXTRA = "reason"
     const val ALARM_RELOAD = "reload"
     const val ALARM_NEW_DAY = "newday"
-
-
 }
 
 enum class DateType {

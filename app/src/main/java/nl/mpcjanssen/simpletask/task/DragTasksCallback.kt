@@ -3,16 +3,21 @@ package nl.mpcjanssen.simpletask.task
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
-class LineMove(val fromLineIndex: Int,
-        val toLineIndex: Int,
-        val fromTask: Task,
-        val toTask: Task,
-        val isMoveBelow: Boolean) {}
+class LineMove(
+    val fromLineIndex: Int,
+    val toLineIndex: Int,
+    val fromTask: Task,
+    val toTask: Task,
+    val isMoveBelow: Boolean
+)
 
 class DragTasksCallback(val taskAdapter: TaskAdapter) : ItemTouchHelper.Callback() {
     var currentMove: LineMove? = null
 
-    override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+    override fun getMovementFlags(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder
+    ): Int {
         if (viewHolder.itemViewType == 1) { // Task
             val fromIndex = viewHolder.bindingAdapterPosition
             val canMove = taskAdapter.canMoveLineUpOrDown(fromIndex)
@@ -29,7 +34,11 @@ class DragTasksCallback(val taskAdapter: TaskAdapter) : ItemTouchHelper.Callback
     }
 
     // Called when the line we're dragging is being swapped with another line
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+    override fun onMove(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder,
+        target: RecyclerView.ViewHolder
+    ): Boolean {
         val from = viewHolder.bindingAdapterPosition
         val to = target.bindingAdapterPosition
 
@@ -61,8 +70,8 @@ class DragTasksCallback(val taskAdapter: TaskAdapter) : ItemTouchHelper.Callback
         currentMove = null
     }
 
-    override fun onSwiped(recyclerView: RecyclerView.ViewHolder, p1: Int): Unit {
-        throw IllegalStateException("Swiping is not enabled for the ItemTouchHelper, so it shouldn't ever call onSwiped");
+    override fun onSwiped(recyclerView: RecyclerView.ViewHolder, p1: Int) {
+        throw IllegalStateException("Swiping is not enabled for the ItemTouchHelper, so it shouldn't ever call onSwiped")
     }
 
     override fun isLongPressDragEnabled(): Boolean {

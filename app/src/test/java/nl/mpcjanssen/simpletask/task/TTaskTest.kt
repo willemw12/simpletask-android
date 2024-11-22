@@ -23,9 +23,9 @@ class TaskTest : TestCase() {
     }
 
     fun testEquals() {
-	// Tasks are only equal if they are the same object    
-        assertFalse(Task("a")==Task("a"))
-        assertFalse(Task("a")==Task("A"))
+        // Tasks are only equal if they are the same object
+        assertFalse(Task("a") == Task("a"))
+        assertFalse(Task("a") == Task("A"))
     }
 
     fun testGetDueDate() {
@@ -90,10 +90,10 @@ class TaskTest : TestCase() {
         val str = "test"
         val t1 = Task(str)
         t1.markComplete("2010-12-12")
-        assertEquals("x 2010-12-12 $str", t1.text )
+        assertEquals("x 2010-12-12 $str", t1.text)
         val tc = Task("x 2000-12-12 $str")
         tc.markComplete("2010-12-12")
-        assertEquals("x 2000-12-12 $str", tc.text )
+        assertEquals("x 2000-12-12 $str", tc.text)
     }
 
     fun testHidden() {
@@ -105,14 +105,21 @@ class TaskTest : TestCase() {
     fun testSortedTagsAndLists() {
         val task1 = "Test +b +a"
         val task2 = "Test +a +b"
-        Assert.assertArrayEquals(Task(task1).tags!!.toTypedArray(), Task(task2).tags!!.toTypedArray())
+        Assert.assertArrayEquals(
+            Task(task1).tags!!.toTypedArray(),
+            Task(task2).tags!!.toTypedArray()
+        )
         val task3 = "Test @b @a"
         val task4 = "Test @a @b"
-        Assert.assertArrayEquals(Task(task3).lists!!.toTypedArray(), Task(task4).lists!!.toTypedArray())
+        Assert.assertArrayEquals(
+            Task(task3).lists!!.toTypedArray(),
+            Task(task4).lists!!.toTypedArray()
+        )
     }
 
     fun testAlphaParts() {
-        val task1 = Task("2018-07-01 1234 Task text with some 33-33 random numbers 12345678 @a +b due:2019-01-01 t:2019-01-01 misc:mine")
+        val task1 =
+            Task("2018-07-01 1234 Task text with some 33-33 random numbers 12345678 @a +b due:2019-01-01 t:2019-01-01 misc:mine")
         assertEquals("1234 Task text with some 33-33 random numbers 12345678", task1.alphaParts)
     }
 }

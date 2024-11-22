@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<TextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/list_header_title"
+    style="?android:attr/listSeparatorTextViewStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="start"
+    android:paddingStart="5dip"
     android:paddingTop="2dip"
-    android:paddingBottom="2dip"
-    android:paddingLeft="5dip"
-    style="?android:attr/listSeparatorTextViewStyle"
-    android:gravity="left"
-    android:paddingRight="20dip"
-    />
+    android:paddingEnd="20dip"
+    android:paddingBottom="2dip" />

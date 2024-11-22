@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!--
 LICENSE:
 
@@ -20,74 +21,65 @@ You should have received a copy of the GNU General Public License along with Sim
 @copyright 2015 Vojtech Kral
 -->
 <!-- package name and version codes are overwritten by Gradle -->
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
         android:normalScreens="true"
         android:resizeable="true"
         android:smallScreens="true"
-        android:xlargeScreens="true"
-        />
+        android:xlargeScreens="true" />
     <application
         android:name=".TodoApplication"
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_label"
-        android:theme="@style/LaunchScreen"
         android:supportsRtl="true"
-        >
+        android:theme="@style/LaunchScreen">
         <!-- tools:ignore="UnusedAttribute" -->
         <activity
             android:name=".HelpScreen"
-            android:parentActivityName=".Simpletask"
-            tools:ignore="UnusedAttribute"
             android:label="@string/help"
-            />
+            android:parentActivityName=".Simpletask"
+            tools:ignore="UnusedAttribute" />
         <activity
             android:name=".ScriptConfigScreen"
-            android:parentActivityName=".Simpletask"
-            tools:ignore="UnusedAttribute"
             android:label="@string/lua_config_screen"
-            />
+            android:parentActivityName=".Simpletask"
+            tools:ignore="UnusedAttribute" />
         <activity
             android:name=".DebugInfoScreen"
-            android:parentActivityName=".Preferences"
             android:label="@string/debug_info"
-            tools:ignore="UnusedAttribute"
-            />
+            android:parentActivityName=".Preferences"
+            tools:ignore="UnusedAttribute" />
         <activity
             android:name=".HistoryScreen"
-            android:parentActivityName=".Preferences"
             android:label="@string/history"
-            tools:ignore="UnusedAttribute"
-            />
+            android:parentActivityName=".Preferences"
+            tools:ignore="UnusedAttribute" />
         <activity
             android:name=".Preferences"
-            android:parentActivityName=".Simpletask"
             android:label="@string/set_preferences"
-            tools:ignore="UnusedAttribute"
-            />
+            android:parentActivityName=".Simpletask"
+            tools:ignore="UnusedAttribute" />
         <activity
             android:name=".AddTask"
             android:exported="true"
             android:label="@string/addtask"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize"
-            tools:ignore="UnusedAttribute"
-            >
+            tools:ignore="UnusedAttribute">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="nl.mpcjanssen.simpletask.Simpletask"
-                />
+                android:value="nl.mpcjanssen.simpletask.Simpletask" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -95,15 +87,15 @@ You should have received a copy of the GNU General Public License along with Sim
 
         <!-- Implemented in Kotlin, so fix lint complaining about it -->
         <activity
-            tools:ignore="MissingRegistered"
             android:name=".AddTaskBackground"
             android:enabled="true"
-            android:theme="@android:style/Theme.Translucent"
             android:exported="true"
-            >
+            android:theme="@android:style/Theme.Translucent"
+            tools:ignore="MissingRegistered">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <action android:name="nl.mpcjanssen.simpletask.BACKGROUND_TASK" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <action android:name="com.google.android.gm.action.AUTO_SEND" />
                 <data android:mimeType="*/*" />
@@ -112,16 +104,16 @@ You should have received a copy of the GNU General Public License along with Sim
 
         <!-- Implemented in Kotlin, so fix lint complaining about it -->
         <activity
-                tools:ignore="MissingRegistered"
-                android:name=".AddLinkBackground"
-                android:enabled="true"
-                android:label="@string/share_link"
-                android:theme="@android:style/Theme.Translucent.NoTitleBar"
-                android:exported="true"
-                >
+            android:name=".AddLinkBackground"
+            android:enabled="true"
+            android:exported="true"
+            android:label="@string/share_link"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            tools:ignore="MissingRegistered">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <action android:name="nl.mpcjanssen.simpletask.BACKGROUND_LINK" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="*/*" />
             </intent-filter>
@@ -129,8 +121,8 @@ You should have received a copy of the GNU General Public License along with Sim
 
         <activity
             android:name=".AddTaskShortcut"
-            android:label="@string/shortcut_addtask_name"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/shortcut_addtask_name">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -140,10 +132,10 @@ You should have received a copy of the GNU General Public License along with Sim
         <activity
             android:name=".Simpletask"
             android:exported="true"
-            android:launchMode="singleTask"
-            >
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
             </intent-filter>
@@ -165,21 +157,20 @@ You should have received a copy of the GNU General Public License along with Sim
 
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable"
-                />
+                android:resource="@xml/searchable" />
         </activity>
 
         <activity
             android:name=".FilterActivity"
             android:exported="true"
-            android:label="@string/title_activity_filter"
-            >
+            android:label="@string/title_activity_filter">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
 
-        <receiver android:name=".MyAppWidgetProvider"
+        <receiver
+            android:name=".MyAppWidgetProvider"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -191,51 +182,44 @@ You should have received a copy of the GNU General Public License along with Sim
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/appwidget_info"
-                />
+                android:resource="@xml/appwidget_info" />
         </receiver>
 
         <service
             android:name=".AppWidgetService"
             android:exported="false"
-            android:permission="android.permission.BIND_REMOTEVIEWS"
-            />
-        <service
-            android:name=".MarkTaskDone"
-            />
-        <receiver android:name="nl.mpcjanssen.simpletask.AlarmReceiver"/>
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+        <service android:name=".MarkTaskDone" />
+
+        <receiver android:name="nl.mpcjanssen.simpletask.AlarmReceiver" />
         <uses-library
             android:name="com.sec.android.app.multiwindow"
-            android:required="false"
-            />
+            android:required="false" />
+
         <meta-data
             android:name="com.sec.android.support.multiwindow"
-            android:value="true"
-            />
+            android:value="true" />
         <meta-data
             android:name="com.sec.android.multiwindow.DEFAULT_SIZE_W"
-            android:resource="@dimen/app_defaultsize_w"
-            />
+            android:resource="@dimen/app_defaultsize_w" />
         <meta-data
             android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H"
-            android:resource="@dimen/app_defaultsize_h"
-            />
+            android:resource="@dimen/app_defaultsize_h" />
         <meta-data
             android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W"
-            android:resource="@dimen/app_minimumsize_w"
-            />
+            android:resource="@dimen/app_minimumsize_w" />
         <meta-data
             android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
-            android:resource="@dimen/app_minimumsize_h"
-            />
+            android:resource="@dimen/app_minimumsize_h" />
+
         <provider
-                android:name="androidx.core.content.FileProvider"
-                android:authorities="${applicationId}.provider"
-                android:exported="false"
-                android:grantUriPermissions="true">
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
-                    android:name="android.support.FILE_PROVIDER_PATHS"
-                    android:resource="@xml/provider_paths"/>
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
         </provider>
     </application>
 </manifest>
