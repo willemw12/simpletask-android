@@ -105,7 +105,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
                     android:layout_margin="16dp"
-                    android:src="@drawable/ic_insert_invitation_white_24dp" />
+                    android:src="@drawable/ic_insert_invitation_white_24dp"
+                    android:tooltipText="@string/add_to_calendar" />
             </FrameLayout>
 
             <ProgressBar
