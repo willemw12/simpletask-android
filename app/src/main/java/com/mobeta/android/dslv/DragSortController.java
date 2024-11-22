@@ -102,7 +102,7 @@ public class DragSortController extends SimpleFloatViewManager implements View.O
         if (mFlingRemoveListener == null) {
             mFlingRemoveListener = new GestureDetector.SimpleOnGestureListener() {
                 @Override
-                public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                public boolean onFling(MotionEvent e1, @NonNull MotionEvent e2, float velocityX, float velocityY) {
                     // Log.d(tag, "on fling remove called");
                     if (mRemoveEnabled && mIsRemoving) {
                         int w = mDslv.getWidth();
@@ -378,9 +378,9 @@ public class DragSortController extends SimpleFloatViewManager implements View.O
     }
 
     @Override
-    public boolean onScroll(@NonNull MotionEvent e1, @NonNull MotionEvent e2, float distanceX, float distanceY) {
-        final int x1 = (int) e1.getX();
-        final int y1 = (int) e1.getY();
+    public boolean onScroll(MotionEvent e1, @NonNull MotionEvent e2, float distanceX, float distanceY) {
+        final int x1 = (int) (e1 != null ? e1.getX() : 0);
+        final int y1 = (int) (e1 != null ? e1.getY() : 0);
         final int x2 = (int) e2.getX();
         final int y2 = (int) e2.getY();
         final int deltaX = x2 - mItemX;
@@ -421,13 +421,13 @@ public class DragSortController extends SimpleFloatViewManager implements View.O
 
     // Complete the OnGestureListener interface
     @Override
-    public final boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+    public final boolean onFling(MotionEvent e1, @NonNull MotionEvent e2, float velocityX, float velocityY) {
         return false;
     }
 
     // Complete the OnGestureListener interface
     @Override
-    public boolean onSingleTapUp(MotionEvent ev) {
+    public boolean onSingleTapUp(@NonNull MotionEvent ev) {
         if (mRemoveEnabled && mRemoveMode == CLICK_REMOVE) {
             if (mClickRemoveHitPos != MISS) {
                 mDslv.removeItem(mClickRemoveHitPos - mDslv.getHeaderViewsCount());
@@ -438,7 +438,7 @@ public class DragSortController extends SimpleFloatViewManager implements View.O
 
     // Complete the OnGestureListener interface
     @Override
-    public void onShowPress(MotionEvent ev) {
+    public void onShowPress(@NonNull MotionEvent ev) {
         // Do nothing
     }
 }

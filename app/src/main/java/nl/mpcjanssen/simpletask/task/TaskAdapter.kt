@@ -302,14 +302,12 @@ class TaskAdapter(
 
         val shouldShow =
             TodoApplication.todoList.isSelected(task) && canMoveLineUpOrDown(visibleLineIndex)
-
         return if (shouldShow) View.VISIBLE else View.GONE
     }
 
     fun canMoveLineUpOrDown(fromIndex: Int): Boolean {
-        return canMoveVisibleLine(fromIndex, fromIndex - 1) || canMoveVisibleLine(
-            fromIndex, fromIndex + 1
-        )
+        return canMoveVisibleLine(fromIndex, fromIndex - 1) ||
+               canMoveVisibleLine(fromIndex, fromIndex + 1)
     }
 
     fun canMoveVisibleLine(fromIndex: Int, toIndex: Int): Boolean {
@@ -321,11 +319,10 @@ class TaskAdapter(
         }
 
         val from = visibleLines[fromIndex]
-        val to = visibleLines[toIndex]
-
         if (from.header) {
             return false
         }
+        val to = visibleLines[toIndex]
         if (to.header) {
             return false
         }
@@ -334,6 +331,7 @@ class TaskAdapter(
             query, TodoApplication.config.sortCaseSensitive
         )
         comp.comparator.compare(from.task, to.task)
+        val comparison = comp.comparator.compare(from.task, to.task)
 
         return comparison == 0
     }

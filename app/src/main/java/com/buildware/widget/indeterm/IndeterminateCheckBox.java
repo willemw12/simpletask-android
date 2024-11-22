@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.ViewDebug;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatCheckBox;
 
@@ -44,13 +45,14 @@ public class IndeterminateCheckBox extends AppCompatCheckBox implements Indeterm
         //     setButtonDrawable(Utils.tintDrawable(this, R.drawable.btn_checkmark));
         // }
 
-        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.IndeterminateCheckable);
         // Read the XML attributes
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.IndeterminateCheckable);
         final boolean indeterminate = a.getBoolean(R.styleable.IndeterminateCheckable_indeterminate, false);
         if (indeterminate) {
             setIndeterminate(true);
         }
         a.recycle();
+
     }
 
     @Override
@@ -215,6 +217,7 @@ public class IndeterminateCheckBox extends AppCompatCheckBox implements Indeterm
             out.writeValue(indeterminate);
         }
 
+        @NonNull
         @Override
         public String toString() {
             return "IndeterminateCheckBox.SavedState{" + Integer.toHexString(System.identityHashCode(this)) + " indeterminate=" + indeterminate + "}";

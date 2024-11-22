@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.ViewDebug;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatRadioButton;
 
@@ -40,14 +41,14 @@ public class IndeterminateRadioButton extends AppCompatRadioButton implements In
         // setSupportButtonTintList(ContextCompat.getColorStateList(context, R.color.control_checkable_material));
         setButtonDrawable(Utils.tintDrawable(this, R.drawable.btn_radio));
 
-        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.IndeterminateCheckable);
-
-        // Read the XML attributes
-        final boolean indeterminate = a.getBoolean(R.styleable.IndeterminateCheckable_indeterminate, false);
-        if (indeterminate) {
-            setState(null);
+        try (TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.IndeterminateCheckable)) {
+            // Read the XML attributes
+            final boolean indeterminate = a.getBoolean(R.styleable.IndeterminateCheckable_indeterminate, false);
+            if (indeterminate) {
+                setState(null);
+            }
+            a.recycle();
         }
-        a.recycle();
     }
 
     @Override
@@ -219,6 +220,7 @@ public class IndeterminateRadioButton extends AppCompatRadioButton implements In
             out.writeValue(indeterminate);
         }
 
+        @NonNull
         @Override
         public String toString() {
             return "IndeterminateRadioButton.SavedState{" + Integer.toHexString(System.identityHashCode(this)) + " indeterminate=" + indeterminate + "}";

@@ -47,9 +47,12 @@ class Utils {
     }
 
     private static int resolveColor(Context context, @AttrRes int attr, int defaultValue) {
-        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{attr});
-        int result = a.getColor(0, defaultValue);
-        a.recycle();
+        int result;
+
+        try (TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{attr})) {
+            result = a.getColor(0, defaultValue);
+            a.recycle();
+        }
 
         return result;
     }
