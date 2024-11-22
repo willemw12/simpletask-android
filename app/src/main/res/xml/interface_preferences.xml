@@ -50,5 +50,6 @@
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="@string/task_drag"
+        android:summary="@string/task_drag_summary"
         android:title="@string/task_drag_title" />
 </PreferenceScreen>

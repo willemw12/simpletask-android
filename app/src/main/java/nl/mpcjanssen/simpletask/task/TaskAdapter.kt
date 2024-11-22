@@ -333,7 +333,7 @@ class TaskAdapter(
         comp.comparator.compare(from.task, to.task)
         val comparison = comp.comparator.compare(from.task, to.task)
 
-        return comparison == 0
+        return comparison != 0
     }
 
     // Updates the UI, but avoids the red line
