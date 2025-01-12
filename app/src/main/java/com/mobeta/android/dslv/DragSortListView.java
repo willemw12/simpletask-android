@@ -2812,9 +2812,9 @@ public class DragSortListView extends ListView {
 
             // always do scroll
             mBlockLayoutRequests = true;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                setSelectionFromTop(movePos, top - padTop);
-            }
+            // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setSelectionFromTop(movePos, top - padTop);
+            // }
             DragSortListView.this.layoutChildren();
             invalidate();
 
