@@ -51,6 +51,7 @@ class AddLinkBackground : Activity() {
         Log.i(tag, "Added link to content ($mimeType)")
         if (uri == null) {
             showToastLong(TodoApplication.app, R.string.share_link_failed)
+            finish()
             return
         }
 
