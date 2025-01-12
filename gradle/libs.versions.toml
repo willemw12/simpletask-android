@@ -1,5 +1,5 @@
 [versions]
-agp = "8.7.2"
+agp = "8.8.0"
 androidgitversion = "0.4.14"
 commonmark = "0.17.0"
 coreKtx = "1.15.0"
