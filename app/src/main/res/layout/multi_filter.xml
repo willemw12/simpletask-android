@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:divider="?android:attr/dividerVertical"
     android:orientation="vertical"
-    android:showDividers="middle">
+    android:showDividers="middle"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"

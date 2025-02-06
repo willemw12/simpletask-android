@@ -35,8 +35,7 @@ android {
 
         // minSdk = 23
         minSdk = 29
-        // targetSdk = 35
-        targetSdk = 34
+        targetSdk = 35
 
         applicationId = "willemw12.simpletask"
 
