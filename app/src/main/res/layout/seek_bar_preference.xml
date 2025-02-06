@@ -18,7 +18,8 @@ Using hard coded LTR for the moment just to be sure it works.
     android:paddingTop="16dp"
     android:paddingRight="?android:attr/listPreferredItemPaddingRight"
     android:paddingBottom="16dp"
-    tools:ignore="RtlHardcoded">
+    tools:ignore="RtlHardcoded"
+    android:fitsSystemWindows="true">
 
     <TextView
         android:id="@android:id/title"
