@@ -77,9 +77,16 @@ public class MyAppWidgetProvider extends AppWidgetProvider {
 
         Intent appIntent;
 
+        // appIntent = new Intent(ctx, Simpletask.class);
+        // appIntent.setAction(Constants.INTENT_START_FILTER);
+        // PendingIntent pendingIntent = PendingIntent.getActivity(ctx, FROM_LIST_VIEW, appIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        // view.setPendingIntentTemplate(R.id.widgetlv, pendingIntent);
+        //
+        // Set each "task" widget intent to be the same as the "title" widget intent
         appIntent = new Intent(ctx, Simpletask.class);
         appIntent.setAction(Constants.INTENT_START_FILTER);
-        PendingIntent pendingIntent = PendingIntent.getActivity(ctx, FROM_LIST_VIEW, appIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        putFilterExtras(appIntent, preferences, widgetId);
+        PendingIntent pendingIntent = PendingIntent.getActivity(ctx, FROM_WIDGETS_START + widgetId, appIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         view.setPendingIntentTemplate(R.id.widgetlv, pendingIntent);
 
         appIntent = new Intent(ctx, Simpletask.class);
