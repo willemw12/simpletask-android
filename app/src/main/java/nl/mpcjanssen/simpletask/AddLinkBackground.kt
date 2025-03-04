@@ -27,12 +27,19 @@
  */
 package nl.mpcjanssen.simpletask
 
+import android.R.style.ThemeOverlay_Material
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import androidx.appcompat.view.ContextThemeWrapper
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ShareCompat
+import com.google.android.material.snackbar.Snackbar
 import nl.mpcjanssen.simpletask.task.Task
-import nl.mpcjanssen.simpletask.util.showToastLong
+//import nl.mpcjanssen.simpletask.util.showToastLong
 import nl.mpcjanssen.simpletask.util.showToastShort
 import nl.mpcjanssen.simpletask.util.todayAsString
 
@@ -42,6 +49,8 @@ class AddLinkBackground : Activity() {
     public override fun onCreate(instance: Bundle?) {
         Log.d(tag, "onCreate()")
         super.onCreate(instance)
+        // For the snackbar
+        setContentView(R.layout.add_link)
 
         val append_text = TodoApplication.config.shareAppendText
         val intentReader = ShareCompat.IntentReader.from(this)
@@ -50,8 +59,15 @@ class AddLinkBackground : Activity() {
         val mimeType = intentReader.type ?: ""
         Log.i(tag, "Added link to content ($mimeType)")
         if (uri == null) {
-            showToastLong(TodoApplication.app, R.string.share_link_failed)
-            finish()
+            // showToastLong(TodoApplication.app, R.string.share_link_failed)
+
+            val context: Context = ContextThemeWrapper(this, ThemeOverlay_Material)
+            val layout: CoordinatorLayout = findViewById(R.id.rootLayout)
+            val snackBar = Snackbar.make(context, layout, getString(R.string.share_link_failed), Snackbar.LENGTH_INDEFINITE)
+            snackBar.setAction(getString(R.string.close)) { finish() }
+            snackBar.show()
+            Handler(Looper.getMainLooper()).postDelayed({ finish() }, 5000)
+
             return
         }
 

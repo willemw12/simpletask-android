@@ -20,6 +20,23 @@
         <item name="android:background">@color/gray74</item>
     </style>
 
+    <style name="SimpleAddLinkTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!--
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        -->
+
+        <!--
+        <item name="android:windowBackground">@color/black</item>
+        <item name="colorPrimaryDark">@color/simple_red_dark</item>
+        -->
+        <item name="android:windowBackground">@color/gray74</item>
+    </style>
+
     <style name="DarkPopupMenu" parent="@style/Theme.AppCompat">
         <item name="android:popupBackground">@color/gray87</item>
     </style>
