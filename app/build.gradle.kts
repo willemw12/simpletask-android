@@ -29,8 +29,8 @@ android {
     }
 
     defaultConfig {
-        versionCode = 2
-        versionName = "1.0.1"
+        versionCode = 3
+        versionName = "1.0.2"
         buildConfigField("String", "GIT_VERSION", "\"" + androidGitVersion.name() + "\"")
 
         // minSdk = 23
