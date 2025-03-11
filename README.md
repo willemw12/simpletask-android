@@ -1,13 +1,17 @@
 Simpletask (fork)
 =================
 
+<a href="#"><img src="app/src/main/res/drawable-xxxhdpi/ic_launcher.png" alt="app icon"/></a>
+
 This [app](https://github.com/willemw12/simpletask-android) is a fork of the deprecated [Simpletask](https://github.com/mpcjanssen/simpletask-android) Android app.
 
 An APK file is available from the [releases](https://github.com/willemw12/simpletask-android/releases) page.
 
 Only the Cloudless version is supported and mainly only core features are supported.
 
-The original text follows below.
+The original text follows in the sections below.
+
+<img src="extras/screenshots/01-list.png" alt="list" height="600"/> <img src="extras/screenshots/02-edit.png" alt="edit 1" height="600"/> <img src="extras/screenshots/03-edit.png" alt="edit 2" height="600"/> <img src="extras/screenshots/04-edit.png" alt="edit 3" height="600"/> <img src="extras/screenshots/05-edit.png" alt="edit 4" height="600"/> <img src="extras/screenshots/06-filter.png" alt="filter" height="600"/> <img src="extras/screenshots/07-menu.png" alt="menu 1" height="600"/> <img src="extras/screenshots/08-menu.png" alt="menu 2" height="600"/> <img src="extras/screenshots/09-menu.png" alt="menu 3" height="600"/> <img src="extras/screenshots/10-menu.png" alt="menu 4" height="600"/> <img src="extras/screenshots/11-menu.png" alt="menu 5" height="600"/> <img src="extras/screenshots/12-menu.png" alt="menu 6" height="600"/>
 
 
 Simpletask
