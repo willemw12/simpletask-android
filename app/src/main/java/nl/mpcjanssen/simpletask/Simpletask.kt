@@ -18,6 +18,7 @@ import android.app.SearchManager
 import android.content.*
 import android.content.res.Configuration
 import android.content.res.TypedArray
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
@@ -51,6 +52,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.text.toInt
 import android.R.id as androidId
+import androidx.core.graphics.drawable.toDrawable
 
 class Simpletask : ThemedNoActionBarActivity() {
     companion object {
@@ -590,26 +592,29 @@ class Simpletask : ThemedNoActionBarActivity() {
                     createCalendarAppointment(TodoApplication.todoList.selectedTasks)
                 }
             }, Mode.MAIN to {
-                @StyleableRes val primaryIdx = 0
-                @StyleableRes val primaryDarkIdx = 1
+                @StyleableRes val primaryFixedColorAttrIdx = 0
+                @StyleableRes val statusBarColorAttrIdx = 1
 
-                val a: TypedArray = obtainStyledAttributes(
+                val attrs: TypedArray = obtainStyledAttributes(
                     intArrayOf(
-                        com.google.android.material.R.attr.colorPrimary,
-                        com.google.android.material.R.attr.colorPrimaryDark
+                        android.R.attr.colorPrimary,
+                        android.R.attr.statusBarColor
                     )
                 )
                 try {
-                    val colorPrimary =
-                        ContextCompat.getDrawable(this, a.getResourceId(primaryIdx, 0))
+                    val actionBarBackgroundColor = attrs.getColor(
+                        primaryFixedColorAttrIdx,
+                        ContextCompat.getColor(this, android.R.color.black)
+                    )
+                    supportActionBar?.setBackgroundDrawable(actionBarBackgroundColor.toDrawable())
 
-                    actionBar.setBackgroundDrawable(colorPrimary)
-                    // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    window.statusBarColor =
-                        ContextCompat.getColor(this, a.getResourceId(primaryDarkIdx, 0))
-                    // }
+                    val windowStatusBarColor = attrs.getColor(
+                        statusBarColorAttrIdx,
+                        ContextCompat.getColor(this, android.R.color.black)
+                    )
+                    window.statusBarColor = windowStatusBarColor
                 } finally {
-                    a.recycle()
+                    attrs.recycle()
                 }
 
                 inflater.inflate(R.menu.main, menu)
