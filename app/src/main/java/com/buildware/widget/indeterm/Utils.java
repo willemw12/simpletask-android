@@ -38,8 +38,8 @@ class Utils {
     private static ColorStateList createIndetermColorStateList(Context context) {
         final int[][] states = new int[][]{new int[]{-android.R.attr.state_enabled}, new int[]{R.attr.state_indeterminate}, new int[]{android.R.attr.state_checked}, StateSet.WILD_CARD};
 
-        final int normal = resolveColor(context, com.google.android.material.R.attr.colorControlNormal, Color.DKGRAY);
-        final int activated = resolveColor(context, com.google.android.material.R.attr.colorControlActivated, Color.CYAN);
+        final int normal = resolveColor(context, android.R.attr.colorControlNormal, Color.DKGRAY);
+        final int activated = resolveColor(context, android.R.attr.colorControlActivated, Color.CYAN);
         final float disabledAlpha = resolveFloat(context, android.R.attr.disabledAlpha, 0.25f);
         final int[] colors = new int[]{Utils.applyAlpha(normal, disabledAlpha), normal, activated, normal};
 
