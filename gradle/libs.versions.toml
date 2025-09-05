@@ -1,20 +1,20 @@
 [versions]
-agp = "8.8.2"
+agp = "8.13.0"
 androidgitversion = "0.4.14"
 commonmark = "0.17.0"
-coreKtx = "1.15.0"
+coreKtx = "1.17.0"
 # espressoCore = "..."
 hirondelleDate4j = "1.5.1"
 junit = "4.13.2"
-junitVersion = "1.2.1"
-kotlin = "2.0.21"
-kotlinStdlib = "2.1.10"
-ksp = "2.0.21-1.0.26"
+junitVersion = "1.3.0"
+kotlin = "2.2.10"
+kotlinStdlib = "2.2.10"
+ksp = "2.2.10-2.0.2"
 luajJse = "3.0.1"
-material = "1.12.0"
+material = "1.13.0"
 preference = "1.2.1"
 recyclerview = "1.4.0"
-room = "2.6.1"
+room = "2.7.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

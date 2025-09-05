@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    compileSdk = 35
+    compileSdk = 36
     flavorDimensions += "main"
     namespace = "nl.mpcjanssen.simpletask"
 
@@ -35,7 +35,7 @@ android {
 
         // minSdk = 23
         minSdk = 29
-        // targetSdk = 35
+        // targetSdk = 36
         targetSdk = 34
 
         applicationId = "willemw12.simpletask"
@@ -70,11 +70,11 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "21"
     }
 
     // lint {
@@ -84,6 +84,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.localbroadcastmanager)
     implementation(libs.androidx.preference)
     implementation(libs.androidx.recyclerview)
     implementation(libs.commonmark)
