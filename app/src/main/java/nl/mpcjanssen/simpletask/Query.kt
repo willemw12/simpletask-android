@@ -237,7 +237,7 @@ data class Query(val luaModule: String) {
 
     fun getSort(defaultSort: Array<String>?): ArrayList<String> {
         var sorts = sorts
-        if (sorts == null || sorts.isEmpty || sorts[0].isEmpty()) {
+        if (sorts == null || sorts.isEmpty() || sorts[0].isEmpty()) {
             // Set a default sort
             sorts = ArrayList<String>()
             if (defaultSort == null) {
