@@ -30,6 +30,9 @@ package nl.mpcjanssen.simpletask
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.core.content.pm.ShortcutInfoCompat
+import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.graphics.drawable.IconCompat
 
 class AddTaskShortcut : ThemedNoActionBarActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,20 +43,25 @@ class AddTaskShortcut : ThemedNoActionBarActivity() {
     }
 
     private fun setupShortcut() {
-        val shortcutIntent = Intent(Intent.ACTION_MAIN)
-        shortcutIntent.setClassName(this, AddTask::class.java.name)
+        val shortcutIntent = Intent(this, AddTask::class.java).apply {
+            action = Intent.ACTION_MAIN
+        }
 
-        val intent = Intent()
-        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
-        intent.putExtra(
-            Intent.EXTRA_SHORTCUT_NAME, getString(R.string.shortcut_addtask_name)
-        )
-        val iconResource = Intent.ShortcutIconResource.fromContext(
-            this, R.drawable.ic_launcher
-        )
-        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, iconResource)
+        val name = getString(R.string.shortcut_addtask_name)
+        val iconRes = IconCompat.createWithResource(this, R.drawable.ic_launcher)
 
-        setResult(RESULT_OK, intent)
+        val shortcutInfo = ShortcutInfoCompat.Builder(this, "add_task_shortcut")
+            .setShortLabel(name)
+            .setIcon(iconRes)
+            .setIntent(shortcutIntent)
+            .build()
+
+        val resultIntent = ShortcutManagerCompat.createShortcutResultIntent(this, shortcutInfo)
+        if (resultIntent != null) {
+            setResult(RESULT_OK, resultIntent)
+        } else {
+            setResult(RESULT_CANCELED)
+        }
     }
 
     companion object {
