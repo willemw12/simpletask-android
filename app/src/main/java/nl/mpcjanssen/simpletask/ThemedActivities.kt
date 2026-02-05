@@ -1,14 +1,17 @@
 package nl.mpcjanssen.simpletask
 
 import android.app.Activity
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import java.util.*
 
 fun Activity.setAppearanceStatusBars() {
-    val isDarkTheme = TodoApplication.config.isDarkTheme || TodoApplication.config.isBlackTheme
-    WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = !isDarkTheme
+    if (Build.VERSION.SDK_INT >= 35) {
+        val isDarkTheme = TodoApplication.config.isDarkTheme || TodoApplication.config.isBlackTheme
+        WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = !isDarkTheme
+    }
 }
 
 private fun Activity.applyLocale() {
