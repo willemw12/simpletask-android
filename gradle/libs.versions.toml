@@ -7,8 +7,6 @@ coreKtx = "1.17.0"
 hirondelleDate4j = "1.5.1"
 junit = "4.13.2"
 junitVersion = "1.3.0"
-kotlin = "2.3.0"
-kotlinStdlib = "2.3.0"
 ksp = "2.3.2"
 localbroadcastmanager = "1.1.0"
 luajJse = "3.0.1"
@@ -29,12 +27,10 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 commonmark = { module = "com.atlassian.commonmark:commonmark", version.ref = "commonmark" }
 hirondelle-date4j = { module = "com.darwinsys:hirondelle-date4j", version.ref = "hirondelleDate4j" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlinStdlib" }
 luaj-jse = { module = "org.luaj:luaj-jse", version.ref = "luajJse" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 androidgitversion = { id = "com.gladed.androidgitversion", version.ref = "androidgitversion" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

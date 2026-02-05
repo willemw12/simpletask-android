@@ -1,8 +1,5 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
 
     id("com.gladed.androidgitversion")
     id("com.google.devtools.ksp")
@@ -32,14 +29,13 @@ android {
     }
 
     defaultConfig {
-        versionCode = 3
-        versionName = "1.0.2"
+        versionCode = 4
+        versionName = "1.0.3"
         buildConfigField("String", "GIT_VERSION", "\"" + androidGitVersion.name() + "\"")
 
         // minSdk = 23
         minSdk = 29
-        // targetSdk = 36
-        targetSdk = 34
+        targetSdk = 36
 
         applicationId = "willemw12.simpletask"
 
@@ -77,11 +73,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
-    kotlin {
-        compilerOptions {
-            jvmTarget = JvmTarget.fromTarget("21")
-        }
-    }
 
     // lint {
     //     disable += setOf("InvalidPackage", "MissingTranslation", "ResourceType")
@@ -95,7 +86,6 @@ dependencies {
     implementation(libs.androidx.recyclerview)
     implementation(libs.commonmark)
     implementation(libs.hirondelle.date4j)
-    implementation(libs.kotlin.stdlib)
     implementation(libs.luaj.jse)
     implementation(libs.material)
 
