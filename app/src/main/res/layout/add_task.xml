@@ -4,6 +4,7 @@
     android:id="@+id/home_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:divider="?android:attr/dividerVertical"
     android:orientation="vertical">
 

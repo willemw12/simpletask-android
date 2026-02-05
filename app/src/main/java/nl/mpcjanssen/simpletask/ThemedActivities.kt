@@ -1,19 +1,31 @@
 package nl.mpcjanssen.simpletask
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 import java.util.*
+
+fun Activity.setAppearanceStatusBars() {
+    val isDarkTheme = TodoApplication.config.isDarkTheme || TodoApplication.config.isBlackTheme
+    WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = !isDarkTheme
+}
+
+private fun Activity.applyLocale() {
+    if (TodoApplication.config.forceEnglish) {
+        val conf = resources.configuration
+        @Suppress("DEPRECATION")
+        conf.locale = Locale.ENGLISH
+        @Suppress("DEPRECATION")
+        resources.updateConfiguration(conf, resources.displayMetrics)
+    }
+}
 
 abstract class ThemedNoActionBarActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(TodoApplication.config.activeTheme)
-
-        if (TodoApplication.config.forceEnglish) {
-            val conf = resources.configuration
-            conf.locale = Locale.ENGLISH
-            resources.updateConfiguration(conf, resources.displayMetrics)
-        }
-
+        setAppearanceStatusBars()
+        applyLocale()
         super.onCreate(savedInstanceState)
     }
 }
@@ -21,13 +33,8 @@ abstract class ThemedNoActionBarActivity : AppCompatActivity() {
 abstract class ThemedActionBarActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(TodoApplication.config.activeActionBarTheme)
-
-        if (TodoApplication.config.forceEnglish) {
-            val conf = resources.configuration
-            conf.locale = Locale.ENGLISH
-            resources.updateConfiguration(conf, resources.displayMetrics)
-        }
-
+        setAppearanceStatusBars()
+        applyLocale()
         super.onCreate(savedInstanceState)
     }
 }
@@ -35,13 +42,8 @@ abstract class ThemedActionBarActivity : AppCompatActivity() {
 abstract class ThemedPreferenceActivity : AppCompatPreferenceActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(TodoApplication.config.activeActionBarTheme)
-
-        if (TodoApplication.config.forceEnglish) {
-            val conf = resources.configuration
-            conf.locale = Locale.ENGLISH
-            resources.updateConfiguration(conf, resources.displayMetrics)
-        }
-
+        setAppearanceStatusBars()
+        applyLocale()
         super.onCreate(savedInstanceState)
     }
 }
