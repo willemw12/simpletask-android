@@ -6,6 +6,7 @@ plugins {
 }
 
 android {
+    // compileSdk { version = release(36) { minorApiLevel = 1 } }
     compileSdk = 36
     flavorDimensions += "main"
     namespace = "nl.mpcjanssen.simpletask"
@@ -29,12 +30,13 @@ android {
     }
 
     defaultConfig {
-        versionCode = 4
-        versionName = "1.0.3"
+        versionCode = 1010000
+        versionName = "1.1.0"
         buildConfigField("String", "GIT_VERSION", "\"" + androidGitVersion.name() + "\"")
 
         // minSdk = 23
         minSdk = 29
+        // targetSdk { version = release(36) { minorApiLevel = 1 } }
         targetSdk = 36
 
         applicationId = "willemw12.simpletask"
