@@ -5,6 +5,8 @@ This [app](https://github.com/willemw12/simpletask-android) is a fork of the dep
 
 Only the Cloudless version is supported and mainly only core features are supported.
 
+Contributions are welcome. Create an [issue](https://github.com/willemw12/simpletask-android/issues) or start a [discussion](https://github.com/willemw12/simpletask-android/discussions).
+
 The original text follows below.
 
 
