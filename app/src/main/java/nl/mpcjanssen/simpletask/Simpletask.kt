@@ -1085,7 +1085,7 @@ class Simpletask : ThemedNoActionBarActivity() {
     fun createFilterShortcut(namedQuery: NamedQuery) {
         val target = Intent(Constants.INTENT_START_FILTER)
         namedQuery.query.saveInIntent(target)
-        createShortcut(this, "simpletaskLauncher", namedQuery.name, R.drawable.ic_launcher, target)
+        createShortcut(this, "simpletaskLauncher", namedQuery.name, R.mipmap.ic_launcher, target)
     }
 
     private fun deleteSavedQuery(id: String) {

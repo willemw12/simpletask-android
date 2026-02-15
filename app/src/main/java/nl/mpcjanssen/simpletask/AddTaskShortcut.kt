@@ -48,7 +48,7 @@ class AddTaskShortcut : ThemedNoActionBarActivity() {
         }
 
         val name = getString(R.string.shortcut_addtask_name)
-        val iconRes = IconCompat.createWithResource(this, R.drawable.ic_launcher)
+        val iconRes = IconCompat.createWithResource(this, R.mipmap.ic_launcher)
 
         val shortcutInfo = ShortcutInfoCompat.Builder(this, "add_task_shortcut")
             .setShortLabel(name)

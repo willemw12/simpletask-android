@@ -32,7 +32,7 @@ You should have received a copy of the GNU General Public License along with Sim
 
     <!-- TODO: Remove android:requestLegacyExternalStorage. It is ignored for SDK target 30 and up -->
     <application
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:requestLegacyExternalStorage="true" >
         <activity
             android:name="nl.mpcjanssen.simpletask.remote.LoginScreen"
