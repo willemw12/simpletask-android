@@ -36,7 +36,6 @@ android {
 
         // minSdk = 23
         minSdk = 29
-        // targetSdk { version = release(36) { minorApiLevel = 1 } }
         targetSdk = 36
 
         applicationId = "willemw12.simpletask"
