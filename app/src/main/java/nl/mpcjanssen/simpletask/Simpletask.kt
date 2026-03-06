@@ -18,7 +18,6 @@ import android.app.SearchManager
 import android.content.*
 import android.content.res.Configuration
 import android.content.res.TypedArray
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
