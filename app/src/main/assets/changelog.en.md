@@ -1,8 +1,9 @@
-﻿# Changelog
+﻿Changelog
+=========
 
 ## Simpletask (fork)
 
-For "Simpletask (fork)" app changes, see https://github.com/willemw12/simpletask-android.
+For "Simpletask (fork)" app changes, go to [willemw12/simpletask-android](https://github.com/willemw12/simpletask-android).
 
 ## 11.0.1
 

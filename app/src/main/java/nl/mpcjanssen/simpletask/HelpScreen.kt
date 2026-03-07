@@ -151,16 +151,8 @@ class HelpScreen : ThemedActionBarActivity() {
                 return true
             }
 
-            R.id.menu_donate -> {
-                val i = Intent(Intent.ACTION_VIEW)
-                i.data =
-                    Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mpc%2ejanssen%40gmail%2ecom&item_name=mpcjanssen%2enl&item_number=Simpletask&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted")
-                startActivity(i)
-                return true
-            }
-
             R.id.menu_tracker -> {
-                openUrl("https://github.com/mpcjanssen/simpletask-android")
+                openUrl("https://github.com/willemw12/simpletask-android")
                 return true
             }
         }

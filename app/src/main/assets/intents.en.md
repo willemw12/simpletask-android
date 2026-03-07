@@ -104,7 +104,7 @@ SORTS contains a comma or '' separated list of sort keys and their direction wit
 
 #### Sort keys
 
-See list [here](https://github.com/mpcjanssen/simpletask-android/blob/master/app/src/main/res/values/donottranslate.xml#L45-59)
+See list [here](https://github.com/willemw12/simpletask-android/blob/master/app/src/main/res/values/donottranslate.xml#L45-59)
 
 #### Example
 

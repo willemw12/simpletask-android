@@ -7,8 +7,7 @@ Only the Cloudless version is supported and mainly only core features are suppor
 
 Contributions are welcome. Create an [issue](https://github.com/willemw12/simpletask-android/issues) or start a [discussion](https://github.com/willemw12/simpletask-android/discussions).
 
-The original text follows below.
-
+The text below is based on the original text.
 
 Simpletask
 ==========
@@ -31,19 +30,8 @@ Simpletask supports the following todo.txt extensions:
     - The format is described by a regular expression, so in words the syntax is `rec:` followed by an optional `+` then 1 or more numbers and then followed by one of `d`ay, `w`eek, `m`onth or `y`ear. For example `rec:12d` sets up a 12 day recurring task.
 - Hidden tasks with the specified tag `h:1`, this allows dummy tasks with predefined lists and tags so that lists and tags will be available even if the last task with the tag/list is removed from `todo.txt`. These tasks will not be shown by default. You can temporarily display them from the Settings.
 
-Support
--------
-
-Simpletask is translated using [weblate](https://hosted.weblate.org/engage/simpletask/). Follow the link to contribute.
-
-If you want to log an issue or feature request for [Simpletask](https://github.com/mpcjanssen/simpletask-android/) you can go to [the tracker](https://github.com/mpcjanssen/simpletask-android/issues). If you find Simpletask useful, you can buy the donate app (see Settings) or donate via [Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mpc%2ejanssen%40gmail%2ecom&lc=NL&item_name=mpcjanssen%2enl&item_number=Simpletask&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted) me some beers.
-
-
-Community
+More Help
 ---------
-
-Join the chat on IRC at [#simpletask on Libera Chat](https://web.libera.chat), or Matrix at [#simpletask:matrix.org](https://matrix.to/#/#simpletask:matrix.org).
-
 
 Check the menu for more help sections or click below.
 
