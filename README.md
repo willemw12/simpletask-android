@@ -9,11 +9,11 @@ This [app](https://github.com/willemw12/simpletask-android) is a fork of the dep
 
 An APK file is available from the [releases](https://github.com/willemw12/simpletask-android/releases) page.
 
-Only the Cloudless version is supported and mainly only core features are supported.
+Only the [Cloudless version](#cloudless-version) is supported and mainly only core features are supported.
 
 Contributions are welcome. Create an [issue](https://github.com/willemw12/simpletask-android/issues) or start a [discussion](https://github.com/willemw12/simpletask-android/discussions).
 
-The text below is based on the original text.
+The [text](#Simpletask) below is based on the original text.
 
 <img src="extras/screenshots/01-list.png" alt="list" height="600"/> <img src="extras/screenshots/02-edit.png" alt="edit 1" height="600"/> <img src="extras/screenshots/03-edit.png" alt="edit 2" height="600"/> <img src="extras/screenshots/04-edit.png" alt="edit 3" height="600"/> <img src="extras/screenshots/05-edit.png" alt="edit 4" height="600"/> <img src="extras/screenshots/06-filter.png" alt="filter" height="600"/> <img src="extras/screenshots/07-menu.png" alt="menu 1" height="600"/> <img src="extras/screenshots/08-menu.png" alt="menu 2" height="600"/> <img src="extras/screenshots/09-menu.png" alt="menu 3" height="600"/> <img src="extras/screenshots/10-menu.png" alt="menu 4" height="600"/> <img src="extras/screenshots/11-menu.png" alt="menu 5" height="600"/> <img src="extras/screenshots/12-menu.png" alt="menu 6" height="600"/>
 
