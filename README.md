@@ -1,7 +1,9 @@
 Simpletask (fork)
 =================
 
-<a href="#"><img src="app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" alt="app icon"/></a>
+<div align="center">
+  <img src="app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" alt="app icon"/>
+</div>
 
 This [app](https://github.com/willemw12/simpletask-android) is a fork of the deprecated [Simpletask](https://github.com/mpcjanssen/simpletask-android) Android app.
 
